@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2023-12-11T11:32:03.033Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.3 Safari/605.1.15" etag="JgyOBY-nhpcnUSnMKBBX" version="22.1.7" type="github">
+<mxfile host="app.diagrams.net" modified="2023-12-11T11:36:31.213Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.3 Safari/605.1.15" etag="HTkBso8FreRRelOq2AUP" version="22.1.7" type="github">
   <diagram id="R2lEEEUBdFMjLlhIrx00" name="Page-1">
-    <mxGraphModel dx="2286" dy="1255" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0" extFonts="Permanent Marker^https://fonts.googleapis.com/css?family=Permanent+Marker">
+    <mxGraphModel dx="1320" dy="1255" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0" extFonts="Permanent Marker^https://fonts.googleapis.com/css?family=Permanent+Marker">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -277,7 +277,7 @@
           <mxGeometry x="508.38" y="-166" width="100" height="30" as="geometry" />
         </mxCell>
         <mxCell id="84_0tGTxRUwSDMbbLnOq-2" value="Briefing_web" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#76608a;fontColor=#ffffff;strokeColor=#432D57;" vertex="1" parent="1">
-          <mxGeometry x="373" y="699" width="306.75" height="459.5" as="geometry" />
+          <mxGeometry x="837" y="660" width="306.75" height="459.5" as="geometry" />
         </mxCell>
         <mxCell id="84_0tGTxRUwSDMbbLnOq-3" value="" style="shape=partialRectangle;collapsible=0;dropTarget=0;pointerEvents=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=1;" vertex="1" parent="84_0tGTxRUwSDMbbLnOq-2">
           <mxGeometry y="30" width="306.75" height="30" as="geometry" />
@@ -462,7 +462,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="84_0tGTxRUwSDMbbLnOq-12" value="Contenido" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" vertex="1" parent="1">
-          <mxGeometry x="445" y="1232" width="257.75" height="190" as="geometry" />
+          <mxGeometry x="1171" y="1268" width="257.75" height="190" as="geometry" />
         </mxCell>
         <mxCell id="84_0tGTxRUwSDMbbLnOq-13" value="" style="shape=partialRectangle;collapsible=0;dropTarget=0;pointerEvents=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=1;" vertex="1" parent="84_0tGTxRUwSDMbbLnOq-12">
           <mxGeometry y="30" width="257.75" height="30" as="geometry" />
@@ -530,7 +530,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="84_0tGTxRUwSDMbbLnOq-22" value="Incidencia" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#e51400;fontColor=#ffffff;strokeColor=#B20000;" vertex="1" parent="1">
-          <mxGeometry x="573" y="-15" width="250" height="250" as="geometry" />
+          <mxGeometry x="648" y="1309" width="250" height="250" as="geometry" />
         </mxCell>
         <mxCell id="84_0tGTxRUwSDMbbLnOq-23" value="" style="shape=partialRectangle;collapsible=0;dropTarget=0;pointerEvents=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=1;" vertex="1" parent="84_0tGTxRUwSDMbbLnOq-22">
           <mxGeometry y="30" width="250" height="30" as="geometry" />
@@ -666,7 +666,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="84_0tGTxRUwSDMbbLnOq-141" value="Briefing_app" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#76608a;fontColor=#ffffff;strokeColor=#432D57;" vertex="1" parent="1">
-          <mxGeometry x="-70" y="359" width="306.75" height="459.5" as="geometry" />
+          <mxGeometry x="402.38" y="649" width="306.75" height="459.5" as="geometry" />
         </mxCell>
         <mxCell id="84_0tGTxRUwSDMbbLnOq-142" value="" style="shape=partialRectangle;collapsible=0;dropTarget=0;pointerEvents=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=1;" vertex="1" parent="84_0tGTxRUwSDMbbLnOq-141">
           <mxGeometry y="30" width="306.75" height="30" as="geometry" />
@@ -851,7 +851,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="84_0tGTxRUwSDMbbLnOq-184" value="Briefing_logo" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fillColor=#76608a;fontColor=#ffffff;strokeColor=#432D57;" vertex="1" parent="1">
-          <mxGeometry x="855" y="667" width="306.75" height="459.5" as="geometry" />
+          <mxGeometry x="-49" y="649" width="306.75" height="459.5" as="geometry" />
         </mxCell>
         <mxCell id="84_0tGTxRUwSDMbbLnOq-185" value="" style="shape=partialRectangle;collapsible=0;dropTarget=0;pointerEvents=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=1;" vertex="1" parent="84_0tGTxRUwSDMbbLnOq-184">
           <mxGeometry y="30" width="306.75" height="30" as="geometry" />
