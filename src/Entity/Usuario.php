@@ -6,6 +6,7 @@ use App\Repository\UsuarioRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert; 
 
 /**
  * @ORM\Entity(repositoryClass=UsuarioRepository::class)
@@ -38,7 +39,7 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="boolean")
      * @Assert\NotNull
      */
-    private $activo = false; // Valor por defecto para indicar "no activo"
+    private $activo = true; 
 
     /**
      * @ORM\Column(type="datetime")

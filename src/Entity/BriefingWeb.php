@@ -60,7 +60,7 @@ class BriefingWeb
     /**
      * @ORM\Column(type="json")
      */
-    private $diseño_imagen = [];
+    private $disenyo_imagen = [];
 
     /**
      * @ORM\Column(type="boolean")
@@ -183,14 +183,14 @@ class BriefingWeb
         return $this;
     }
 
-    public function getDiseñoImagen(): ?array
+    public function getDisenyoImagen(): ?array
     {
-        return $this->diseño_imagen;
+        return $this->disenyo_imagen;
     }
 
-    public function setDiseñoImagen(array $diseño_imagen): self
+    public function setDisenyoImagen(array $disenyo_imagen): self
     {
-        $this->diseño_imagen = $diseño_imagen;
+        $this->disenyo_imagen = $disenyo_imagen;
 
         return $this;
     }
