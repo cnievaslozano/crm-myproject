@@ -37,6 +37,11 @@ class Contenido
      */
     private $fecha_creacion_contenido;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\BriefingWeb", inversedBy="contenido")
+     */
+    private $briefing_web;
+
     public function getId(): ?int
     {
         return $this->id;

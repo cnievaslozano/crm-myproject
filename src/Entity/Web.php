@@ -27,6 +27,12 @@ class Web
      */
     private $descripcion_web;
 
+     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Empresa", inversedBy="web")
+     */
+    private $empresa;
+
+
     public function getId(): ?int
     {
         return $this->id;

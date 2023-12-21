@@ -42,6 +42,12 @@ class BriefingLogo
      */
     private $fecha_creacion_briefing_logo;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Usuario", inversedBy="briefing_logo")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $usario;
+
     public function getId(): ?int
     {
         return $this->id;

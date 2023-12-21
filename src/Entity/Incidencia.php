@@ -47,6 +47,16 @@ class Incidencia
      */
     private $fecha_creacion_incidencia;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\BriefingWeb", inversedBy="incidencia")
+     */
+    private $briefing_web;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\BriefingApp", inversedBy="incidencia")
+     */
+    private $briefing_app;
+
     public function getId(): ?int
     {
         return $this->id;

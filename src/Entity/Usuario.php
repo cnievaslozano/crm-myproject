@@ -47,6 +47,30 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $fecha_creacion_usuario;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Empresa", inversedBy="usuario")
+     */
+    private $empresa;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Contacto", mappedBy="usuario")
+     */
+    private $contacto;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\BriefingWeb", mappedBy="usuario", cascade={"persist", "remove"})
+     */
+    private $briefing_web;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\BriefingApp", mappedBy="usuario", cascade={"persist", "remove"})
+     */
+    private $briefing_app;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\BriefingLogo", mappedBy="usuario", cascade={"persist", "remove"})
+     */
+    private $briefing_logo;
     public function getApellidosUsuario(): ?string
     {
         return $this->apellidos_usuario;

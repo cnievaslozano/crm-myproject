@@ -61,6 +61,17 @@ class BriefingApp
      * @ORM\Column(type="time")
      */
     private $fecha_creacion_briefing_app;
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Usuario", inversedBy="briefing_app")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $usuario;
+
+     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Incidencia", mappedBy="briefing_app")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $incidencia;
 
     public function getId(): ?int
     {

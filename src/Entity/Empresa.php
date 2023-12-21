@@ -47,6 +47,16 @@ class Empresa
      */
     private $fecha_creacion_empresa;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Web", mappedBy="empresa")
+     */
+    private $web;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Usuario", mappedBy="empresa")
+     */
+    private $usuario;
+
     public function getId(): ?int
     {
         return $this->id;

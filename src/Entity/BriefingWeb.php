@@ -82,6 +82,24 @@ class BriefingWeb
      */
     private $fecha_creacion_briefing_web;
 
+     /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Usuario", inversedBy="briefing_web")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $usuario;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Contenido", mappedBy="briefing_web")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $contenido;
+
+     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Incidencia", mappedBy="briefing_web")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $incidencia;
+
     public function getId(): ?int
     {
         return $this->id;

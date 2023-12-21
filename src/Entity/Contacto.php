@@ -37,6 +37,11 @@ class Contacto
      */
     private $descripcion_contacto;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Usuario", inversedBy="contacto")
+     */
+    private $usuario;
+
     public function getId(): ?int
     {
         return $this->id;
