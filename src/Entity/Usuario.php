@@ -30,6 +30,11 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $roles = [];
 
+/**
+     * @ORM\Column(type="string", length=255, nullable=false)
+     */
+    private $nombre_usuario;
+    
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
@@ -71,6 +76,17 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\OneToOne(targetEntity="App\Entity\BriefingLogo", mappedBy="usuario", cascade={"persist", "remove"})
      */
     private $briefing_logo;
+    public function getNombreUsuario(): ?string
+    {
+        return $this->nombre_usuario;
+    }
+
+    public function setNombreUsuario(?string $nombre_usuario): self
+    {
+        $this->nombre_usuario = $nombre_usuario;
+
+        return $this;
+    }
     public function getApellidosUsuario(): ?string
     {
         return $this->apellidos_usuario;
