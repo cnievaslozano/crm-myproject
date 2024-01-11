@@ -42,13 +42,11 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="boolean")
-     * @Assert\NotNull
      */
     private $activo = true; 
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\NotNull
      */
     private $fecha_creacion_usuario;
 
