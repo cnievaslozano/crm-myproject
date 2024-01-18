@@ -3,6 +3,11 @@ registro_usuario:
     path: /registro
     controller: App\Controller\RegistroController::index
 
+# REGISTRAR EMPRESA -> ADMIN
+app_registro_empresa:
+    path: /registro/empresa
+    controller: App\Controller\RegistroEmpresaController::index
+
 # LOGIN -> ADMIN & USUARIO NORMAL
 app_login:
     path: /login
