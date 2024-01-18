@@ -46,7 +46,7 @@ class BriefingLogo
      * @ORM\OneToOne(targetEntity="App\Entity\Usuario", inversedBy="briefing_logo")
      * @ORM\JoinColumn(nullable=true)
      */
-    private $usario;
+    private $usuario;
 
     public function getId(): ?int
     {
