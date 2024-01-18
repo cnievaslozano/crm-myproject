@@ -1,3 +1,40 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+# REGISTRAR USUARIOS -> ADMIN
+registro_usuario:
+    path: /registro
+    controller: App\Controller\RegistroController::index
+
+# LOGIN -> ADMIN & USUARIO NORMAL
+app_login:
+    path: /login
+    controller: App\Controller\SecurityController::login
+
+# LOGOUT -> ADMIN & USUARIO NORMAL
+app_logout:
+    path: /logout
+    controller: App\Controller\SecurityController::logout
+
+# RUTAS DASHBOARD PARA GRANOTA -> ADMIN
+dashboard_index:
+    path: /dashboard
+    controller: App\Controller\DashboardController::index
+
+dashboard_clientes:
+    path: /dashboard/clientes
+    controller: App\Controller\DashboardController::clientes
+
+dashboard_briefings:
+    path: /dashboard/briefings
+    controller: App\Controller\DashboardController::briefings
+
+dashboard_gestorDeContenidos:
+    path: /dashboard/gestor-de-contenidos
+    controller: App\Controller\DashboardController::gestorDeContenidos
+
+dashboard_incidencias:
+    path: /dashboard/incidencias
+    controller: App\Controller\DashboardController::incidencias
+
+# RUTAS EMPRESA -> USUARIO NORMAL
+dashboard_empresa:
+    path: /dashboard/empresa
+    controller: App\Controller\DashboardController::empresa
