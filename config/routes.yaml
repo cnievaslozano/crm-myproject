@@ -8,6 +8,31 @@ app_registro_empresa:
     path: /registro/empresa
     controller: App\Controller\RegistroEmpresaController::index
 
+# REGISTRAR CONTACTO -> ADMIN
+registro_contacto:
+    path: /registro/contacto
+    controller: App\Controller\ContactoController::index
+
+# REGISTRAR BriefingLogo -> ADMIN & USUARIO NORMAL
+briefinglogo:
+    path: /briefinglogo
+    controller: App\Controller\BriefingLogoController::index
+
+# REGISTRAR BriefingApp-> ADMIN & USUARIO NORMAL
+briefingapp:
+    path: /briefingapp
+    controller: App\Controller\BriefingAppController::index
+
+# REGISTRAR BriefingWeb-> ADMIN & USUARIO NORMAL
+briefingweb:
+    path: /briefingweb
+    controller: App\Controller\BriefingWebController::index
+
+# REGISTRAR Incidencias-> ADMIN & USUARIO NORMAL
+incidencias:
+    path: /incidencias
+    controller: App\Controller\IncidenciasController::index
+
 # LOGIN -> ADMIN & USUARIO NORMAL
 app_login:
     path: /login
