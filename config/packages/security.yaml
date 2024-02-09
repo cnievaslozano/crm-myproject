@@ -34,6 +34,17 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/dashboard/empresa, roles: ROLE_USER }
+        - { path: ^/dashboard, roles: ROLE_ADMIN }
+        - { path: ^/registro, roles: ROLE_ADMIN }
+
+        - { path: ^/briefinglogo, roles: ROLE_USER }
+        - { path: ^/briefingapp, roles: ROLE_USER }
+        - { path: ^/briefingweb, roles: ROLE_USER }
+        - { path: ^/incidencias, roles: ROLE_USER }
+        - { path: ^/registro_contenido, roles: ROLE_USER }
+
+        
 
 when@test:
     security:
