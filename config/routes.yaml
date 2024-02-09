@@ -1,3 +1,18 @@
+# RAIZ
+root:
+    path: /
+    controller: App\Controller\SecurityController::redirectToLogin 
+
+# LOGIN -> ADMIN & USUARIO NORMAL
+app_login:
+    path: /login
+    controller: App\Controller\SecurityController::login
+
+# LOGOUT -> ADMIN & USUARIO NORMAL
+app_logout:
+    path: /logout
+    controller: App\Controller\SecurityController::logout
+
 # REGISTRAR USUARIOS -> ADMIN
 registro_usuario:
     path: /registro
@@ -13,35 +28,30 @@ registro_contacto:
     path: /registro/contacto
     controller: App\Controller\ContactoController::index
 
-# REGISTRAR BriefingLogo -> ADMIN & USUARIO NORMAL
+# REGISTRAR CONTENIDO -> USUARIO CLIENTE
+registro_contenido:
+    path: /contenido
+    controller: App\Controller\ContenidoController::index
+
+# REGISTRAR BriefingLogo -> USUARIO CLIENTE
 briefinglogo:
     path: /briefinglogo
     controller: App\Controller\BriefingLogoController::index
 
-# REGISTRAR BriefingApp-> ADMIN & USUARIO NORMAL
+# REGISTRAR BriefingApp-> USUARIO CLIENTE
 briefingapp:
     path: /briefingapp
     controller: App\Controller\BriefingAppController::index
 
-# REGISTRAR BriefingWeb-> ADMIN & USUARIO NORMAL
+# REGISTRAR BriefingWeb-> USUARIO CLIENTE
 briefingweb:
     path: /briefingweb
     controller: App\Controller\BriefingWebController::index
 
-# REGISTRAR Incidencias-> ADMIN & USUARIO NORMAL
+# REGISTRAR Incidencias-> USUARIO CLIENTE
 incidencias:
     path: /incidencias
     controller: App\Controller\IncidenciasController::index
-
-# LOGIN -> ADMIN & USUARIO NORMAL
-app_login:
-    path: /login
-    controller: App\Controller\SecurityController::login
-
-# LOGOUT -> ADMIN & USUARIO NORMAL
-app_logout:
-    path: /logout
-    controller: App\Controller\SecurityController::logout
 
 # RUTAS DASHBOARD PARA GRANOTA -> ADMIN
 dashboard_index:
@@ -50,7 +60,7 @@ dashboard_index:
 
 dashboard_clientes:
     path: /dashboard/clientes
-    controller: App\Controller\DashboardController::clientes
+    controller: App\Controller\EmpresaController::index
 
 dashboard_briefings:
     path: /dashboard/briefings
@@ -68,3 +78,92 @@ dashboard_incidencias:
 dashboard_empresa:
     path: /dashboard/empresa
     controller: App\Controller\DashboardController::empresa
+
+##
+#   CRUD    EMPRESA  -> ADMIN
+##
+
+empresa_index:
+    path: /dashboard/clientes/index
+    controller: App\Controller\EmpresaController::index
+    methods: ['GET']
+
+empresa_new:
+    path: /registro/empresa
+    controller: App\Controller\RegistroEmpresaController::index
+    methods: ['GET', 'POST']
+
+empresa_show:
+    path: /dashboard/clientes/{id}
+    controller: App\Controller\EmpresaController::show
+    methods: ['GET']
+
+empresa_edit:
+    path: /dashboard/clientes/edit/{id}
+    controller: App\Controller\EmpresaController::edit
+    methods: ['GET', 'POST']
+
+empresa_delete:
+    path: /dashboard/clientes/{id}
+    controller: App\Controller\EmpresaController::delete
+    methods: ['POST']
+
+##
+#   RD    BRIEFINGS  -> ADMIN
+##
+
+briefings_index:
+    path: /dashboard/briefings
+    controller: App\Controller\DashboardController::briefings
+    methods: ['GET']
+
+#-------- APP -------------#
+
+briefing_app_show:
+    path: /dashboard/briefings/briefing-app/{id}
+    controller: App\Controller\BriefingAppController::show
+    methods: ['GET']
+
+briefing_app_delete:
+    path: /dashboard/briefings/{id}
+    controller: App\Controller\BriefingAppController::delete
+    methods: ['POST']
+
+briefing_app_pdf:
+    path: /briefing-app/{id}/descargar-pdf
+    controller: App\Controller\BriefingAppController::descargarPDF
+    methods: ['GET']
+
+#-------- WEB -------------#
+
+briefing_web_show:
+    path: /dashboard/briefings/briefing-web/{id}
+    controller: App\Controller\BriefingWebController::show
+    methods: ['GET']
+
+briefing_web_delete:
+    path: /dashboard/briefings/{id}
+    controller: App\Controller\BriefingWebController::delete
+    methods: ['POST']
+
+briefing_web_pdf:
+    path: /briefing-web/{id}/descargar-pdf
+    controller: App\Controller\BriefingWebController::descargarPDF
+    methods: ['GET']
+
+#-------- LOGO -------------#
+
+briefing_logo_show:
+    path: /dashboard/briefings/briefing-logo/{id}
+    controller: App\Controller\BriefingLogoController::show
+    methods: ['GET']
+
+briefing_logo_delete:
+    path: /dashboard/briefings/{id}
+    controller: App\Controller\BriefingLogoController::delete
+    methods: ['POST']
+
+briefing_logo_pdf:
+    path: /briefing-logo/{id}/descargar-pdf
+    controller: App\Controller\BriefingLogoController::descargarPDF
+    methods: ['GET']
