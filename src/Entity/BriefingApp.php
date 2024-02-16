@@ -18,6 +18,23 @@ class BriefingApp
     private $id;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private $activo = false;
+
+    public function isActivo(): ?bool
+    {
+        return $this->activo;
+    }
+
+    public function setActivo(bool $activo): self
+    {
+        $this->activo = $activo;
+
+        return $this;
+    }
+
+    /**
      * @ORM\Column(type="string", length=500)
      */
     private $descripcion_empresa;
@@ -58,7 +75,7 @@ class BriefingApp
     private $estructura_app;
 
     /**
-     * @ORM\Column(type="time")
+     * @ORM\Column(type="datetime")
      */
     private $fecha_creacion_briefing_app;
     /**
@@ -67,11 +84,34 @@ class BriefingApp
      */
     private $usuario;
 
+    public function getUsuario(): ?Usuario
+    {
+        return $this->usuario;
+    }
+
+    public function setUsuario(?Usuario $usuario): self
+    {
+        $this->usuario = $usuario;
+
+        return $this;
+    }
+
      /**
      * @ORM\OneToMany(targetEntity="App\Entity\Incidencia", mappedBy="briefing_app")
      * @ORM\JoinColumn(nullable=true)
      */
     private $incidencia;
+    public function getIncidencia(): ?Incidencia
+    {
+        return $this->incidencia;
+    }
+
+    public function setIncidencia(?Incidencia $incidencia): self
+    {
+        $this->incidencia = $incidencia;
+
+        return $this;
+    }
 
     public function getId(): ?int
     {
