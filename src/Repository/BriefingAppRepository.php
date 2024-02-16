@@ -39,6 +39,26 @@ class BriefingAppRepository extends ServiceEntityRepository
         }
     }
 
+    public function findAllWithEmpresa(): array
+    {
+        return $this->createQueryBuilder('ba')
+            ->leftJoin('ba.usuario', 'u')
+            ->leftJoin('u.empresa', 'e')
+            ->addSelect('u')
+            ->addSelect('e')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findAllWithEmpresaAndUser()
+    {
+        return $this->createQueryBuilder('ba')
+            ->leftJoin('ba.usuario', 'u')
+            ->leftJoin('u.empresa', 'e')
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return BriefingApp[] Returns an array of BriefingApp objects
 //     */
