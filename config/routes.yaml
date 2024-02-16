@@ -13,6 +13,10 @@ app_logout:
     path: /logout
     controller: App\Controller\SecurityController::logout
 
+######################################################################
+#   FORMULARIOS  
+######################################################################
+
 # REGISTRAR USUARIOS -> ADMIN
 registro_usuario:
     path: /registro
@@ -79,9 +83,9 @@ dashboard_empresa:
     path: /dashboard/empresa
     controller: App\Controller\DashboardController::empresa
 
-##
+######################################################################
 #   CRUD    EMPRESA  -> ADMIN
-##
+######################################################################
 
 empresa_index:
     path: /dashboard/clientes/index
@@ -108,9 +112,9 @@ empresa_delete:
     controller: App\Controller\EmpresaController::delete
     methods: ['POST']
 
-##
+#######################################################################
 #   RD    BRIEFINGS  -> ADMIN
-##
+#######################################################################
 
 briefings_index:
     path: /dashboard/briefings
@@ -166,4 +170,42 @@ briefing_logo_delete:
 briefing_logo_pdf:
     path: /briefing-logo/{id}/descargar-pdf
     controller: App\Controller\BriefingLogoController::descargarPDF
+    methods: ['GET']
+
+##
+#   RD    CONTENIDO  -> ADMIN
+##
+
+contenido_show:
+    path: /dashboard/gestor-de-contenidos/{id}
+    controller: App\Controller\ContenidoController::show
+    methods: ['GET']
+
+contenido_delete:
+    path: /dashboard/gestor-de-contenidos/{id}
+    controller: App\Controller\ContenidoController::delete
+    methods: ['POST']
+
+contenido_pdf:
+    path: /dashboard/gestor-de-contenidos/{id}/descargar-pdf
+    controller: App\Controller\ContenidoController::descargarPDF
+    methods: ['GET']
+
+##
+#   RD    INCIDENCIA  -> ADMIN
+##
+
+incidencia_show:
+    path: /dashboard/incidencias/{id}
+    controller: App\Controller\IncidenciasController::show
+    methods: ['GET']
+
+incidencia_delete:
+    path: /dashboard/incidencias/{id}
+    controller: App\Controller\IncidenciasController::delete
+    methods: ['POST']
+
+incidencia_pdf:
+    path: /dashboard/incidencias/{id}/descargar-pdf
+    controller: App\Controller\IncidenciasController::descargarPDF
     methods: ['GET']
