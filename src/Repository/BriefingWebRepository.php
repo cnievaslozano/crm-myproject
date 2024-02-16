@@ -39,6 +39,25 @@ class BriefingWebRepository extends ServiceEntityRepository
         }
     }
 
+    public function findAllWithEmpresa(): array
+    {
+        return $this->createQueryBuilder('ba')
+            ->leftJoin('ba.usuario', 'u')
+            ->leftJoin('u.empresa', 'e')
+            ->addSelect('u')
+            ->addSelect('e')
+            ->getQuery()
+            ->getResult();
+    }
+    public function findAllWithEmpresaAndUser()
+    {
+        return $this->createQueryBuilder('ba')
+            ->leftJoin('ba.usuario', 'u')
+            ->leftJoin('u.empresa', 'e')
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return BriefingWeb[] Returns an array of BriefingWeb objects
 //     */
