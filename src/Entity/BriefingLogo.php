@@ -18,6 +18,23 @@ class BriefingLogo
     private $id;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private $activo = false;
+
+    public function isActivo(): ?bool
+    {
+        return $this->activo;
+    }
+
+    public function setActivo(bool $activo): self
+    {
+        $this->activo = $activo;
+
+        return $this;
+    }
+
+    /**
      * @ORM\Column(type="string", length=100)
      */
     private $nombre_logo;
@@ -38,7 +55,7 @@ class BriefingLogo
     private $elementos;
 
     /**
-     * @ORM\Column(type="time")
+     * @ORM\Column(type="datetime")
      */
     private $fecha_creacion_briefing_logo;
 
@@ -47,6 +64,18 @@ class BriefingLogo
      * @ORM\JoinColumn(nullable=true)
      */
     private $usuario;
+
+    public function getUsuario(): ?Usuario
+    {
+        return $this->usuario;
+    }
+
+    public function setUsuario(?Usuario $usuario): self
+    {
+        $this->usuario = $usuario;
+
+        return $this;
+    }
 
     public function getId(): ?int
     {
