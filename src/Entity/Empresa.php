@@ -18,7 +18,7 @@ class Empresa
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=100, unique=true)
      */
     private $nombre;
 
@@ -40,7 +40,7 @@ class Empresa
     /**
      * @ORM\Column(type="boolean")
      */
-    private $activo;
+    private $activo = true;
 
     /**
      * @ORM\Column(type="time")
