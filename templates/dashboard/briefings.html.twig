@@ -1,0 +1,172 @@
+{% extends 'dashboard/plantilla.html.twig' %}
+
+{% block title %}Dashboard Briefings
+{% endblock %}
+{% block stylesheets %}
+	{{ parent() }}
+{% endblock %}
+{% block contenido %}
+	<div style="height: 160px;"></div>
+
+	<div class="row">
+
+		<div class="col-12">
+			<h1>Listado de Briefings</h1>
+			{# Mensaje exito #}
+			{% for flashMessage in app.flashes('success') %}
+				<div class="alert alert-success">
+					{{ flashMessage }}
+				</div>
+			{% endfor %}
+
+		</div>
+
+		<div class="col-12">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Id</th>
+						<th>Empresa</th>
+						<th>Usuario</th>
+						<th>Code</th>
+						<th>Ver</th>
+						<th>Tipo</th>
+						<th>Activo</th>
+						<th>PDF</th>
+						<th>BORRAR</th>
+
+					</tr>
+				</thead>
+				<tbody>
+					{% for briefingApp in briefingApps %}
+						<tr>
+							<td class="align-middle">{{ briefingApp.id }}</td>
+							<td class="align-middle">
+								<img src="https://placehold.jp/3d4070/ffffff/30x30.png?text=logo%20company" alt="Logo" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 20px;">
+								<span>{{ briefingApp.usuario.empresa.nombre }}</span>
+							</td>
+							<td class="align-middle">
+								{{briefingApp.usuario.username}}
+							</td>
+							<td class="align-middle">
+								code
+							</td>
+							<td class="align-middle">
+								<a href="{{ path('briefing_app_show', {'id': briefingApp.id}) }}">
+									<i class="fa-solid fa-eye"></i>
+								</a>
+							</td>
+							<td class="align-middle">
+								Briefing App</td>
+							<td class="align-middle">
+								{{ briefingApp.isActivo ? 'si' : 'no' }}
+							</td>
+							<td class="align-middle">
+								<a href="{{ path('briefing_app_pdf', {'id': briefingApp.id}) }}">
+									<i class="fa-solid fa-download"></i>
+								</a>
+							</td>
+							<td class="align-middle">
+								<form method="post" action="{{ path('briefing_app_delete', {'id': briefingApp.id}) }}" onsubmit="return confirm('¿Estás seguro que quieres borrar el briefing de app de {{briefingApp.usuario.empresa.nombre}} ?');">
+									<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ briefingApp.id) }}">
+									<button class="btn">
+										<i class="fa-solid fa-trash"></i>
+									</button>
+								</form>
+
+							</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td colspan="11">no se han encontrado briefings de app</td>
+						</tr>
+					{% endfor %}
+					{% for briefingWeb in briefingWebs %}
+						<tr>
+							<td class="align-middle">{{ briefingWeb.id }}</td>
+							<td class="align-middle">
+								<img src="https://placehold.jp/3d4070/ffffff/30x30.png?text=logo%20company" alt="Logo" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 20px;">
+								<span>{{ briefingWeb.usuario.empresa.nombre }}</span>
+							</td>
+							<td class="align-middle">
+								{{briefingWeb.usuario.username}}
+							</td>
+							<td class="align-middle">
+								code
+							</td>
+							<td class="align-middle">
+								<a href="{{ path('briefing_web_show', {'id': briefingWeb.id}) }}">
+									<i class="fa-solid fa-eye"></i>
+								</a>
+							</td>
+							<td class="align-middle">
+								Briefing Web</td>
+							<td class="align-middle">
+								{{ briefingWeb.isActivo ? 'si' : 'no' }}
+							</td>
+							<td class="align-middle">
+								<a href="{{ path('briefing_web_pdf', {'id': briefingWeb.id}) }}">
+									<i class="fa-solid fa-download"></i>
+								</a>
+							</td>
+							<td class="align-middle">
+								<form method="post" action="{{ path('briefing_web_delete', {'id': briefingWeb.id}) }}" onsubmit="return confirm('¿Estás seguro que quieres borrar el briefing de web de {{briefingWeb.usuario.empresa.nombre}} ?');">
+									<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ briefingWeb.id) }}">
+									<button class="btn">
+										<i class="fa-solid fa-trash"></i>
+									</button>
+								</form>
+
+							</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td colspan="11">no se han encontrado briefings webs</td>
+						</tr>
+					{% endfor %}
+					{% for briefingLogo in briefingLogos %}
+						<tr>
+							<td class="align-middle">{{ briefingLogo.id }}</td>
+							<td class="align-middle">
+								<img src="https://placehold.jp/3d4070/ffffff/30x30.png?text=logo%20company" alt="Logo" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 20px;">
+								<span>{{ briefingLogo.usuario.empresa.nombre }}</span>
+							</td>
+							<td class="align-middle">
+								{{briefingLogo.usuario.username}}
+							</td>
+							<td class="align-middle">
+								code
+							</td>
+							<td class="align-middle">
+								<a href="{{ path('briefing_logo_show', {'id': briefingLogo.id}) }}">
+									<i class="fa-solid fa-eye"></i>
+								</a>
+							</td>
+							<td class="align-middle">
+								Briefing Logo</td>
+							<td class="align-middle">
+								{{ briefingLogo.isActivo ? 'si' : 'no' }}
+							</td>
+							<td class="align-middle">
+								<a href="{{ path('briefing_logo_pdf', {'id': briefingLogo.id}) }}">
+									<i class="fa-solid fa-download"></i>
+								</a>
+							</td>
+							<td class="align-middle">
+								<form method="post" action="{{ path('briefing_logo_delete', {'id': briefingLogo.id}) }}" onsubmit="return confirm('¿Estás seguro que quieres borrar el briefing de logo de {{briefingLogo.usuario.empresa.nombre}} ?');">
+									<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ briefingLogo.id) }}">
+									<button class="btn">
+										<i class="fa-solid fa-trash"></i>
+									</button>
+								</form>
+
+							</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td colspan="11">no se han encontrado briefings logo</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		{% endblock %}
