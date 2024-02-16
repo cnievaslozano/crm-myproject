@@ -4,93 +4,69 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use App\Repository\BriefingAppRepository;
+use App\Repository\BriefingLogoRepository;
+use App\Repository\BriefingWebRepository;
+use App\Repository\ContenidoRepository;
+use App\Repository\IncidenciaRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
 class DashboardController extends AbstractController
 {
-    private function checkAdminRole(): bool
-    {
-        $user = $this->getUser();
-
-        if (!$user) {
-            // Si no hay usuario autenticado, redirige a la página de login
-            $this->redirectToRoute('app_login');
-            return false;
-        } else {
-            $roles = $user->getRoles();
-        }
-        
-
-        return in_array('ROLE_ADMIN', $roles, true);
-    }
+    
 
     public function index(): Response 
     {
-        if ($this->checkAdminRole()) {
-            return $this->render('dashboard/index.html.twig');
-        }
-
-        // Si el usuario no tiene el rol de administrador, redirige a la página de login
-        return $this->redirectToRoute('app_login');
+        return $this->render('dashboard/index.html.twig');
     }
 
     public function clientes(): Response
     {
-        if ($this->checkAdminRole()) {
-            return $this->render('dashboard/clientes.html.twig');
-        }
-
-        // Si el usuario no tiene el rol de administrador, redirige a la página de login
-        return $this->redirectToRoute('app_login');
+        return $this->render('dashboard/clientes.html.twig');
     }
 
 
-    public function briefings(): Response
+    public function briefings(BriefingAppRepository $briefingAppRepository,BriefingWebRepository $briefingWebRepository, BriefingLogoRepository $briefingLogoRepository): Response
     {
-        if ($this->checkAdminRole()) {
-            return $this->render('dashboard/briefings.html.twig');
-        }
 
-        // Si el usuario no tiene el rol de administrador, redirige a la página de login
-        return $this->redirectToRoute('app_login');
+
+        $briefingApps = $briefingAppRepository->findAllWithEmpresaAndUser();
+        $briefingWebs = $briefingWebRepository->findAllWithEmpresaAndUser();
+        $briefingLogos = $briefingLogoRepository->findAllWithEmpresaAndUser();
+
+
+
+        return $this->render('dashboard/briefings.html.twig', [
+            'briefingApps' => $briefingApps,
+            'briefingWebs' => $briefingWebs,
+            'briefingLogos' => $briefingLogos,
+        ]);
+        
     }
 
-    public function gestorDeContenidos(): Response
+    public function gestorDeContenidos(ContenidoRepository $contenidoRepository): Response
     {
-        if ($this->checkAdminRole()) {
-            return $this->render('dashboard/gestorDeContenidos.html.twig');
-        }
+        
+        $contenidos = $contenidoRepository->findAllWithBriefingWebEmpresaAndUser();
 
-        // Si el usuario no tiene el rol de administrador, redirige a la página de login
-        return $this->redirectToRoute('app_login');
+        return $this->render('dashboard/gestorDeContenidos.html.twig', [
+            'contenidos' => $contenidos,
+        ]);
     }
 
     
-    public function incidencias(): Response
+    public function incidencias(IncidenciaRepository $incidenciaRepository): Response
     {
-        if ($this->checkAdminRole()) {
-            return $this->render('dashboard/incidencias.html.twig');
-        }
 
-        // Si el usuario no tiene el rol de administrador, redirige a la página de login
-        return $this->redirectToRoute('app_login');
+        $incidencias = $incidenciaRepository->findAll();
+
+        return $this->render('dashboard/incidencias.html.twig', [
+            'incidencias' => $incidencias,
+        ]);
     }
 
     public function empresa(): Response
     {
-
-        $user = $this->getUser();
-        if ($user) {
-            $rol = $user->getRoles();
-            if ($rol[0] == 'ROLE_USER'){
-                return $this->render('dashboard/empresa.html.twig');
-            } else {
-                return $this->redirectToRoute('app_login');
-            }
-        } else {
-            return $this->redirectToRoute('app_login');
-        }
-
-       
+        return $this->render('dashboard/empresa.html.twig'); 
     }
 }
