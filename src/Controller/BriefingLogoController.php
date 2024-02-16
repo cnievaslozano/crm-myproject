@@ -54,7 +54,7 @@ class BriefingLogoController extends AbstractController
             }
         }
 
-        return $this->render('briefing_logo/index.html.twig', [
+        return $this->render('formularios/logo.html.twig', [
             'username' => $user->getUsername(),
             'form' => $form->createView(),
         ]);
