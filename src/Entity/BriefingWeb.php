@@ -18,6 +18,23 @@ class BriefingWeb
     private $id;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private $activo = false;
+
+    public function isActivo(): ?bool
+    {
+        return $this->activo;
+    }
+
+    public function setActivo(bool $activo): self
+    {
+        $this->activo = $activo;
+
+        return $this;
+    }
+
+    /**
      * @ORM\Column(type="string", length=500)
      */
     private $descripcion_empresa;
@@ -43,9 +60,9 @@ class BriefingWeb
     private $objetivos;
 
     /**
-     * @ORM\Column(type="json", nullable=true)
+     * @ORM\Column(type="string", length=500, nullable=true)
      */
-    private $web_ejemplo = [];
+    private $web_ejemplo;
 
     /**
      * @ORM\Column(type="text")
@@ -58,9 +75,24 @@ class BriefingWeb
     private $funciones;
 
     /**
-     * @ORM\Column(type="json")
+     * @ORM\Column(type="boolean")
      */
-    private $disenyo_imagen = [];
+    private $disponeLogo;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $disponeManualMarca;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $disponeColoresCorporativos;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $disponeRecursosDisenyo;
 
     /**
      * @ORM\Column(type="boolean")
@@ -78,15 +110,27 @@ class BriefingWeb
     private $comentarios;
 
     /**
-     * @ORM\Column(type="time")
+     * @ORM\Column(type="datetime")
      */
     private $fecha_creacion_briefing_web;
 
-     /**
+    /**
      * @ORM\OneToOne(targetEntity="App\Entity\Usuario", inversedBy="briefing_web")
      * @ORM\JoinColumn(nullable=true)
      */
     private $usuario;
+
+    public function getUsuario(): ?Usuario
+    {
+        return $this->usuario;
+    }
+
+    public function setUsuario(?Usuario $usuario): self
+    {
+        $this->usuario = $usuario;
+
+        return $this;
+    }
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Contenido", mappedBy="briefing_web")
@@ -94,12 +138,22 @@ class BriefingWeb
      */
     private $contenido;
 
-     /**
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Incidencia", mappedBy="briefing_web")
      * @ORM\JoinColumn(nullable=true)
      */
     private $incidencia;
+    public function getIncidencia(): ?Incidencia
+    {
+        return $this->incidencia;
+    }
 
+    public function setIncidencia(?Incidencia $incidencia): self
+    {
+        $this->incidencia = $incidencia;
+
+        return $this;
+    }
     public function getId(): ?int
     {
         return $this->id;
@@ -170,7 +224,7 @@ class BriefingWeb
         return $this->web_ejemplo;
     }
 
-    public function setWebEjemplo(?array $web_ejemplo): self
+    public function setWebEjemplo(?string $web_ejemplo): self
     {
         $this->web_ejemplo = $web_ejemplo;
 
@@ -197,18 +251,6 @@ class BriefingWeb
     public function setFunciones(string $funciones): self
     {
         $this->funciones = $funciones;
-
-        return $this;
-    }
-
-    public function getDisenyoImagen(): ?array
-    {
-        return $this->disenyo_imagen;
-    }
-
-    public function setDisenyoImagen(array $disenyo_imagen): self
-    {
-        $this->disenyo_imagen = $disenyo_imagen;
 
         return $this;
     }
@@ -257,6 +299,58 @@ class BriefingWeb
     public function setFechaCreacionBriefingWeb(\DateTimeInterface $fecha_creacion_briefing_web): self
     {
         $this->fecha_creacion_briefing_web = $fecha_creacion_briefing_web;
+
+        return $this;
+    }
+
+    // Getters y setters para disponeLogo
+    public function getDisponeLogo(): ?bool
+    {
+        return $this->disponeLogo;
+    }
+
+    public function setDisponeLogo(bool $disponeLogo): self
+    {
+        $this->disponeLogo = $disponeLogo;
+
+        return $this;
+    }
+
+    // Getters y setters para disponeManualMarca
+    public function getDisponeManualMarca(): ?bool
+    {
+        return $this->disponeManualMarca;
+    }
+
+    public function setDisponeManualMarca(bool $disponeManualMarca): self
+    {
+        $this->disponeManualMarca = $disponeManualMarca;
+
+        return $this;
+    }
+
+    // Getters y setters para disponeColoresCorporativos
+    public function getDisponeColoresCorporativos(): ?bool
+    {
+        return $this->disponeColoresCorporativos;
+    }
+
+    public function setDisponeColoresCorporativos(bool $disponeColoresCorporativos): self
+    {
+        $this->disponeColoresCorporativos = $disponeColoresCorporativos;
+
+        return $this;
+    }
+
+    // Getters y setters para disponeRecursosDisenyo
+    public function getDisponeRecursosDisenyo(): ?bool
+    {
+        return $this->disponeRecursosDisenyo;
+    }
+
+    public function setDisponeRecursosDisenyo(bool $disponeRecursosDisenyo): self
+    {
+        $this->disponeRecursosDisenyo = $disponeRecursosDisenyo;
 
         return $this;
     }
