@@ -13,6 +13,8 @@ app_logout:
     path: /logout
     controller: App\Controller\SecurityController::logout
 
+
+
 ######################################################################
 #   FORMULARIOS  
 ######################################################################
@@ -57,7 +59,11 @@ incidencias:
     path: /incidencias
     controller: App\Controller\IncidenciasController::index
 
-# RUTAS DASHBOARD PARA GRANOTA -> ADMIN
+
+
+######################################################################
+#   DASHBOARD DE GRANOTA  -> ADMIN
+######################################################################
 dashboard_index:
     path: /dashboard
     controller: App\Controller\DashboardController::index
@@ -78,10 +84,16 @@ dashboard_incidencias:
     path: /dashboard/incidencias
     controller: App\Controller\DashboardController::incidencias
 
-# RUTAS EMPRESA -> USUARIO NORMAL
+
+
+######################################################################
+#   DASHBOARD DEL CLIENTE (EMPRESA)  -> USUARIO NORMAL
+######################################################################
 dashboard_empresa:
-    path: /dashboard/empresa
-    controller: App\Controller\DashboardController::empresa
+    path: /inicio
+    controller: App\Controller\DashboardClienteController::index
+
+
 
 ######################################################################
 #   CRUD    EMPRESA  -> ADMIN
@@ -112,8 +124,10 @@ empresa_delete:
     controller: App\Controller\EmpresaController::delete
     methods: ['POST']
 
+
+
 #######################################################################
-#   RD    BRIEFINGS  -> ADMIN
+#   RD + PDF   BRIEFINGS  -> ADMIN
 #######################################################################
 
 briefings_index:
@@ -172,9 +186,11 @@ briefing_logo_pdf:
     controller: App\Controller\BriefingLogoController::descargarPDF
     methods: ['GET']
 
-##
-#   RD    CONTENIDO  -> ADMIN
-##
+
+
+#######################################################################
+#   RD + PDF  CONTENIDO  -> ADMIN
+#######################################################################
 
 contenido_show:
     path: /dashboard/gestor-de-contenidos/{id}
@@ -191,9 +207,11 @@ contenido_pdf:
     controller: App\Controller\ContenidoController::descargarPDF
     methods: ['GET']
 
-##
-#   RD    INCIDENCIA  -> ADMIN
-##
+
+
+#######################################################################
+#   RD + PDF   INCIDENCIA  -> ADMIN
+#######################################################################
 
 incidencia_show:
     path: /dashboard/incidencias/{id}
