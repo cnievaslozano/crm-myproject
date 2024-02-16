@@ -38,12 +38,12 @@ class Incidencia
     private $url;
 
     /**
-     * @ORM\Column(type="json", nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $ruta_imagenes = [];
+    private $ruta_imagenes;
 
     /**
-     * @ORM\Column(type="time")
+     * @ORM\Column(type="datetime")
      */
     private $fecha_creacion_incidencia;
 
@@ -57,6 +57,29 @@ class Incidencia
      */
     private $briefing_app;
 
+    // Getter y Setter para BriefingWeb
+    public function getBriefingWeb(): ?BriefingWeb
+    {
+        return $this->briefing_web;
+    }
+
+    public function setBriefingWeb(?BriefingWeb $briefing_web): self
+    {
+        $this->briefing_web = $briefing_web;
+        return $this;
+    }
+
+    // Getter y Setter para BriefingApp
+    public function getBriefingApp(): ?BriefingApp
+    {
+        return $this->briefing_app;
+    }
+
+    public function setBriefingApp(?BriefingApp $briefing_app): self
+    {
+        $this->briefing_app = $briefing_app;
+        return $this;
+    }
     public function getId(): ?int
     {
         return $this->id;
@@ -110,12 +133,12 @@ class Incidencia
         return $this;
     }
 
-    public function getRutaImagenes(): ?array
+    public function getRutaImagenes(): ?string
     {
         return $this->ruta_imagenes;
     }
 
-    public function setRutaImagenes(?array $ruta_imagenes): self
+    public function setRutaImagenes(?string $ruta_imagenes): self
     {
         $this->ruta_imagenes = $ruta_imagenes;
 
