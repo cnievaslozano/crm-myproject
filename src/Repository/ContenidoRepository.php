@@ -39,28 +39,51 @@ class ContenidoRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Contenido[] Returns an array of Contenido objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function findAllWithBriefingWebEmpresaAndUser()
+    {
+        return $this->createQueryBuilder('c')
+            ->leftJoin('c.briefing_web', 'bw')
+            ->leftJoin('bw.usuario', 'u')
+            ->leftJoin('u.empresa', 'e')
+            ->getQuery()
+            ->getResult();
+    }
 
-//    public function findOneBySomeField($value): ?Contenido
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function findUserByContenidoId($contenidoId)
+    {
+        return $this->createQueryBuilder('c')
+            ->select('u')
+            ->leftJoin('c.briefing_web', 'bw')
+            ->leftJoin('bw.usuario', 'u')
+            ->andWhere('c.id = :id')
+            ->setParameter('id', $contenidoId)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+
+    //    /**
+    //     * @return Contenido[] Returns an array of Contenido objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('c')
+    //            ->andWhere('c.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('c.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
+
+    //    public function findOneBySomeField($value): ?Contenido
+    //    {
+    //        return $this->createQueryBuilder('c')
+    //            ->andWhere('c.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }
