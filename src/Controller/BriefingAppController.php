@@ -78,7 +78,7 @@ class BriefingAppController extends AbstractController
             }
         }
 
-        return $this->render('briefing_app/index.html.twig', [
+        return $this->render('formularios/app.html.twig', [
             'username' => $user->getUsername(),
             'form' => $form->createView(),
         ]);
