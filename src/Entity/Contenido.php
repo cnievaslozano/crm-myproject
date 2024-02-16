@@ -17,6 +17,16 @@ class Contenido
      */
     private $id;
 
+ /**
+     * @ORM\Column(type="boolean")
+     */
+    private $activo = true;
+
+    /**
+     * @ORM\Column(type="string", length=60)
+     */
+    private $titulo;
+
     /**
      * @ORM\Column(type="string", length=20)
      */
@@ -33,7 +43,7 @@ class Contenido
     private $ruta_imagenes;
 
     /**
-     * @ORM\Column(type="time")
+     * @ORM\Column(type="datetime")
      */
     private $fecha_creacion_contenido;
 
@@ -41,10 +51,45 @@ class Contenido
      * @ORM\ManyToOne(targetEntity="App\Entity\BriefingWeb", inversedBy="contenido")
      */
     private $briefing_web;
+    public function getBriefingWeb(): ?BriefingWeb
+    {
+        return $this->briefing_web;
+    }
+
+    public function setBriefingWeb(?BriefingWeb $briefing_web): self
+    {
+        $this->briefing_web = $briefing_web;
+
+        return $this;
+    }
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function isActivo(): ?bool
+    {
+        return $this->activo;
+    }
+
+    public function setActivo(bool $activo): self
+    {
+        $this->activo = $activo;
+
+        return $this;
+    }
+
+    public function getTitulo(): ?string
+    {
+        return $this->titulo;
+    }
+
+    public function setTitulo(string $titulo): self
+    {
+        $this->titulo = $titulo;
+
+        return $this;
     }
 
     public function getPuntoMenu(): ?string
