@@ -53,7 +53,7 @@ class BriefingWebController extends AbstractController
             }
         }
 
-        return $this->render('briefing_web/index.html.twig', [
+        return $this->render('formularios/web.html.twig', [
             'username' => $user->getUsername(),
             'form' => $form->createView(),
         ]);
