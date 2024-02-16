@@ -1,0 +1,78 @@
+{% extends 'dashboard/plantilla.html.twig' %}
+
+{% block title %}
+	Contenido del Briefing ... de
+	{{empresa.nombre}}
+{% endblock %}
+{% block stylesheets %}
+	{{ parent()}}
+{% endblock %}
+{% block contenido %}
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<h1>
+					Contenido de:
+					<span class="text-primary">{{ empresa.nombre }}</span>
+				</h1>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12">
+				<table class="table">
+					<tbody>
+						<tr>
+							<th>Id</th>
+							<td>{{ contenido.id }}</td>
+						</tr>
+						<tr>
+							<th>Lo ha creado el usuario</th>
+							<td>{{ usuario.username }}</td>
+						</tr>
+						<tr>
+							<th>Pertenece al briefing web de</th>
+							<td>...</td>
+						</tr>
+						<tr>
+							<th>Activo</th>
+							<td>
+								{{ contenido.isActivo ? 'si' : 'no' }}
+							</td>
+						</tr>
+						<tr>
+							<th>Título</th>
+							<td>{{ contenido.titulo }}</td>
+						</tr>
+						<tr>
+							<th>Punto menú</th>
+							<td>{{ contenido.puntoMenu }}</td>
+						</tr>
+						<tr>
+							<th>Contenido</th>
+							<td>{{ contenido.contenido }}</td>
+						</tr>
+						<tr>
+							<th>Imágenes</th>
+							<td>{{ contenido.rutaImagenes }}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-12 d-flex gap-2">
+				<a href="{{ path('dashboard_gestorDeContenidos') }}" class="btn btn-primary">Volver</a>
+				<form method="post" action="{{ path('contenido_delete', {'id': contenido.id}) }}" onsubmit="return confirm('¿Estás seguro que quieres borrar el contenido de {{empresa.nombre}}?');" class="d-inline">
+					<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ contenido.id) }}">
+					<button class="btn btn-danger">
+						<i class="fa-solid fa-trash"></i>
+					</button>
+				</form>
+			</div>
+		</div>
+
+
+	</div>
+
+{% endblock %}

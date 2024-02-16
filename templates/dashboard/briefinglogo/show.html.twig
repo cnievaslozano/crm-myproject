@@ -1,0 +1,73 @@
+{% extends 'dashboard/plantilla.html.twig' %}
+
+{% block title %}Briefing Logo de
+	{{empresa.nombre}}x
+{% endblock %}
+{% block stylesheets %}
+	{{ parent() }}
+{% endblock %}
+{% block contenido %}
+	<div style="height: 160px;"></div>
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<h1>Briefing Logo de:
+					<span class="text-primary">{{ empresa.nombre }}
+					</span>
+				</h1>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-12">
+				<table class="table">
+					<tbody>
+						<tr>
+							<th>Id</th>
+							<td>{{ briefing_logo.id }}</td>
+						</tr>
+						<tr>
+							<th>Activo</th>
+							<td>{{  briefing_logo.isActivo ? 'si' : 'no'}}</td>
+						</tr>
+						<tr>
+							<th>Lo ha creado el usuario</th>
+							<td>{{ usuario.username }}</td>
+						</tr>
+						<tr>
+							<th>Nombre_logo</th>
+							<td>{{ briefing_logo.nombreLogo }}</td>
+						</tr>
+						<tr>
+							<th>Audiencia</th>
+							<td>{{ briefing_logo.audiencia }}</td>
+						</tr>
+						<tr>
+							<th>Ejemplo</th>
+							<td>{{ briefing_logo.ejemplo }}</td>
+						</tr>
+						<tr>
+							<th>Elementos</th>
+							<td>{{ briefing_logo.elementos }}</td>
+						</tr>
+						<tr>
+							<th>Fecha_creacion_briefing_logo</th>
+							<td>{{ briefing_logo.fechaCreacionBriefingLogo ? briefing_logo.fechaCreacionBriefingLogo|date('Y-m-d H:i:s') }}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12 d-flex gap-2">
+				<a href="{{ path('briefings_index') }}" class="btn btn-primary">Volver</a>
+				<form method="post" action="{{ path('briefing_logo_delete', {'id': briefing_logo.id}) }}" onsubmit="return confirm('¿Estás seguro que quieres borrar el briefing logo de {{empresa.nombre}}?');" class="d-inline">
+					<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ briefing_logo.id) }}">
+					<button class="btn btn-danger">
+						<i class="fa-solid fa-trash"></i>
+					</button>
+				</form>
+			</div>
+		</div>
+	</div>
+{% endblock %}

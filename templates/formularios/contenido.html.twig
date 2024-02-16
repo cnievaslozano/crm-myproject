@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Enviar Contenido {% endblock %}
+{% block stylesheets %}
+	{{ parent() }}
+{% endblock %}
+{% block body %}
+
+<section class="vh-100 d-flex justify-content-center">
+		<div class="container" style="width: 750px;">
+			<div class="row">
+				<div class="col-sm-12 text-black">
+					<div class="d-flex flex-column align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5">
+
+						{{ form_start(form, {'attr': {'class': 'custom-form'}}) }}
+
+						<h3 class="fw-bold pb-2" style="letter-spacing: 1px;">
+							<span class="custom-label" style="color: #99c21e">¡Hola
+								{{ username }}!</span>
+							<br>
+							Estás enviando un Contenido
+						</h3>
+						{# Mensaje de error o exito #}
+
+						{% for flashMessage in app.flashes('success') %}
+							<div class="alert alert-success">
+								{{ flashMessage }}
+							</div>
+						{% endfor %}
+
+						{% for flashMessage in app.flashes('error') %}
+							<div class="alert alert-danger">
+								{{ flashMessage }}
+							</div>
+						{% endfor %}
+						{# Personalizar el renderizado de cada campo #}
+
+						<div class="mb-2 mt-3">
+							<strong>Título, describe en una frase el contenido</strong>
+						</div>
+						<div class="form-outline mb-4">
+							{{ form_widget(form.titulo) }}
+							<label class="form-label" for="{{ form.titulo.vars.id }}"></label>
+
+						</div>
+
+						<div class="mb-2 mt-3">
+							<strong>Punto del menu</strong>
+						</div>
+						<div class="form-outline mb-4">
+							{{ form_widget(form.punto_menu) }}
+							<label class="form-label" for="{{ form.punto_menu.vars.id }}"></label>
+
+						</div>
+
+						<div class="mb-2 mt-2">
+							<strong>Contenido</strong>
+						</div>
+						<div class="form-outline mb-4">
+							{{ form_widget(form.contenido) }}
+							<label class="form-label" for="{{ form.contenido.vars.id }}"></label>
+
+						</div>
+
+						<div class="mb-2 mt-2">
+							<strong>Imágenes</strong>
+						</div>
+						<div class="form-outline mb-4">
+							{{ form_widget(form.ruta_imagenes) }}
+							<label class="form-label" for="{{ form.ruta_imagenes.vars.id }}"></label>
+						</div>
+						
+						<div class="pt-1 mb-4">
+							{{ form_row(form.submit) }}
+						</div>
+
+						{{ form_end(form) }}
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends 'dashboard/plantilla.html.twig' %}
+{% block title %}Dashboard Clientes
+{% endblock %}
+{% block stylesheets %}
+	{{ parent() }}
+	{# cuando me instale node hacerlo de esta manera 
+		<link rel="stylesheet" href="{{ asset('styles/form.css') }}">
+	#}
+{% endblock %}
+{% block contenido %}
+	<div style="height: 160px;"></div>
+
+	<div class="row">
+
+		<div
+			class="col-12">
+			{# Mensaje exito #}
+			{% for flashMessage in app.flashes('success') %}
+				<div class="alert alert-success">
+					{{ flashMessage }}
+				</div>
+			{% endfor %}
+
+			<a class="btn btn-primary" href="{{ path('empresa_new') }}">Nuevo Cliente +</a>
+		</div>
+
+
+		<div class="col-12">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Id</th>
+						<th>Empresa</th>
+						<th>Code</th>
+						<th>Ver</th>
+						<th>Editar</th>
+						<th>Activo</th>
+						<th>Borrar</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for empresa in empresas %}
+						<tr>
+							<td class="align-middle">{{ empresa.id }}</td>
+							<td class="align-middle">
+								<img src="https://placehold.jp/3d4070/ffffff/30x30.png?text=logo%20company" alt="Logo" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 20px;">
+								<span>{{ empresa.nombre }}</span>
+							</td>
+							<td class="align-middle text-muted">Code</td>
+							<td class="align-middle">
+								<a href="{{ path('empresa_show', {'id': empresa.id}) }}">
+									<i class="fa-solid fa-eye"></i>
+								</a>
+							</td>
+							<td class="align-middle">
+								<a href="{{ path('empresa_edit', {'id': empresa.id}) }}">
+									<i class="fa-solid fa-pen-to-square"></i>
+								</a>
+							</td>
+							<td class="align-middle">{{ empresa.activo ? 'Si' : 'No' }}</td>
+							<td class="align-middle">
+								<form method="post" action="{{ path('empresa_delete', {'id': empresa.id}) }}" onsubmit="return confirm('¿Estás seguro que quieres borrar la empresa {{empresa.nombre}}?');">
+									<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ empresa.id) }}">
+									<button class="btn"><i class="fa-solid fa-trash"></i></button>
+								</form>
+							</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td colspan="8">No hay registros :)</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	{% endblock %}

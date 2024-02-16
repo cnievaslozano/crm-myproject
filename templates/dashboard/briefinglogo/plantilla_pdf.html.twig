@@ -1,0 +1,56 @@
+{% extends 'dashboard/plantilla_pdf.html.twig' %}
+
+{% block title %}Briefing Web de
+	{{empresa.nombre}}
+{% endblock %}
+{% block stylesheets %}
+	{{ parent() }}
+{% endblock %}
+{% block body %}
+<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<h1>Briefing Logo de:
+					<span class="text-primary">{{ empresa.nombre }}
+					</span>
+				</h1>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-12">
+				<table class="table">
+					<tbody>
+						<tr>
+							<th>Id</th>
+							<td>{{ briefing_logo.id }}</td>
+						</tr>
+						<tr>
+							<th>Lo ha creado el usuario</th>
+							<td>{{ usuario.username }}</td>
+						</tr>
+						<tr>
+							<th>Nombre_logo</th>
+							<td>{{ briefing_logo.nombreLogo }}</td>
+						</tr>
+						<tr>
+							<th>Audiencia</th>
+							<td>{{ briefing_logo.audiencia }}</td>
+						</tr>
+						<tr>
+							<th>Ejemplo</th>
+							<td>{{ briefing_logo.ejemplo }}</td>
+						</tr>
+						<tr>
+							<th>Elementos</th>
+							<td>{{ briefing_logo.elementos }}</td>
+						</tr>
+						<tr>
+							<th>Fecha_creacion_briefing_logo</th>
+							<td>{{ briefing_logo.fechaCreacionBriefingLogo ? briefing_logo.fechaCreacionBriefingLogo|date('H:i:s') : '' }}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+{% endblock %}

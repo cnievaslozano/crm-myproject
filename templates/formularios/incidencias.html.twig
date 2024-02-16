@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Enviar Incidencia{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .custom-btn {
+            background-color: #99c21e;
+            color: #ffffff;
+        }
+    </style>
+{% endblock %}
+{% block body %}
+<section class="vh-100 d-flex justify-content-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 text-black">
+                <div class="d-flex flex-column align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5">
+                    
+                    {{ form_start(form, {'attr': {'class': 'custom-form'}}) }}
+
+                    <h3 class="fw-bold pb-2" style="letter-spacing: 1px;"> <span class="custom-label" style="color: #99c21e">¡Hola {{ username }}!</span> <br> Estás enviando una Incidencia </h3>
+                    <p> Recuerda dar todos los detalles posibles para que podamos hacer realidad tu<br> proyecto. Si tienes alguna duda no dudes en contactar con nosotros.</p>
+                    {# Mensaje de error o exito #}
+
+                    {% for flashMessage in app.flashes('success') %}
+                        <div class="alert alert-success">
+                            {{ flashMessage }}
+                        </div>
+                    {% endfor %}
+
+                    {% for flashMessage in app.flashes('error') %}
+                        <div class="alert alert-danger">
+                            {{ flashMessage }}
+                        </div>
+                    {% endfor %}
+                    {# Personalizar el renderizado de cada campo #}
+                    
+                    <div class="mb-2 mt-3">
+                        <strong>Título</strong>
+                    </div>
+                    <div class="form-outline mb-4">
+                        {{ form_widget(form.titulo) }}
+                    </div>
+
+                     <div class="mb-2 mt-3">
+                        <strong>¿De qué es el problema?</strong>
+                    </div>
+                    <div class="form-outline mb-4">
+                        {{ form_widget(form.tipo) }}
+                    </div>
+
+                    <div class="mb-2 mt-3">
+                        <strong>Descripción</strong>
+                    </div>
+                    <div class="form-outline form-floating mb-4">
+                        {{ form_widget(form.descripcion) }}
+                        <label class="form-label" for="{{ form.descripcion.vars.id }}">¿Cuál es el problema?</label>
+                    </div>
+
+                    <div class="mb-2 mt-3">
+                        <strong>URLs</strong>
+                    </div>
+                    <div class="form-outline form-floating mb-4">
+                        {{ form_widget(form.url) }}
+                        <label class="form-label" for="{{ form.url.vars.id }}">Enlace/s a la web/s que da/n problema/s</label>
+                    </div>
+
+                    <div class="mb-2 mt-3">
+                        <strong>Imágen del problema</strong>
+                    </div>
+                    <div class="form-outline mb-4">
+                        {{ form_widget(form.ruta_imagenes) }}
+                        <label class="form-label" for="{{ form.ruta_imagenes.vars.id }}"></label>
+                    </div>
+
+                    <div class="pt-1 mb-4">
+                        {{ form_row(form.submit) }}
+                    </div>
+
+                    <p class="small mb-5 pb-lg-2 text-muted">...*</p>
+
+                    {{ form_end(form) }}
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

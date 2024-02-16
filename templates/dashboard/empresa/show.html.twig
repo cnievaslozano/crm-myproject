@@ -1,0 +1,86 @@
+{% extends 'dashboard/plantilla.html.twig' %}
+{% block title %}
+	{{empresa.nombre}}
+{% endblock %}
+{% block stylesheets %}
+	{{ parent() }}
+{% endblock %}
+{% block contenido %}
+	<div style="height: 160px;"></div>
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<h1>Cliente:
+					<span class="text-primary">{{ empresa.nombre }}
+					</span>
+				</h1>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-12">
+				<table class="table">
+					<tbody>
+						<tr>
+							<th>Id</th>
+							<td>{{ empresa.id }}</td>
+						</tr>
+						<tr>
+							<th>Nombre</th>
+							<td>{{ empresa.nombre }}</td>
+						</tr>
+						<tr>
+							<th>Imágen</th>
+							<td>...</td>
+						</tr>
+						<tr>
+							<th>Descripcion de la empresa</th>
+							<td>{{ empresa.descripcionEmpresa }}</td>
+						</tr>
+						<tr>
+							<th>Email</th>
+							<td>{{ empresa.email }}</td>
+						</tr>
+						<tr>
+							<th>Webs</th>
+							<td>...</td>
+						</tr>
+						<tr>
+							<th>Usuarios</th>
+							<td>...</td>
+						</tr>
+						<tr>
+							<th>Teléfono</th>
+							<td>{{ empresa.telefono }}</td>
+						</tr>
+						<tr>
+							<th>Activo</th>
+							<td>{{ empresa.activo ? 'Yes' : 'No' }}</td>
+						</tr>
+						<tr>
+							<th>Fecha_creacion_empresa</th>
+							<td>{{ empresa.fechaCreacionEmpresa ? empresa.fechaCreacionEmpresa|date('H:i:s') : '' }}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-12 d-flex gap-2">
+				<a href="{{ path('empresa_index') }}" class="btn btn-primary">Volver</a>
+				<a href="{{ path('empresa_edit', {'id': empresa.id}) }}" class="btn btn-secondary">
+					<i class="fa-solid fa-pen-to-square"></i>
+				</a>
+				<form method="post" action="{{ path('empresa_delete', {'id': empresa.id}) }}" onsubmit="return confirm('¿Estás seguro que quieres borrar la empresa {{empresa.nombre}}?');" class="d-inline">
+					<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ empresa.id) }}">
+					<button class="btn btn-danger">
+						<i class="fa-solid fa-trash"></i>
+					</button>
+				</form>
+			</div>
+		</div>
+
+	</div>
+
+{% endblock %}

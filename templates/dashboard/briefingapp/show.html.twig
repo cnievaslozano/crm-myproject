@@ -1,0 +1,90 @@
+{% extends 'dashboard/plantilla.html.twig' %}
+
+{% block title %}Briefing App de
+	{{empresa.nombre}}
+{% endblock %}
+{% block stylesheets %}
+	{{ parent() }}
+{% endblock %}
+{% block contenido %}
+	<div style="height: 160px;"></div>
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<h1>Briefing App de:
+					<span class="text-primary">{{ empresa.nombre }}
+					</span>
+				</h1>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-12">
+				<table class="table">
+					<tbody>
+						<tr>
+							<th>Id</th>
+							<td>{{ briefing_app.id }}</td>
+						</tr>
+						<tr>
+							<th>Activo</th>
+							<td> {{ briefing_app.isActivo ? 'si' : 'no' }} </td>
+						</tr>
+						<tr>
+							<th>Lo ha creado el usuario</th>
+							<td>{{ usuario.username }}</td>
+						</tr>
+						<tr>
+							<th>Descripción de la empresa</th>
+							<td>{{ briefing_app.descripcionEmpresa }}</td>
+						</tr>
+						<tr>
+							<th>Descripción del proyecto</th>
+							<td>{{ briefing_app.descripcionProyecto }}</td>
+						</tr>
+						<tr>
+							<th>Objetivos</th>
+							<td>{{ briefing_app.objetivos }}</td>
+						</tr>
+						<tr>
+							<th>Competencia</th>
+							<td>{{ briefing_app.competencia }}</td>
+						</tr>
+						<tr>
+							<th>Naming/slogan</th>
+							<td>{{ briefing_app.namingSlogan }}</td>
+						</tr>
+						<tr>
+							<th>Imagen_logotipo_ruta (cambiar)</th>
+							<td>{{ briefing_app.imagenLogotipoRuta }}</td>
+						</tr>
+						<tr>
+							<th>Gama cromática</th>
+							<td>{{ briefing_app.gamaCromatica }}</td>
+						</tr>
+						<tr>
+							<th>Estructura de la aplicación</th>
+							<td>{{ briefing_app.estructuraApp }}</td>
+						</tr>
+						<tr>
+							<th>Fecha_creacion_briefing_app</th>
+							<td>{{ briefing_app.fechaCreacionBriefingApp ? briefing_app.fechaCreacionBriefingApp|date('Y-m-d H:i:s')}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12 d-flex gap-2">
+				<a href="{{ path('briefings_index') }}" class="btn btn-primary">Volver</a>
+				<form method="post" action="{{ path('briefing_app_delete', {'id': briefing_app.id}) }}" onsubmit="return confirm('¿Estás seguro que quieres borrar el briefing app de {{empresa.nombre}}?');" class="d-inline">
+					<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ briefing_app.id) }}">
+					<button class="btn btn-danger">
+						<i class="fa-solid fa-trash"></i>
+					</button>
+				</form>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

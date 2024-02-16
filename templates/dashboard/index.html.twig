@@ -1,0 +1,328 @@
+{% extends 'dashboard/plantilla.html.twig' %}
+{% block title %}Dashboard Inicio{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    {# cuando me instale node hacerlo de esta manera 
+    <link rel="stylesheet" href="{{ asset('styles/form.css') }}">
+    #}
+{% endblock %}
+{% block contenido %}
+ <div class="row mt-3 p-3">
+          <div class="col-md-3 mb-3">
+                <canvas id="clientesActivosChart" width="300" height="300"></canvas>
+          </div>
+          <div class="col-md-3 mb-3">
+                <canvas id="briefingsPendientesChart" width="300" height="300"></canvas>
+          </div>
+          <!-- TO do list -->
+          <div class="col-md-6 todo-container">
+            <h2>Tareas</h2>
+            <div class="input-group mb-3">
+                <input type="text" id="taskInput" class="form-control" placeholder="Nueva tarea">
+                <button class="btn btn-primary" type="button" onclick="addTask()">Agregar</button>
+            </div>
+            <ul class="list-group" id="todoList">
+            <!-- Las tareas se agregarán aquí -->   
+            </ul>
+          </div>
+          <div class="col-md-6">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Últimos briefings</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                    <td class="align-middle">
+                    <img src="https://placehold.jp/3d4070/ffffff/30x30.png?text=logo%20company" alt="Logo" class="rounded-circle" style="width: 40px; height: 40px;">
+                    Meta 
+                    </td>
+                    <td class="align-middle">Briefing web</td>
+                    <td class="align-middle">Celda 1</td>
+                    <td class="align-middle">Celda 2</td>
+                </tr>
+                <tr>
+                    <td class="align-middle">
+                    <img src="https://placehold.jp/3d4070/ffffff/30x30.png?text=logo%20company" alt="Logo" class="rounded-circle" style="width: 40px; height: 40px;">
+                    Meta 
+                    </td>
+                    <td class="align-middle">Briefing web</td>
+                    <td class="align-middle">Celda 1</td>
+                    <td class="align-middle">Celda 2</td>
+                </tr>
+                <tr>
+                    <td class="align-middle">
+                    <img src="https://placehold.jp/3d4070/ffffff/30x30.png?text=logo%20company" alt="Logo" class="rounded-circle" style="width: 40px; height: 40px;">
+                    Meta 
+                    </td>
+                    <td class="align-middle">Briefing web</td>
+                    <td class="align-middle">Celda 1</td>
+                    <td class="align-middle">Celda 2</td>
+                </tr>
+                <tr>
+                    <td class="align-middle">
+                    <img src="https://placehold.jp/3d4070/ffffff/30x30.png?text=logo%20company" alt="Logo" class="rounded-circle" style="width: 40px; height: 40px;">
+                    Meta 
+                    </td>
+                    <td class="align-middle">Briefing web</td>
+                    <td class="align-middle">Celda 1</td>
+                    <td class="align-middle">Celda 2</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+      
+          <div class="col-md-6">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Últimos clientes</th>
+                </tr>
+              </thead>
+               <tbody>
+                <tr>
+                    <td class="align-middle">
+                    <img src="https://placehold.jp/3d4070/ffffff/30x30.png?text=logo%20company" alt="Logo" class="rounded-circle" style="width: 40px; height: 40px;">
+                    Meta 
+                    </td>
+                    <td class="align-middle">Briefing web</td>
+                    <td class="align-middle">Celda 1</td>
+                    <td class="align-middle">Celda 2</td>
+                </tr>
+                <tr>
+                    <td class="align-middle">
+                    <img src="https://placehold.jp/3d4070/ffffff/30x30.png?text=logo%20company" alt="Logo" class="rounded-circle" style="width: 40px; height: 40px;">
+                    Meta 
+                    </td>
+                    <td class="align-middle">Briefing web</td>
+                    <td class="align-middle">Celda 1</td>
+                    <td class="align-middle">Celda 2</td>
+                </tr>
+                <tr>
+                    <td class="align-middle">
+                    <img src="https://placehold.jp/3d4070/ffffff/30x30.png?text=logo%20company" alt="Logo" class="rounded-circle" style="width: 40px; height: 40px;">
+                    Meta 
+                    </td>
+                    <td class="align-middle">Briefing web</td>
+                    <td class="align-middle">Celda 1</td>
+                    <td class="align-middle">Celda 2</td>
+                </tr>
+                <tr>
+                    <td class="align-middle">
+                    <img src="https://placehold.jp/3d4070/ffffff/30x30.png?text=logo%20company" alt="Logo" class="rounded-circle" style="width: 40px; height: 40px;">
+                    Meta 
+                    </td>
+                    <td class="align-middle">Briefing web</td>
+                    <td class="align-middle">Celda 1</td>
+                    <td class="align-middle">Celda 2</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-md-6">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Últimas incidencias</th>
+                </tr>
+              </thead>
+               <tbody>
+                <tr>
+                    <td class="align-middle">
+                    <img src="https://placehold.jp/3d4070/ffffff/30x30.png?text=logo%20company" alt="Logo" class="rounded-circle" style="width: 40px; height: 40px;">
+                    Meta 
+                    </td>
+                    <td class="align-middle">Briefing web</td>
+                    <td class="align-middle">Celda 1</td>
+                    <td class="align-middle">Celda 2</td>
+                </tr>
+                <tr>
+                    <td class="align-middle">
+                    <img src="https://placehold.jp/3d4070/ffffff/30x30.png?text=logo%20company" alt="Logo" class="rounded-circle" style="width: 40px; height: 40px;">
+                    Meta 
+                    </td>
+                    <td class="align-middle">Briefing web</td>
+                    <td class="align-middle">Celda 1</td>
+                    <td class="align-middle">Celda 2</td>
+                </tr>
+                <tr>
+                    <td class="align-middle">
+                    <img src="https://placehold.jp/3d4070/ffffff/30x30.png?text=logo%20company" alt="Logo" class="rounded-circle" style="width: 40px; height: 40px;">
+                    Meta 
+                    </td>
+                    <td class="align-middle">Briefing web</td>
+                    <td class="align-middle">Celda 1</td>
+                    <td class="align-middle">Celda 2</td>
+                </tr>
+                <tr>
+                    <td class="align-middle">
+                    <img src="https://placehold.jp/3d4070/ffffff/30x30.png?text=logo%20company" alt="Logo" class="rounded-circle" style="width: 40px; height: 40px;">
+                    Meta 
+                    </td>
+                    <td class="align-middle">Briefing web</td>
+                    <td class="align-middle">Celda 1</td>
+                    <td class="align-middle">Celda 2</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-md-6">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th> Contactos recientes</th>
+                </tr>
+              </thead>
+               <tbody>
+                <tr>
+                    <td class="align-middle">
+                    <img src="https://placehold.jp/3d4070/ffffff/30x30.png?text=logo%20company" alt="Logo" class="rounded-circle" style="width: 40px; height: 40px;">
+                    Meta 
+                    </td>
+                    <td class="align-middle">Briefing web</td>
+                    <td class="align-middle">Celda 1</td>
+                    <td class="align-middle">Celda 2</td>
+                </tr>
+                <tr>
+                    <td class="align-middle">
+                    <img src="https://placehold.jp/3d4070/ffffff/30x30.png?text=logo%20company" alt="Logo" class="rounded-circle" style="width: 40px; height: 40px;">
+                    Meta 
+                    </td>
+                    <td class="align-middle">Briefing web</td>
+                    <td class="align-middle">Celda 1</td>
+                    <td class="align-middle">Celda 2</td>
+                </tr>
+                <tr>
+                    <td class="align-middle">
+                    <img src="https://placehold.jp/3d4070/ffffff/30x30.png?text=logo%20company" alt="Logo" class="rounded-circle" style="width: 40px; height: 40px;">
+                    Meta 
+                    </td>
+                    <td class="align-middle">Briefing web</td>
+                    <td class="align-middle">Celda 1</td>
+                    <td class="align-middle">Celda 2</td>
+                </tr>
+                <tr>
+                    <td class="align-middle">
+                    <img src="https://placehold.jp/3d4070/ffffff/30x30.png?text=logo%20company" alt="Logo" class="rounded-circle" style="width: 40px; height: 40px;">
+                    Meta 
+                    </td>
+                    <td class="align-middle">Briefing web</td>
+                    <td class="align-middle">Celda 1</td>
+                    <td class="align-middle">Celda 2</td>
+                </tr>
+              </tbody>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!-- CHARTS JS -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+      // Datos de ejemplo para el gráfico
+  var clientesActivosData = {
+    labels: ['Clientes Activos', 'Clientes Inactivos'],
+    datasets: [{
+      data: [75, 25], // Porcentajes de clientes activos e inactivos
+      backgroundColor: ['#99c21e', '#007bff'],
+      hoverBackgroundColor: ['#99c21e', '#007bff'],
+    }]
+  };
+
+  // Configuración del gráfico
+  var clientesActivosOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+  };
+
+  // Obtener el contexto del lienzo
+  var ctx = document.getElementById('clientesActivosChart').getContext('2d');
+
+  // Crear el gráfico circular
+  var clientesActivosChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: clientesActivosData,
+    options: clientesActivosOptions
+  });
+  
+     // Datos de ejemplo para el gráfico de briefings pendientes
+  var briefingsPendientesData = {
+    labels: ['Web', 'App', 'Logo'],
+    datasets: [{
+      data: [30, 40, 30], // Porcentajes de briefings pendientes para cada tipo
+      backgroundColor: ['#ffc107', '#99c21e', '#007bff'],
+      hoverBackgroundColor: ['#ffc107', '#99c21e', '#007bff'],
+    }]
+  };
+
+  // Configuración del gráfico de briefings pendientes
+  var briefingsPendientesOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+  };
+
+  // Obtener el contexto del lienzo para el gráfico de briefings pendientes
+  var ctxBriefingsPendientes = document.getElementById('briefingsPendientesChart').getContext('2d');
+
+  // Crear el gráfico de tipo pie para briefings pendientes
+  var briefingsPendientesChart = new Chart(ctxBriefingsPendientes, {
+    type: 'pie',
+    data: briefingsPendientesData,
+    options: briefingsPendientesOptions
+  });
+  </script>
+
+<script>
+    function addTask() {
+      const taskInput = document.getElementById("taskInput");
+      const taskText = taskInput.value.trim();
+  
+      if (taskText !== "") {
+        const todoList = document.getElementById("todoList");
+  
+        const newItem = document.createElement("li");
+        newItem.className = "list-group-item d-flex justify-content-between align-items-center";
+  
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.className = "form-check-input";
+        checkbox.addEventListener("change", function() {
+          toggleTask(this);
+        });
+  
+        const taskLabel = document.createElement("label");
+        taskLabel.className = "form-check-label";
+        taskLabel.innerText = taskText;
+  
+        const deleteButton = document.createElement("button");
+        deleteButton.className = "btn btn-danger";
+        deleteButton.innerText = "Eliminar";
+        deleteButton.addEventListener("click", function() {
+          deleteTask(newItem);
+        });
+  
+        newItem.appendChild(checkbox);
+        newItem.appendChild(taskLabel);
+        newItem.appendChild(deleteButton);
+  
+        todoList.appendChild(newItem);
+  
+        // Limpiar el campo de entrada después de agregar la tarea
+        taskInput.value = "";
+      }
+    }
+  
+    function toggleTask(checkbox) {
+      const taskLabel = checkbox.nextSibling;
+      taskLabel.classList.toggle("completed-task", checkbox.checked);
+    }
+  
+    function deleteTask(taskItem) {
+      const todoList = document.getElementById("todoList");
+      todoList.removeChild(taskItem);
+    }
+  </script>
+    <!-- BOOTSTRAP JS-->
+  <script src="/docs/5.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>    
+{% endblock %}
