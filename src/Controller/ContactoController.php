@@ -36,7 +36,7 @@ class ContactoController extends AbstractController
         }
 
         // Si el formulario no se ha enviado o no es válido, se renderiza la página del formulario
-        return $this->render('contacto/index.html.twig', [
+        return $this->render('formularios/contacto.html.twig', [
             'controller_name' => 'ContactoController',
             'form' => $form->createView(),
         ]);
