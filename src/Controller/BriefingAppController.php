@@ -47,7 +47,7 @@ class BriefingAppController extends AbstractController
                             $newFilename
                         );
                     } catch (FileException $e) {
-                        $this->addFlash('error', 'Ha ocurrido un error al procesar la imágen.');
+                        $this->addFlash('error', 'Ha ocurrido un error al procesar la imagen.');
                     }
 
                     // updates the 'brochureFilename' property to store the PDF file name
