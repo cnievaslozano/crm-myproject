@@ -58,7 +58,7 @@ class ContenidoController extends AbstractController
             }
         }
 
-        return $this->render('contenido/index.html.twig', [
+        return $this->render('formularios/contenido.html.twig', [
             'username' => $nombreusuario,
             'form' => $form->createView(),
         ]);

@@ -42,7 +42,7 @@ class RegistroEmpresaController extends AbstractController
             }
         } 
 
-        return $this->render('registro_empresa/index.html.twig', [
+        return $this->render('formularios/empresa.html.twig', [
             'form' => $form->createView(),
         ]);
     }

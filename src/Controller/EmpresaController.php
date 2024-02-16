@@ -23,27 +23,9 @@ class EmpresaController extends AbstractController
         ]);
     }
 
-    public function new(Request $request, EmpresaRepository $empresaRepository): Response
-    {
-        $empresa = new Empresa();
-        $form = $this->createForm(EmpresaType::class, $empresa);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $empresaRepository->add($empresa, true);
-
-            return $this->redirectToRoute('app_empresa_controller_crud_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('empresa_controller_crud/new.html.twig', [
-            'empresa' => $empresa,
-            'form' => $form,
-        ]);
-    }
-
     public function show(Empresa $empresa): Response
     {
-        return $this->render('dashboard/clientes_show.html.twig', [
+        return $this->render('dashboard/empresa/show.html.twig', [
             'empresa' => $empresa,
         ]);
     }
@@ -63,7 +45,7 @@ class EmpresaController extends AbstractController
             }
         }
 
-        return $this->renderForm('empresa_controller_crud/edit.html.twig', [
+        return $this->renderForm('dashboard/empresa/edit.html.twig', [
             'empresa' => $empresa,
             'form' => $form,
         ]);

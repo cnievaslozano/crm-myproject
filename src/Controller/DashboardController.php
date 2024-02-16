@@ -65,8 +65,4 @@ class DashboardController extends AbstractController
         ]);
     }
 
-    public function empresa(): Response
-    {
-        return $this->render('dashboard/empresa.html.twig'); 
-    }
 }

@@ -62,7 +62,7 @@ class IncidenciasController extends AbstractController
             }
         }
 
-        return $this->render('incidencias/index.html.twig', [
+        return $this->render('formularios/incidencias.html.twig', [
             'username' => $user->getUsername(),
             'form' => $form->createView(),
         ]);
