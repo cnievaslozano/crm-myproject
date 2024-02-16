@@ -2,41 +2,48 @@
 
 namespace App\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Response;
 use App\Entity\Empresa;
 use App\Form\EmpresaType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class RegistroEmpresaController extends AbstractController
 {
-    private function checkAdminRole(): bool
+    public function index(Request $request, EntityManagerInterface $em): Response
     {
-        $user = $this->getUser();
+        // Crear una instancia del formulario
+        $empresa = new Empresa();
+        $form = $this->createForm(EmpresaType::class, $empresa);
 
-        if (!$user) {
-            // Si no hay usuario autenticado, redirige a la página de login
-            $this->redirectToRoute('app_login');
-            return false;
-        } else {
-            $roles = $user->getRoles();
-        }
-        
+        // Procesar el formulario si se ha enviado
+        $form->handleRequest($request);
 
-        return in_array('ROLE_ADMIN', $roles, true);
-    }
-    public function index(): Response
-    {
-        if ($this->checkAdminRole()) {
-            $empresa = new Empresa();
-            $form = $this->createForm(EmpresaType::class, $empresa); 
-            return $this->render('registro_empresa/index.html.twig', [
-                'controller_name' => 'RegistroEmpresaController',
-                'form' => $form->createView(),
-            ]);
-        } else {
-            // Si el usuario no tiene el rol de administrador, redirige a la página de login
-            return $this->redirectToRoute('app_login');
-        }
+        if ($form->isSubmitted() && $form->isValid()) {
+            // datos que necesita la empresa que no se rellenan en el form
+            $empresa->setFechaCreacionEmpresa(new \DateTime());
+            $empresa->setActivo(true);
+
+            // Verificar si ya existe una empresa con el mismo nombre
+            $existingEmpresa = $em->getRepository(Empresa::class)->findOneBy(['nombre' => $empresa->getNombre()]);
+
+            if ($existingEmpresa) {
+                // Añadir mensaje de error específico
+                $this->addFlash('error', 'Ya existe una empresa con el mismo nombre.');
+            } else {
+                // Persistir la entidad Empresa en la base de datos
+                $em->persist($empresa);
+                $em->flush();
+                // Añadir mensaje de éxito
+                $this->addFlash('success', 'La empresa se ha registrado con éxito.');
+                return $this->redirectToRoute('dashboard_clientes');
+            }
+        } 
+
+        return $this->render('registro_empresa/index.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 }
