@@ -24,6 +24,20 @@ class UsuarioRepository extends ServiceEntityRepository implements PasswordUpgra
         parent::__construct($registry, Usuario::class);
     }
 
+    /**
+     * Encuentra usuarios que no tienen el rol ROLE_ADMIN.
+     *
+     * @return Usuario[] Retorna un arreglo de usuarios que no tienen el rol ROLE_ADMIN.
+     */
+    public function findUsuariosSinRolAdmin()
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.roles NOT LIKE :role')
+            ->setParameter('role', '%ROLE_ADMIN%')
+            ->getQuery()
+            ->getResult();
+    }
+
     public function add(Usuario $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
