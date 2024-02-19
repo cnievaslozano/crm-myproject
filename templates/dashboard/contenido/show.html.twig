@@ -62,7 +62,7 @@
 
 		<div class="row">
 			<div class="col-12 d-flex gap-2">
-				<a href="{{ path('dashboard_gestorDeContenidos') }}" class="btn btn-primary">Volver</a>
+				<a href="{{ path('dashboard_contenidos') }}" class="btn btn-primary">Volver</a>
 				<form method="post" action="{{ path('contenido_delete', {'id': contenido.id}) }}" onsubmit="return confirm('¿Estás seguro que quieres borrar el contenido de {{empresa.nombre}}?');" class="d-inline">
 					<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ contenido.id) }}">
 					<button class="btn btn-danger">

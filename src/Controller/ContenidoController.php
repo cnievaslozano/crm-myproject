@@ -95,7 +95,7 @@ class ContenidoController extends AbstractController
             $contenidoRepository->remove($contenido, true);
         }
 
-        return $this->redirectToRoute('dashboard_gestorDeContenidos', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('dashboard_contenidos', [], Response::HTTP_SEE_OTHER);
     }
 
     public function descargarPDF($id): Response
@@ -137,8 +137,8 @@ class ContenidoController extends AbstractController
         // Agrega un mensaje flash de éxito
         $this->addFlash('success', 'Briefing App descargado con éxito.');
 
-        // Redirige a la página 'dashboard_gestorDeContenidos' después de un segundo
-        $response->headers->add(['refresh' => '1;url=' . $this->generateUrl('dashboard_gestorDeContenidos')]);
+        // Redirige a la página '' después de un segundo
+        $response->headers->add(['refresh' => '1;url=' . $this->generateUrl('dashboard_contenidos')]);
 
         return $response;
     }

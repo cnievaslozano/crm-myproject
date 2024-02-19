@@ -44,12 +44,12 @@ class DashboardController extends AbstractController
         
     }
 
-    public function gestorDeContenidos(ContenidoRepository $contenidoRepository): Response
+    public function contenidos(ContenidoRepository $contenidoRepository): Response
     {
         
         $contenidos = $contenidoRepository->findAllWithBriefingWebEmpresaAndUser();
 
-        return $this->render('dashboard/gestorDeContenidos.html.twig', [
+        return $this->render('dashboard/contenidos.html.twig', [
             'contenidos' => $contenidos,
         ]);
     }

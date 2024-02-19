@@ -76,9 +76,9 @@ dashboard_briefings:
     path: /dashboard/briefings
     controller: App\Controller\DashboardController::briefings
 
-dashboard_gestorDeContenidos:
-    path: /dashboard/gestor-de-contenidos
-    controller: App\Controller\DashboardController::gestorDeContenidos
+dashboard_contenidos:
+    path: /dashboard/contenidos
+    controller: App\Controller\DashboardController::contenidos
 
 dashboard_incidencias:
     path: /dashboard/incidencias
