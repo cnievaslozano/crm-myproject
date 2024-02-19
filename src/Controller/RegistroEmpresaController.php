@@ -25,6 +25,7 @@ class RegistroEmpresaController extends AbstractController
             // datos que necesita la empresa que no se rellenan en el form
             $empresa->setFechaCreacionEmpresa(new \DateTime());
             $empresa->setActivo(true);
+            $empresa->setCode();
 
             // Verificar si ya existe una empresa con el mismo nombre
             $existingEmpresa = $em->getRepository(Empresa::class)->findOneBy(['nombre' => $empresa->getNombre()]);

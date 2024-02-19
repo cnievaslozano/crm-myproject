@@ -3,7 +3,10 @@
 namespace App\Entity;
 
 use App\Repository\EmpresaRepository;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass=EmpresaRepository::class)
@@ -21,6 +24,37 @@ class Empresa
      * @ORM\Column(type="string", length=100, unique=true)
      */
     private $nombre;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min=5, max=5, exactMessage="El code de la empresa debe tener exactamente 5 letras.")
+     */
+    private $code;
+
+    public function setCode(): void
+    {
+        // Obtenemos la primera y última letra del nombre
+        $firstLetter = strtoupper(substr($this->nombre, 0, 1));
+        $lastLetter = strtoupper(substr($this->nombre, -1));
+
+        // Obtenemos el mes actual
+        $currentMonth = (new DateTime())->format('m');
+
+        // Obtenemos los últimos dos dígitos del año actual
+        $currentYear = (new DateTime())->format('y');
+
+        // Combinamos las letras del nombre, el mes y los últimos dígitos del año
+        $code = $firstLetter . $lastLetter . $currentMonth . $currentYear;
+
+        // Establecemos el código generado
+        $this->code = $code;
+    }
+
+    public function getCode(): string
+    {
+        return $this->code;
+    }  
+
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
