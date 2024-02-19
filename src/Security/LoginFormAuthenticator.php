@@ -57,7 +57,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         if ($user) {
             $rol = $user->getRoles();
             if ($rol[0] == 'ROLE_USER'){
-                return new RedirectResponse('dashboard/empresa');
+                return new RedirectResponse('inicio');
             } else {
                 return new RedirectResponse('dashboard');
             }
