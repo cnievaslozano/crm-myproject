@@ -50,9 +50,12 @@
                         <label class="form-label" for="{{ form.elementos.vars.id }}">¿Qué elementos te gustaría incluir?</label>
                     </div>
 
-                    <div class="pt-1 mb-4">
-                        {{ form_row(form.submit) }}
-                    </div>
+                    <div class="col-12 gap-2">
+							<div class="pt-1 mb-4">
+								{{ form_row(form.submit) }}
+							</div>
+							<a href="{{ path('dashboard_empresa') }}" class="btn btn-primary">Volver</a>
+						</div>
 
                     {{ form_end(form) }}
 
