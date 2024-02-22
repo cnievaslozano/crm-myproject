@@ -39,6 +39,26 @@ class EmpresaRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * Obtiene todos los briefings asociados a una empresa.
+     *
+     * @param int $empresaId El ID de la empresa
+     * @return array|null Los briefings asociados a la empresa, o null si no se encuentran
+     */
+    public function findBriefingsByEmpresaId(int $empresaId): ?array
+    {
+        return $this->createQueryBuilder('e')
+            ->select('b')
+            ->join('e.usuarios', 'u')
+            ->leftJoin('u.briefingWeb', 'bWeb')
+            ->leftJoin('u.briefingLogo', 'bLogo')
+            ->leftJoin('u.briefingApp', 'bApp')
+            ->where('e.id = :empresaId')
+            ->setParameter('empresaId', $empresaId)
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Empresa[] Returns an array of Empresa objects
 //     */
