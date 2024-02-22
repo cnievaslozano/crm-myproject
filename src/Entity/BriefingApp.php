@@ -219,10 +219,23 @@ class BriefingApp
         return $this->fecha_creacion_briefing_app;
     }
 
+    public function getFecha(): ?\DateTimeInterface
+    {
+        return $this->fecha_creacion_briefing_app;
+    }
+
     public function setFechaCreacionBriefingApp(\DateTimeInterface $fecha_creacion_briefing_app): self
     {
         $this->fecha_creacion_briefing_app = $fecha_creacion_briefing_app;
 
         return $this;
+    }
+
+    /*
+        Getter para facilitar vista en twigs
+    */
+    public function getTipo():?string 
+    {
+        return "App";
     }
 }
