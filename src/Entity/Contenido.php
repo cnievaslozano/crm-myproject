@@ -40,7 +40,7 @@ class Contenido
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $ruta_imagenes;
+    private $ruta_imagenes_contenidos;
 
     /**
      * @ORM\Column(type="datetime")
@@ -116,14 +116,14 @@ class Contenido
         return $this;
     }
 
-    public function getRutaImagenes(): ?string
+    public function getRutaImagenesContenidos(): ?string
     {
-        return $this->ruta_imagenes;
+        return $this->ruta_imagenes_contenidos;
     }
 
-    public function setRutaImagenes(?string $ruta_imagenes): self
+    public function setRutaImagenesContenidos(?string $ruta_imagenes_contenidos): self
     {
-        $this->ruta_imagenes = $ruta_imagenes;
+        $this->ruta_imagenes_contenidos = $ruta_imagenes_contenidos;
 
         return $this;
     }
