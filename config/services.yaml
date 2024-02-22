@@ -6,6 +6,7 @@
 parameters:
     logotipos_directory: '%kernel.project_dir%/public/uploads/logotipos'
     incidencias_directory: '%kernel.project_dir%/public/uploads/incidencias'
+    contenidos_directory: '%kernel.project_dir%/public/uploads/contenidos'
 services:
     # default configuration for services in *this* file
     _defaults:
