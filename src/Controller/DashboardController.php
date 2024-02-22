@@ -34,12 +34,15 @@ class DashboardController extends AbstractController
         $briefingWebs = $briefingWebRepository->findAllWithEmpresaAndUser();
         $briefingLogos = $briefingLogoRepository->findAllWithEmpresaAndUser();
 
+        $briefings = array_merge($briefingApps, $briefingWebs, $briefingLogos);
 
+        // ordena por fecha
+        usort($briefings, function($a, $b) {
+            return $a->getFecha()->getTimestamp() - $b->getFecha()->getTimestamp();
+        });
 
         return $this->render('dashboard/briefings.html.twig', [
-            'briefingApps' => $briefingApps,
-            'briefingWebs' => $briefingWebs,
-            'briefingLogos' => $briefingLogos,
+            'briefings' => $briefings,
         ]);
         
     }
