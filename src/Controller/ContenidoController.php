@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ContenidoController extends AbstractController
 {
-    public function index(Request $request, EntityManagerInterface $em, SluggerInterface $slugger): Response
+    public function new(Request $request, EntityManagerInterface $em, SluggerInterface $slugger): Response
     {
         $user = $this->getUser();
 
@@ -34,7 +34,7 @@ class ContenidoController extends AbstractController
             $this->processImage($contenido, $slugger, $brochureFile);
 
             // Establecer el resto de los campos del contenido
-            $this->assignAdditionalData($contenido, $user, $em);
+            $this->assignAdditionalData($contenido, $user);
 
             // Persistir el contenido en la base de datos
             $em->persist($contenido);
@@ -42,7 +42,7 @@ class ContenidoController extends AbstractController
 
             // Mostrar un mensaje de éxito y redirigir
             $this->addFlash('success', 'El Contenido se ha enviado con éxito.');
-            return $this->redirectToRoute('registro_contenido');
+            return $this->redirectToRoute('contenido_new');
         }
 
         // Renderizar el formulario
@@ -65,7 +65,7 @@ class ContenidoController extends AbstractController
             $newFilename = $this->uploadFile($brochureFile, $slugger);
             if (!$newFilename) {
                 $this->addFlash('error', 'Ha ocurrido un error al procesar la imagen.');
-                return $this->redirectToRoute('registro_contenido');
+                return $this->redirectToRoute('contenido_new');
             }
 
             // Guarda la imagen
@@ -77,7 +77,7 @@ class ContenidoController extends AbstractController
      * Asigna datos adicionales al Contenido y comprueba si existe briefing web
      *
      * @param Contenido $contenido El contenido de la web.
-     * @param UserInterface $user El usuario que ha creado el contenido.
+     * @param Usuario $user El usuario que ha creado el contenido.
      */
     private function assignAdditionalData(Contenido $contenido, Usuario $user)
     {
@@ -88,7 +88,7 @@ class ContenidoController extends AbstractController
         // Verificar si el usuario tiene un briefing web asociado
         if (null === $user->getBriefingWeb()) {
             $this->addFlash('error', 'No tienes un briefing web asociado. Por favor, contacta con el administrador.');
-            return $this->redirectToRoute('registro_contenido');
+            return $this->redirectToRoute('contenido_new');
         }
     }
 

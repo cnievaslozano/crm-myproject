@@ -17,7 +17,7 @@ use Dompdf\Dompdf;
 
 class IncidenciasController extends AbstractController
 {
-    public function index(Request $request, EntityManagerInterface $em, FileUploader $fileUploader): Response
+    public function new(Request $request, EntityManagerInterface $em, FileUploader $fileUploader): Response
     {
         $user = $this->getUser();
         $incidencia = new Incidencia();
@@ -140,7 +140,7 @@ class IncidenciasController extends AbstractController
         // Agrega un mensaje flash de éxito
         $this->addFlash('success', 'Incidencia descargada con éxito.');
 
-        // Redirige a la página 'briefings_index' después de un segundo
+        // Redirige a la página 'dashboard_incidencias' después de un segundo
         $response->headers->add(['refresh' => '1;url=' . $this->generateUrl('dashboard_incidencias')]);
 
         return $response;

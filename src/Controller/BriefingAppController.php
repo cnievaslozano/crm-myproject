@@ -18,7 +18,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class BriefingAppController extends AbstractController
 {
 
-    public function index(Request $request, EntityManagerInterface $em, SluggerInterface $slugger): Response
+    public function new(Request $request, EntityManagerInterface $em, SluggerInterface $slugger): Response
     {
         $user = $this->getUser();
 
@@ -46,7 +46,7 @@ class BriefingAppController extends AbstractController
                 $this->addFlash('success', 'El Briefing de la App se ha enviado con éxito.');
 
                 // Redirigir a la misma página
-                return $this->redirectToRoute('briefingapp');
+                return $this->redirectToRoute('briefing_app_new');
             } catch (UniqueConstraintViolationException $e) {
                 $this->addFlash('error', 'Ya has enviado un briefing de app anteriormente.');
             } catch (\Exception $e) {
@@ -181,8 +181,8 @@ class BriefingAppController extends AbstractController
         // Agrega un mensaje flash de éxito
         $this->addFlash('success', 'Briefing App descargado con éxito.');
 
-        // Redirige a la página 'briefings_index' después de un segundo
-        $response->headers->add(['refresh' => '1;url=' . $this->generateUrl('briefings_index')]);
+        // Redirige a la página 'dashboard_briefings' después de un segundo
+        $response->headers->add(['refresh' => '1;url=' . $this->generateUrl('dashboard_briefings')]);
 
         return $response;
     }

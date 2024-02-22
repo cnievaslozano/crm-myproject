@@ -16,7 +16,7 @@ use Dompdf\Dompdf;
 class BriefingWebController extends AbstractController
 {
 
-    public function index(Request $request, EntityManagerInterface $em): Response
+    public function new(Request $request, EntityManagerInterface $em): Response
     {
 
         $user = $this->getUser();
@@ -41,7 +41,7 @@ class BriefingWebController extends AbstractController
                 $this->addFlash('success', 'El Briefing Web se ha enviado con éxito.');
 
                 // Redirigir a una página de éxito o realizar otras acciones necesarias
-                return $this->redirectToRoute('briefingweb');
+                return $this->redirectToRoute('briefing_web_new');
             } catch (UniqueConstraintViolationException $e) {
                 // Capturar la excepción de violación de la restricción única
                 // y mostrar un mensaje de error al usuario
@@ -84,7 +84,6 @@ class BriefingWebController extends AbstractController
         ]);
     }
 
-    /* function edit */
 
     public function delete(Request $request, BriefingWeb $briefingWeb, BriefingWebRepository $briefingWebRepository): Response
     {
@@ -131,8 +130,8 @@ class BriefingWebController extends AbstractController
         // Agrega un mensaje flash de éxito
         $this->addFlash('success', 'Briefing Web descargado con éxito.');
 
-        // Redirige a la página 'briefings_index' después de un segundo
-        $response->headers->add(['refresh' => '1;url=' . $this->generateUrl('briefings_index')]);
+        // Redirige a la página 'dashboard_briefings' después de un segundo
+        $response->headers->add(['refresh' => '1;url=' . $this->generateUrl('dashboard_briefings')]);
 
         return $response;
     }
