@@ -4,60 +4,20 @@ root:
     controller: App\Controller\SecurityController::redirectToLogin 
 
 # LOGIN -> ADMIN & USUARIO NORMAL
-app_login:
+login:
     path: /login
     controller: App\Controller\SecurityController::login
 
 # LOGOUT -> ADMIN & USUARIO NORMAL
-app_logout:
+logout:
     path: /logout
     controller: App\Controller\SecurityController::logout
 
-
-
-######################################################################
-#   FORMULARIOS  
-######################################################################
-
 # REGISTRAR USUARIOS -> ADMIN
-registro_usuario:
-    path: /registro
-    controller: App\Controller\RegistroController::index
+usuario_new:
+    path: /registro/usuario
+    controller: App\Controller\UserController::new
 
-# REGISTRAR EMPRESA -> ADMIN
-app_registro_empresa:
-    path: /registro/empresa
-    controller: App\Controller\RegistroEmpresaController::index
-
-# REGISTRAR CONTACTO -> ADMIN
-registro_contacto:
-    path: /registro/contacto
-    controller: App\Controller\ContactoController::index
-
-# REGISTRAR CONTENIDO -> USUARIO CLIENTE
-registro_contenido:
-    path: /contenido
-    controller: App\Controller\ContenidoController::index
-
-# REGISTRAR BriefingLogo -> USUARIO CLIENTE
-briefinglogo:
-    path: /briefinglogo
-    controller: App\Controller\BriefingLogoController::index
-
-# REGISTRAR BriefingApp-> USUARIO CLIENTE
-briefingapp:
-    path: /briefingapp
-    controller: App\Controller\BriefingAppController::index
-
-# REGISTRAR BriefingWeb-> USUARIO CLIENTE
-briefingweb:
-    path: /briefingweb
-    controller: App\Controller\BriefingWebController::index
-
-# REGISTRAR Incidencias-> USUARIO CLIENTE
-incidencias:
-    path: /incidencias
-    controller: App\Controller\IncidenciasController::index
 
 
 
@@ -70,7 +30,7 @@ dashboard_index:
 
 dashboard_clientes:
     path: /dashboard/clientes
-    controller: App\Controller\EmpresaController::index
+    controller: App\Controller\DashboardController::clientes
 
 dashboard_briefings:
     path: /dashboard/briefings
@@ -99,14 +59,9 @@ dashboard_empresa:
 #   CRUD    EMPRESA  -> ADMIN
 ######################################################################
 
-empresa_index:
-    path: /dashboard/clientes/index
-    controller: App\Controller\EmpresaController::index
-    methods: ['GET']
-
 empresa_new:
     path: /registro/empresa
-    controller: App\Controller\RegistroEmpresaController::index
+    controller: App\Controller\EmpresaController::new
     methods: ['GET', 'POST']
 
 empresa_show:
@@ -127,15 +82,15 @@ empresa_delete:
 
 
 #######################################################################
-#   RD + PDF   BRIEFINGS  -> ADMIN
+#   CRD + PDF   BRIEFINGS 
 #######################################################################
 
-briefings_index:
-    path: /dashboard/briefings
-    controller: App\Controller\DashboardController::briefings
-    methods: ['GET']
-
 #-------- APP -------------#
+
+briefing_app_new:
+    path: /inicio/briefingapp
+    controller: App\Controller\BriefingAppController::new
+    methods: ['GET']
 
 briefing_app_show:
     path: /dashboard/briefings/briefing-app/{id}
@@ -153,6 +108,10 @@ briefing_app_pdf:
     methods: ['GET']
 
 #-------- WEB -------------#
+briefing_web_new:
+    path: /inicio/briefingweb
+    controller: App\Controller\BriefingWebController::new
+    methods: ['GET']
 
 briefing_web_show:
     path: /dashboard/briefings/briefing-web/{id}
@@ -170,6 +129,10 @@ briefing_web_pdf:
     methods: ['GET']
 
 #-------- LOGO -------------#
+
+briefing_logo_new:
+    path: /inicio/briefinglogo
+    controller: App\Controller\BriefingLogoController::new
 
 briefing_logo_show:
     path: /dashboard/briefings/briefing-logo/{id}
@@ -189,8 +152,12 @@ briefing_logo_pdf:
 
 
 #######################################################################
-#   RD + PDF  CONTENIDO  -> ADMIN
+#   CRD + PDF  CONTENIDO
 #######################################################################
+contenido_new:
+    path: /inicio/contenido
+    controller: App\Controller\ContenidoController::new
+    methods: ['GET']
 
 contenido_show:
     path: /dashboard/contenido/{id}
@@ -210,8 +177,12 @@ contenido_pdf:
 
 
 #######################################################################
-#   RD + PDF   INCIDENCIA  -> ADMIN
+#   CRD + PDF   INCIDENCIA
 #######################################################################
+incidencia_new:
+    path: /inicio/incidencia
+    controller: App\Controller\IncidenciasController::new
+    methods: ['GET']
 
 incidencia_show:
     path: /dashboard/incidencias/{id}
