@@ -193,17 +193,17 @@ briefing_logo_pdf:
 #######################################################################
 
 contenido_show:
-    path: /dashboard/gestor-de-contenidos/{id}
+    path: /dashboard/contenido/{id}
     controller: App\Controller\ContenidoController::show
     methods: ['GET']
 
 contenido_delete:
-    path: /dashboard/gestor-de-contenidos/{id}
+    path: /dashboard/ontenido/{id}
     controller: App\Controller\ContenidoController::delete
     methods: ['POST']
 
 contenido_pdf:
-    path: /dashboard/gestor-de-contenidos/{id}/descargar-pdf
+    path: /dashboard/contenido/{id}/descargar-pdf
     controller: App\Controller\ContenidoController::descargarPDF
     methods: ['GET']
 
