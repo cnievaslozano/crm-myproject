@@ -6,6 +6,7 @@ use App\Repository\EmpresaRepository;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\Collection;
 
 
 /**
@@ -31,30 +32,10 @@ class Empresa
      */
     private $code;
 
-    public function setCode(): void
-    {
-        // Obtenemos la primera y última letra del nombre
-        $firstLetter = strtoupper(substr($this->nombre, 0, 1));
-        $lastLetter = strtoupper(substr($this->nombre, -1));
-
-        // Obtenemos el mes actual
-        $currentMonth = (new DateTime())->format('m');
-
-        // Obtenemos los últimos dos dígitos del año actual
-        $currentYear = (new DateTime())->format('y');
-
-        // Combinamos las letras del nombre, el mes y los últimos dígitos del año
-        $code = $firstLetter . $lastLetter . $currentMonth . $currentYear;
-
-        // Establecemos el código generado
-        $this->code = $code;
-    }
-
-    public function getCode(): string
-    {
-        return $this->code;
-    }  
-
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $imagen_logotipo_ruta;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -77,7 +58,7 @@ class Empresa
     private $activo = true;
 
     /**
-     * @ORM\Column(type="time")
+     * @ORM\Column(type="datetime")
      */
     private $fecha_creacion_empresa;
 
@@ -90,6 +71,14 @@ class Empresa
      * @ORM\OneToMany(targetEntity="App\Entity\Usuario", mappedBy="empresa")
      */
     private $usuario;
+    
+    /**
+     * @return Collection|Usuario[]
+     */
+    public function getUsuarios(): Collection
+    {
+        return $this->usuario;
+    }
 
     public function getId(): ?int
     {
@@ -104,6 +93,18 @@ class Empresa
     public function setNombre(string $nombre): self
     {
         $this->nombre = $nombre;
+
+        return $this;
+    }
+
+    public function getImagenLogotipoRuta(): ?string
+    {
+        return $this->imagen_logotipo_ruta;
+    }
+
+    public function setImagenLogotipoRuta(?string $imagen_logotipo_ruta): self
+    {
+        $this->imagen_logotipo_ruta = $imagen_logotipo_ruta;
 
         return $this;
     }
@@ -166,5 +167,28 @@ class Empresa
         $this->fecha_creacion_empresa = $fecha_creacion_empresa;
 
         return $this;
+    }
+    public function setCode(): void
+    {
+        // Obtenemos la primera y última letra del nombre
+        $firstLetter = strtoupper(substr($this->nombre, 0, 1));
+        $lastLetter = strtoupper(substr($this->nombre, -1));
+
+        // Obtenemos el mes actual
+        $currentMonth = (new DateTime())->format('m');
+
+        // Obtenemos los últimos dos dígitos del año actual
+        $currentYear = (new DateTime())->format('y');
+
+        // Combinamos las letras del nombre, el mes y los últimos dígitos del año
+        $code = $firstLetter . $lastLetter . $currentMonth . $currentYear;
+
+        // Establecemos el código generado
+        $this->code = $code;
+    }
+
+    public function getCode(): string
+    {
+        return $this->code;
     }
 }
