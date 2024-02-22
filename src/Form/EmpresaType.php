@@ -6,6 +6,7 @@ use App\Entity\Empresa;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -22,10 +23,17 @@ class EmpresaType extends AbstractType
                     'placeholder' => 'Nombre',
                 ],
             ])
+            ->add('imagen_logotipo_ruta', FileType::class, [
+                'attr' => [
+                    'class' => 'form-control form-control-lg',
+                    'required' => false,
+                ],
+            ])
             ->add('descripcion_empresa', TextareaType::class, [
                 'attr' => [
                     'class' => 'form-control form-control-lg',
                     'placeholder' => 'Descripción de la empresa',
+                    'style' => 'height: 250px',
                 ],
             ])
             ->add('email', EmailType::class, [
@@ -40,13 +48,10 @@ class EmpresaType extends AbstractType
                     'placeholder' => 'Teléfono',
                 ],
             ])
-            //->add('activo')
-            //->add('fecha_creacion_empresa')
             ->add('submit', SubmitType::class, [
                 'label' => 'Crear Empresa',
                 'attr' => ['class' => 'btn custom-btn btn-lg btn-block'],
-            ]);
-        ;
+            ]);;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
