@@ -79,6 +79,11 @@ empresa_delete:
     controller: App\Controller\EmpresaController::delete
     methods: ['POST']
 
+empresa_solicitar:
+    path: /dashboard/clientes
+    controller: App\Controller\EmpresaController::solicitar
+    methods: ['POST']
+
 
 
 #######################################################################
