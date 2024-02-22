@@ -19,7 +19,7 @@ security:
             provider: app_user_provider
             custom_authenticator: App\Security\LoginFormAuthenticator
             logout:
-                path: app_logout
+                path: logout
                 # where to redirect after logout
                 # target: app_any_route
 
@@ -38,11 +38,7 @@ security:
         - { path: ^/dashboard, roles: ROLE_ADMIN }
         - { path: ^/registro, roles: ROLE_ADMIN }
 
-        - { path: ^/briefinglogo, roles: ROLE_USER }
-        - { path: ^/briefingapp, roles: ROLE_USER }
-        - { path: ^/briefingweb, roles: ROLE_USER }
-        - { path: ^/incidencias, roles: ROLE_USER }
-        - { path: ^/registro_contenido, roles: ROLE_USER }
+
 
         
 
