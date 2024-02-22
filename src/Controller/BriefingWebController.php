@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Entity\BriefingWeb;
 use App\Repository\BriefingWebRepository;
 use App\Form\BriefingWebType;
+use App\Entity\Usuario;
 use Dompdf\Dompdf;
 
 class BriefingWebController extends AbstractController
@@ -22,17 +23,15 @@ class BriefingWebController extends AbstractController
 
         // Crear una instancia del formulario
         $briefingWeb = new BriefingWeb();
-        $form = $this->createForm(BriefingWebType::class, $briefingWeb);    
+        $form = $this->createForm(BriefingWebType::class, $briefingWeb);
 
         // Procesar el formulario si se ha enviado
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                // Datos que necesita la empresa que no se rellenan en el formulario
-                $briefingWeb->setFechaCreacionBriefingWeb(new \DateTime());
-                $briefingWeb->setUsuario($user);
-                $briefingWeb->setActivo(true);
+                // Asignar datos adicionales
+                $this->assignAdditionalData($briefingWeb, $user);
 
                 // Persistir el briefingweb en la base de datos
                 $em->persist($briefingWeb);
@@ -59,7 +58,18 @@ class BriefingWebController extends AbstractController
         ]);
     }
 
-    /* function new */
+    /**
+     * Asigna datos adicionales al briefing de la aplicación.
+     *
+     * @param BriefingWeb $briefingWeb El briefing de la aplicación.
+     * @param Uusario $user El usuario asociado al briefing.
+     */
+    private function assignAdditionalData(BriefingWeb $briefingWeb, Usuario $user): void
+    {
+        $briefingWeb->setFechaCreacionBriefingWeb(new \DateTime());
+        $briefingWeb->setUsuario($user);
+        $briefingWeb->setActivo(true);
+    }
 
     public function show(BriefingWeb $briefingWeb): Response
     {
@@ -78,7 +88,7 @@ class BriefingWebController extends AbstractController
 
     public function delete(Request $request, BriefingWeb $briefingWeb, BriefingWebRepository $briefingWebRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$briefingWeb->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $briefingWeb->getId(), $request->request->get('_token'))) {
             $briefingWebRepository->remove($briefingWeb, true);
         }
 
@@ -126,4 +136,4 @@ class BriefingWebController extends AbstractController
 
         return $response;
     }
-}   
+}

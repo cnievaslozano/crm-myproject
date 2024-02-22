@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\BriefingApp;
+use App\Entity\Usuario;
 use App\Repository\BriefingAppRepository;
 use App\Form\BriefingAppType;
 use Dompdf\Dompdf;
@@ -19,7 +20,6 @@ class BriefingAppController extends AbstractController
 
     public function index(Request $request, EntityManagerInterface $em, SluggerInterface $slugger): Response
     {
-
         $user = $this->getUser();
 
         // Crear una instancia del formulario
@@ -31,34 +31,12 @@ class BriefingAppController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                //imagen
+                // Procesar la imagen
                 $brochureFile = $form['imagen_logotipo_ruta']->getData();
+                $this->processImage($briefingApp, $slugger, $brochureFile);
 
-                if ($brochureFile) {
-                    $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
-                    // this is needed to safely include the file name as part of the URL
-                    $safeFilename = $slugger->slug($originalFilename);
-                    $newFilename = $safeFilename . '-' . uniqid() . '.' . $brochureFile->guessExtension();
-
-                    // Move the file to the directory where brochures are stored
-                    try {
-                        $brochureFile->move(
-                            $this->getParameter('logotipos_directory'),
-                            $newFilename
-                        );
-                    } catch (FileException $e) {
-                        $this->addFlash('error', 'Ha ocurrido un error al procesar la imagen.');
-                    }
-
-                    // updates the 'brochureFilename' property to store the PDF file name
-                    // instead of its contents
-                    $briefingApp->setImagenLogotipoRuta($newFilename);
-                }
-
-                // Datos que necesita el Briefing app que no se rellenan en el formulario
-                $briefingApp->setUsuario($user);
-                $briefingApp->setFechaCreacionBriefingApp(new \DateTime());
-                $briefingApp->setActivo(true);
+                // Asignar datos adicionales
+                $this->assignAdditionalData($briefingApp, $user);
 
                 // Persistir el briefingapp en la base de datos
                 $em->persist($briefingApp);
@@ -67,11 +45,9 @@ class BriefingAppController extends AbstractController
                 // Mostrar un mensaje de éxito
                 $this->addFlash('success', 'El Briefing de la App se ha enviado con éxito.');
 
-                // Redirigir a una página de éxito o realizar otras acciones necesarias
+                // Redirigir a la misma página
                 return $this->redirectToRoute('briefingapp');
             } catch (UniqueConstraintViolationException $e) {
-                // Capturar la excepción de violación de la restricción única
-                // y mostrar un mensaje de error al usuario
                 $this->addFlash('error', 'Ya has enviado un briefing de app anteriormente.');
             } catch (\Exception $e) {
                 $this->addFlash('error', 'Ha ocurrido un error al procesar tu solicitud. Por favor, inténtalo de nuevo más tarde.');
@@ -83,25 +59,68 @@ class BriefingAppController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-    /*
-    public function new(Request $request, BriefingAppRepository $briefingAppRepository): Response
+
+    /**
+     * Procesa la imagen asociada al briefing de la aplicación.
+     *
+     * @param BriefingApp $briefingApp El briefing de la aplicación.
+     * @param SluggerInterface $slugger El servicio Slugger para manejar nombres de archivo seguros.
+     * @throws FileException Si ocurre un error al procesar la imagen.
+     */
+    private function processImage(BriefingApp $briefingApp, SluggerInterface $slugger, $brochureFile)
     {
-        $briefingApp = new BriefingApp();
-        $form = $this->createForm(BriefingAppType::class, $briefingApp);
-        $form->handleRequest($request);
+        if ($brochureFile) {
+            $newFilename = $this->uploadFile($brochureFile, $slugger);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $briefingAppRepository->add($briefingApp, true);
+            if (!$newFilename) {
+                $this->addFlash('error', 'Ha ocurrido un error al procesar la imagen.');
+                return $this->redirectToRoute('briefingapp');
+            }
 
-            return $this->redirectToRoute('app_briefing_app_crud_index', [], Response::HTTP_SEE_OTHER);
+            // Actualizar la propiedad 'imagenLogotipoRuta'
+            $briefingApp->setImagenLogotipoRuta($newFilename);
         }
-
-        return $this->renderForm('briefing_app_crud/new.html.twig', [
-            'briefing_app' => $briefingApp,
-            'form' => $form,
-        ]);
     }
-*/
+
+    /**
+     * Asigna datos adicionales al briefing de la aplicación.
+     *
+     * @param BriefingApp $briefingApp El briefing de la aplicación.
+     * @param Usuario $user El usuario asociado al briefing.
+     */
+    private function assignAdditionalData(BriefingApp $briefingApp, Usuario $user): void
+    {
+        $briefingApp->setUsuario($user);
+        $briefingApp->setFechaCreacionBriefingApp(new \DateTime());
+        $briefingApp->setActivo(true);
+    }
+
+    /**
+     * Método para cargar un archivo.
+     *
+     * @param $file El archivo a subir
+     * @param SluggerInterface $slugger El servicio slugger para generar nombres de archivo seguros
+     *
+     * @return string|bool El nuevo nombre de archivo si la carga es exitosa, de lo contrario false
+     */
+
+
+    private function uploadFile($file, SluggerInterface $slugger)
+    {
+        $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+        $safeFilename = $slugger->slug($originalFilename);
+        $newFilename = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
+
+        try {
+            $file->move(
+                $this->getParameter('logotipos_directory'),
+                $newFilename
+            );
+            return $newFilename;
+        } catch (FileException $e) {
+            return false;
+        }
+    }
 
     public function show(BriefingApp $briefingApp): Response
     {
@@ -116,24 +135,7 @@ class BriefingAppController extends AbstractController
         ]);
     }
 
-    /*
-    public function edit(Request $request, BriefingApp $briefingApp, BriefingAppRepository $briefingAppRepository): Response
-    {
-        $form = $this->createForm(BriefingAppType::class, $briefingApp);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $briefingAppRepository->add($briefingApp, true);
-
-            return $this->redirectToRoute('app_briefing_app_crud_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('briefing_app_crud/edit.html.twig', [
-            'briefing_app' => $briefingApp,
-            'form' => $form,
-        ]);
-    }
-*/
 
     public function delete(Request $request, BriefingApp $briefingApp, BriefingAppRepository $briefingAppRepository): Response
     {
@@ -143,7 +145,6 @@ class BriefingAppController extends AbstractController
 
         return $this->redirectToRoute('app_briefing_app_crud_index', [], Response::HTTP_SEE_OTHER);
     }
-
     public function descargarPDF($id): Response
     {
         // Obtiene el briefing app por su ID

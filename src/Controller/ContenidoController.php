@@ -7,20 +7,21 @@ use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Contenido;
-use App\Entity\Usuario;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use App\Form\ContenidoType;
 use App\Repository\ContenidoRepository;
-use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\Usuario;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Dompdf\Dompdf;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ContenidoController extends AbstractController
 {
-    public function index(Request $request, EntityManagerInterface $em): Response
+    public function index(Request $request, EntityManagerInterface $em, SluggerInterface $slugger): Response
     {
         $user = $this->getUser();
-        $nombreusuario = $user->getUsername();
 
-        // Crear instancia del formulario
+        // crear una instancia del formulario
         $contenido = new Contenido();
         $form = $this->createForm(ContenidoType::class, $contenido);
 
@@ -28,41 +29,95 @@ class ContenidoController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            try {
-                // Datos que necesita el contenido que no se rellenan en el formulario
-                $contenido->setFechaCreacionContenido(new \DateTime());
-                $contenido->setActivo(true);
-                $briefingWeb = $user->getBriefingWeb();
-                $contenido->setBriefingWeb($briefingWeb);
+            // Procesar la imagen del contenido
+            $brochureFile = $form['ruta_imagenes_contenidos']->getData();
+            $this->processImage($contenido, $slugger, $brochureFile);
 
-                if (!$briefingWeb) {
-                    $this->addFlash('error', 'No tienes un briefing web asociado. Por favor, contacta con el administrador.');
-                    return $this->redirectToRoute('registro_contenido');
-                }
+            // Establecer el resto de los campos del contenido
+            $this->assignAdditionalData($contenido, $user, $em);
 
-                // Persistir el briefingweb en la base de datos
-                $em->persist($contenido);
-                $em->flush();
+            // Persistir el contenido en la base de datos
+            $em->persist($contenido);
+            $em->flush();
 
-                // Mostrar un mensaje de éxito
-                $this->addFlash('success', 'El Contenido se ha enviado con éxito.');
-
-                // Redirigir a una página de éxito o realizar otras acciones necesarias
-                return $this->redirectToRoute('registro_contenido');
-            } catch (\Exception $e) {
-                if ($e->getMessage() === 'No existe briefing web asociado al usuario.') {
-                    $this->addFlash('error', 'No tienes un briefing web asociado. Por favor, contacta con el administrador.');
-                } else {
-                    $this->addFlash('error', 'Ha ocurrido un error al procesar tu solicitud. Por favor, inténtalo de nuevo más tarde.');
-                }
-            }
+            // Mostrar un mensaje de éxito y redirigir
+            $this->addFlash('success', 'El Contenido se ha enviado con éxito.');
+            return $this->redirectToRoute('registro_contenido');
         }
 
+        // Renderizar el formulario
         return $this->render('formularios/contenido.html.twig', [
-            'username' => $nombreusuario,
+            'username' => $user->getUsername(),
             'form' => $form->createView(),
         ]);
     }
+
+    /**
+     * Procesa la imagen asociada al contenido.
+     *
+     * @param Contenido $contenido EL contenido del briefing web.
+     * @param SluggerInterface $slugger El servicio Slugger para manejar nombres de archivo seguros.
+     * @throws FileException Si ocurre un error al procesar la imagen.
+     */
+    private function processImage(Contenido $contenido, SluggerInterface $slugger, $brochureFile)
+    {
+        if ($brochureFile) {
+            $newFilename = $this->uploadFile($brochureFile, $slugger);
+            if (!$newFilename) {
+                $this->addFlash('error', 'Ha ocurrido un error al procesar la imagen.');
+                return $this->redirectToRoute('registro_contenido');
+            }
+
+            // Guarda la imagen
+            $contenido->setRutaImagenesContenidos($newFilename);
+        }
+    }
+
+    /**
+     * Asigna datos adicionales al Contenido y comprueba si existe briefing web
+     *
+     * @param Contenido $contenido El contenido de la web.
+     * @param UserInterface $user El usuario que ha creado el contenido.
+     */
+    private function assignAdditionalData(Contenido $contenido, Usuario $user)
+    {
+        $contenido->setFechaCreacionContenido(new \DateTime())
+            ->setActivo(true)
+            ->setBriefingWeb($user->getBriefingWeb());
+
+        // Verificar si el usuario tiene un briefing web asociado
+        if (null === $user->getBriefingWeb()) {
+            $this->addFlash('error', 'No tienes un briefing web asociado. Por favor, contacta con el administrador.');
+            return $this->redirectToRoute('registro_contenido');
+        }
+    }
+
+    /**
+     * Método para cargar un archivo.
+     *
+     * @param $file El archivo a cargar
+     * @param SluggerInterface $slugger El servicio Slugger para generar nombres de archivo seguros
+     *
+     * @return string|bool El nuevo nombre de archivo si la carga es exitosa, de lo contrario false
+     */
+
+    private function uploadFile(UploadedFile $file, SluggerInterface $slugger)
+    {
+        $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+        $safeFilename = $slugger->slug($originalFilename);
+        $newFilename = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
+
+        try {
+            $file->move(
+                $this->getParameter('contenidos_directory'),
+                $newFilename
+            );
+            return $newFilename;
+        } catch (FileException $e) {
+            return false;
+        }
+    }
+
 
     public function show(Contenido $contenido, ContenidoRepository $contenidoRepository): Response
     {
@@ -77,7 +132,6 @@ class ContenidoController extends AbstractController
             // Obtener el usuario asociado al briefing web
             $usuario = $briefingweb->getUsuario();
             $empresa = $usuario->getEmpresa();
-
         }
 
         return $this->render('dashboard/contenido/show.html.twig', [
@@ -135,7 +189,7 @@ class ContenidoController extends AbstractController
         $response->headers->set('Content-Disposition', 'attachment; filename="' . $filename . '"');
 
         // Agrega un mensaje flash de éxito
-        $this->addFlash('success', 'Briefing App descargado con éxito.');
+        $this->addFlash('success', 'Contenido descargado con éxito.');
 
         // Redirige a la página '' después de un segundo
         $response->headers->add(['refresh' => '1;url=' . $this->generateUrl('dashboard_contenidos')]);

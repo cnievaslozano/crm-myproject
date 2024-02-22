@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\BriefingLogo;
+use App\Entity\Usuario;
 use App\Repository\BriefingLogoRepository;
 use App\Form\BriefingLogoType;
 use Dompdf\Dompdf;
@@ -29,11 +30,9 @@ class BriefingLogoController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                // Datos que necesita la empresa que no se rellenan en el formulario
-                $briefingLogo->setFechaCreacionBriefingLogo(new \DateTime());
-                $briefingLogo->setUsuario($user);
-                $briefingLogo->setActivo(true);
 
+                // Asignar datos adicionales
+                $this->assignAdditionalData($briefingLogo, $user);
 
                 // Persistir el briefinglogo en la base de datos
                 $em->persist($briefingLogo);
@@ -59,7 +58,19 @@ class BriefingLogoController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-    /* function new */
+    /**
+     * Asigna datos adicionales al briefing de la aplicación.
+     *
+     * @param BriefingLogo $briefingLogo El briefing de la aplicación.
+     * @param UserInterface $user El usuario asociado al briefing.
+     */
+    private function assignAdditionalData(BriefingLogo $briefingLogo, Usuario $user): void
+    {
+        // Datos que necesita la empresa que no se rellenan en el formulario
+        $briefingLogo->setFechaCreacionBriefingLogo(new \DateTime());
+        $briefingLogo->setUsuario($user);
+        $briefingLogo->setActivo(true);
+    }
 
     public function show(BriefingLogo $briefingLogo): Response
     {
@@ -78,7 +89,7 @@ class BriefingLogoController extends AbstractController
 
     public function delete(Request $request, BriefingLogo $briefingApp, BriefingLogoRepository $briefingLogoRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$briefingApp->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $briefingApp->getId(), $request->request->get('_token'))) {
             $briefingLogoRepository->remove($briefingApp, true);
         }
 
@@ -125,5 +136,4 @@ class BriefingLogoController extends AbstractController
 
         return $response;
     }
-
 }
