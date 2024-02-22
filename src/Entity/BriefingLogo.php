@@ -135,10 +135,23 @@ class BriefingLogo
         return $this->fecha_creacion_briefing_logo;
     }
 
+    public function getFecha(): ?\DateTimeInterface
+    {
+        return $this->fecha_creacion_briefing_logo;
+    }
+
     public function setFechaCreacionBriefingLogo(\DateTimeInterface $fecha_creacion_briefing_logo): self
     {
         $this->fecha_creacion_briefing_logo = $fecha_creacion_briefing_logo;
 
         return $this;
+    }
+
+    /*
+        Getter para facilitar vista en twigs
+    */
+    public function getTipo():?string 
+    {
+        return "Logo";
     }
 }

@@ -219,7 +219,7 @@ class BriefingWeb
         return $this;
     }
 
-    public function getWebEjemplo(): ?array
+    public function getWebEjemplo(): ?string
     {
         return $this->web_ejemplo;
     }
@@ -295,6 +295,10 @@ class BriefingWeb
     {
         return $this->fecha_creacion_briefing_web;
     }
+    public function getFecha(): ?\DateTimeInterface
+    {
+        return $this->fecha_creacion_briefing_web;
+    }
 
     public function setFechaCreacionBriefingWeb(\DateTimeInterface $fecha_creacion_briefing_web): self
     {
@@ -353,5 +357,13 @@ class BriefingWeb
         $this->disponeRecursosDisenyo = $disponeRecursosDisenyo;
 
         return $this;
+    }
+
+    /*
+        Getter para facilitar vista en twigs
+    */
+    public function getTipo():?string 
+    {
+        return "Web";
     }
 }
