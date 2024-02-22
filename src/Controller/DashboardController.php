@@ -9,7 +9,7 @@ use App\Repository\BriefingLogoRepository;
 use App\Repository\BriefingWebRepository;
 use App\Repository\ContenidoRepository;
 use App\Repository\IncidenciaRepository;
-use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\EmpresaRepository;
 
 class DashboardController extends AbstractController
 {
@@ -20,9 +20,11 @@ class DashboardController extends AbstractController
         return $this->render('dashboard/index.html.twig');
     }
 
-    public function clientes(): Response
+    public function clientes(EmpresaRepository $empresaRepository): Response
     {
-        return $this->render('dashboard/clientes.html.twig');
+        return $this->render('dashboard/clientes.html.twig', [
+            'empresas' => $empresaRepository->findAll(),
+        ]);
     }
 
 
