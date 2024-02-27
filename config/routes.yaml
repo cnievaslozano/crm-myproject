@@ -13,12 +13,23 @@ logout:
     path: /logout
     controller: App\Controller\SecurityController::logout
 
+
+######################################################################
+#   USUARIO
+######################################################################
 # REGISTRAR USUARIOS -> ADMIN
 usuario_new:
-    path: /registro/usuario
+    path: /registro/usuario/{id}
     controller: App\Controller\UserController::new
 
+usuario_show:
+    path: /usuario/{id}
+    controller: App\Controller\UserController::show
+    methods: ['GET']
 
+contacto_new:
+    path: /dashboard/contacto/{id}
+    controller: App\Controller\ContactoController:new
 
 
 ######################################################################
@@ -79,9 +90,9 @@ empresa_delete:
     controller: App\Controller\EmpresaController::delete
     methods: ['POST']
 
-empresa_solicitar:
-    path: /dashboard/clientes
-    controller: App\Controller\EmpresaController::solicitar
+web_new:
+    path: /dashboard/clientes/{id}
+    controller: App\Controller\WebController::new
     methods: ['POST']
 
 
