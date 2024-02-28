@@ -91,9 +91,9 @@ empresa_delete:
     methods: ['POST']
 
 web_new:
-    path: /dashboard/clientes/{id}
+    path: /dashboard/clientes/web/{id}
     controller: App\Controller\WebController::new
-    methods: ['POST']
+    methods: ['GET', 'POST']
 
 
 
