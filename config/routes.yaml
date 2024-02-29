@@ -106,7 +106,7 @@ web_new:
 briefing_app_new:
     path: /inicio/briefingapp
     controller: App\Controller\BriefingAppController::new
-    methods: ['GET']
+    methods: ['GET', 'POST']
 
 briefing_app_show:
     path: /dashboard/briefings/briefing-app/{id}
@@ -127,7 +127,7 @@ briefing_app_pdf:
 briefing_web_new:
     path: /inicio/briefingweb
     controller: App\Controller\BriefingWebController::new
-    methods: ['GET']
+    methods: ['GET', 'POST']
 
 briefing_web_show:
     path: /dashboard/briefings/briefing-web/{id}
@@ -173,7 +173,7 @@ briefing_logo_pdf:
 contenido_new:
     path: /inicio/contenido
     controller: App\Controller\ContenidoController::new
-    methods: ['GET']
+    methods: ['GET', 'POST']
 
 contenido_show:
     path: /dashboard/contenido/{id}
@@ -198,7 +198,7 @@ contenido_pdf:
 incidencia_new:
     path: /inicio/incidencia
     controller: App\Controller\IncidenciasController::new
-    methods: ['GET']
+    methods: ['GET', 'POST']
 
 incidencia_show:
     path: /dashboard/incidencias/{id}
