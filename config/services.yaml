@@ -8,6 +8,9 @@ parameters:
     incidencias_directory: '%kernel.project_dir%/public/uploads/incidencias'
     contenidos_directory: '%kernel.project_dir%/public/uploads/contenidos'
 services:
+    # mis funciones
+    App\Service\MisFunciones:
+        autowire: true
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
