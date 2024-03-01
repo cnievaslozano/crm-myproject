@@ -101,6 +101,11 @@ web_new:
 #   CRD + PDF   BRIEFINGS 
 #######################################################################
 
+briefing_handle:
+    path: /briefing/handle
+    controller: App\Controller\BriefingController    
+    methods: [POST]
+
 #-------- APP -------------#
 
 briefing_app_new:
