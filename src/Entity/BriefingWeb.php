@@ -18,6 +18,11 @@ class BriefingWeb
     private $id;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $estado;
+
+    /**
      * @ORM\Column(type="boolean")
      */
     private $activo = false;
@@ -151,6 +156,17 @@ class BriefingWeb
     public function setIncidencia(?Incidencia $incidencia): self
     {
         $this->incidencia = $incidencia;
+
+        return $this;
+    }
+    public function getEstado(): ?string
+    {
+        return $this->estado;
+    }
+
+    public function setEstado(?string $estado): self
+    {
+        $this->estado = $estado;
 
         return $this;
     }
@@ -362,7 +378,7 @@ class BriefingWeb
     /*
         Getter para facilitar vista en twigs
     */
-    public function getTipo():?string 
+    public function getTipo(): ?string
     {
         return "Web";
     }

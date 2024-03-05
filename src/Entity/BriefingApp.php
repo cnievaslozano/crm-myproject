@@ -35,6 +35,11 @@ class BriefingApp
     }
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $estado;
+
+    /**
      * @ORM\Column(type="string", length=500)
      */
     private $descripcion_empresa;
@@ -113,6 +118,18 @@ class BriefingApp
         return $this;
     }
 
+    public function getEstado(): ?string
+    {
+        return $this->estado;
+    }
+
+    public function setEstado(?string $estado): self
+    {
+        $this->estado = $estado;
+
+        return $this;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -184,6 +201,12 @@ class BriefingApp
     }
 
     public function setImagenLogotipoRuta(?string $imagen_logotipo_ruta): self
+    {
+        $this->imagen_logotipo_ruta = $imagen_logotipo_ruta;
+
+        return $this;
+    }
+    public function setImagen(?string $imagen_logotipo_ruta): self
     {
         $this->imagen_logotipo_ruta = $imagen_logotipo_ruta;
 

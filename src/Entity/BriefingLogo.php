@@ -35,6 +35,12 @@ class BriefingLogo
     }
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $estado;
+
+
+    /**
      * @ORM\Column(type="string", length=100)
      */
     private $nombre_logo;
@@ -73,6 +79,18 @@ class BriefingLogo
     public function setUsuario(?Usuario $usuario): self
     {
         $this->usuario = $usuario;
+
+        return $this;
+    }
+
+    public function getEstado(): ?string
+    {
+        return $this->estado;
+    }
+
+    public function setEstado(?string $estado): self
+    {
+        $this->estado = $estado;
 
         return $this;
     }
