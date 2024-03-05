@@ -39,6 +39,16 @@ class IncidenciaRepository extends ServiceEntityRepository
         }
     }
 
+         // Método para encontrar los últimos N registros
+         public function findLastN($limit): array
+         {
+             return $this->createQueryBuilder('b')
+                 ->orderBy('b.fecha_creacion_incidencia', 'DESC')
+                 ->setMaxResults($limit)
+                 ->getQuery()
+                 ->getResult();
+         }
+
 //    /**
 //     * @return Incidencia[] Returns an array of Incidencia objects
 //     */
