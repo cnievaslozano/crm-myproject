@@ -103,7 +103,7 @@ web_new:
 
 briefing_handle:
     path: /briefing/handle
-    controller: App\Controller\BriefingController    
+    controller: App\Controller\BriefingHandleController    
     methods: [POST]
 
 #-------- APP -------------#
@@ -124,7 +124,7 @@ briefing_app_delete:
     methods: ['POST']
 
 briefing_app_pdf:
-    path: /briefing-app/{id}/descargar-pdf
+    path: /dashboard/briefing-app/{id}/descargar-pdf
     controller: App\Controller\BriefingAppController::descargarPDF
     methods: ['GET']
 
@@ -145,7 +145,7 @@ briefing_web_delete:
     methods: ['POST']
 
 briefing_web_pdf:
-    path: /briefing-web/{id}/descargar-pdf
+    path: /dashboard/briefing-web/{id}/descargar-pdf
     controller: App\Controller\BriefingWebController::descargarPDF
     methods: ['GET']
 
@@ -166,7 +166,7 @@ briefing_logo_delete:
     methods: ['POST']
 
 briefing_logo_pdf:
-    path: /briefing-logo/{id}/descargar-pdf
+    path: /dashbaord/briefing-logo/{id}/descargar-pdf
     controller: App\Controller\BriefingLogoController::descargarPDF
     methods: ['GET']
 
