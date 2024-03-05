@@ -6,7 +6,8 @@ use App\Repository\UsuarioRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Validator\Constraints as Assert; 
+use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * @ORM\Entity(repositoryClass=UsuarioRepository::class)
@@ -30,11 +31,16 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $roles = [];
 
-/**
+    /**
+     * @ORM\Column(type="string", length=255, nullable=false)
+     */
+    private $funcion;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $nombre_usuario;
-    
+
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
@@ -43,7 +49,7 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="boolean")
      */
-    private $activo = true; 
+    private $activo = true;
 
     /**
      * @ORM\Column(type="datetime")
@@ -71,7 +77,10 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\OneToMany(targetEntity="App\Entity\Contacto", mappedBy="usuario")
      */
     private $contacto;
-    public function getContacto(): ?Contacto
+    /**
+     * @return Collection|Contacto[]
+     */
+    public function getContacto(): Collection
     {
         return $this->contacto;
     }
@@ -141,6 +150,18 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+    public function getFuncion(): ?string
+    {
+        return $this->funcion;
+    }
+
+    public function setFuncion(?string $funcion): self
+    {
+        $this->funcion = $funcion;
+
+        return $this;
+    }
+
     public function getApellidosUsuario(): ?string
     {
         return $this->apellidos_usuario;
@@ -265,5 +286,4 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
-    
 }
