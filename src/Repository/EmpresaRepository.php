@@ -59,6 +59,16 @@ class EmpresaRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+         // Método para encontrar los últimos N registros
+         public function findLastN($limit): array
+         {
+             return $this->createQueryBuilder('b')
+                 ->orderBy('b.fecha_creacion_empresa', 'DESC')
+                 ->setMaxResults($limit)
+                 ->getQuery()
+                 ->getResult();
+         }
+
 //    /**
 //     * @return Empresa[] Returns an array of Empresa objects
 //     */
