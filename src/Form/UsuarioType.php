@@ -36,32 +36,22 @@ class UsuarioType extends AbstractType
             ->add('username', TextType::class, [
                 'attr' => ['class' => 'form-control form-control-lg'],
             ])
-            //->add('email', EmailType::class) // relacion contactos no lo pilla
-            //->add('roles')
+            ->add('funcion', TextType::class, [
+                'attr' => ['class' => 'form-control form-control-lg'],
+            ])
             ->add('nombre_usuario', TextType::class, [
                 'attr' => ['class' => 'form-control form-control-lg'],
             ])
             ->add('apellidos_usuario', TextType::class, [
                 'attr' => ['class' => 'form-control form-control-lg'],
             ])
-            //->add('activo')
-            //->add('fecha_creacion_usuario')
+
             ->add('password', PasswordType::class, [
                 'attr' => ['class' => 'form-control form-control-lg'],
             ])
-
-            ->add('empresa', ChoiceType::class, [
-                'choices' => $choices,
-                'choice_value' => 'id', // Campo utilizado como valor en el desplegable (puede omitirse si el ID es la clave)
-                'choice_label' => 'nombre', // Campo utilizado como etiqueta en el desplegable
-                'placeholder' => 'Selecciona una empresa', // Opcional: texto para la opción predeterminada
-            ])
-            //->add('briefing_web')
-            //->add('briefing_app')
-            //->add('briefing_logo')
             ->add('submit', SubmitType::class, [
                 'label' => 'Crear Usuario',
-                'attr' => ['class' => 'btn custom-btn btn-lg btn-block'],
+                'attr' => ['class' => 'btn btn-granota btn-lg btn-block'],
             ]);
         ;
     }
