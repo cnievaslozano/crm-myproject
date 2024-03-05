@@ -32,6 +32,18 @@ class Web
      */
     private $empresa;
 
+    public function getEmpresa(): ?Empresa
+    {
+        return $this->empresa;
+    }
+
+    public function setEmpresa(?Empresa $empresa): self
+    {
+        $this->empresa = $empresa;
+
+        return $this;
+    }
+
 
     public function getId(): ?int
     {
