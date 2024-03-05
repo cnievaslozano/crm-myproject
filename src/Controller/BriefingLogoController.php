@@ -32,7 +32,10 @@ class BriefingLogoController extends AbstractController
             try {
 
                 // Asignar datos adicionales
-                $this->assignAdditionalData($briefingLogo, $user);
+                $briefingLogo->setFechaCreacionBriefingLogo(new \DateTime());
+                $briefingLogo->setUsuario($user);
+                $briefingLogo->setEstado("En Progreso");
+                $briefingLogo->setActivo(true);
 
                 // Persistir el briefinglogo en la base de datos
                 $em->persist($briefingLogo);
@@ -58,20 +61,6 @@ class BriefingLogoController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-    /**
-     * Asigna datos adicionales al briefing de la aplicación.
-     *
-     * @param BriefingLogo $briefingLogo El briefing de la aplicación.
-     * @param UserInterface $user El usuario asociado al briefing.
-     */
-    private function assignAdditionalData(BriefingLogo $briefingLogo, Usuario $user): void
-    {
-        // Datos que necesita la empresa que no se rellenan en el formulario
-        $briefingLogo->setFechaCreacionBriefingLogo(new \DateTime());
-        $briefingLogo->setUsuario($user);
-        $briefingLogo->setActivo(true);
-    }
-
     public function show(BriefingLogo $briefingLogo): Response
     {
         // Obtener el usuario asociado al briefing
