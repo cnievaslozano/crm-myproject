@@ -6,6 +6,7 @@ use App\Repository\EmpresaRepository;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 
@@ -67,6 +68,36 @@ class Empresa
      */
     private $web;
 
+     /**
+     * @return Collection|Web[]
+     */
+    public function getWeb(): Collection
+    {
+        return $this->web;
+    }
+
+    public function addWeb(Web $web): self
+    {
+        if (!$this->web->contains($web)) {
+            $this->web[] = $web;
+            $web->setEmpresa($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWeb(Web $web): self
+    {
+        if ($this->web->removeElement($web)) {
+            // set the owning side to null (unless already changed)
+            if ($web->getEmpresa() === $this) {
+                $web->setEmpresa(null);
+            }
+        }
+
+        return $this;
+    }
+
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Usuario", mappedBy="empresa")
      */
@@ -103,6 +134,12 @@ class Empresa
     }
 
     public function setImagenLogotipoRuta(?string $imagen_logotipo_ruta): self
+    {
+        $this->imagen_logotipo_ruta = $imagen_logotipo_ruta;
+
+        return $this;
+    }
+    public function setImagen(?string $imagen_logotipo_ruta): self
     {
         $this->imagen_logotipo_ruta = $imagen_logotipo_ruta;
 
