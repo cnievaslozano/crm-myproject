@@ -128,6 +128,13 @@ class Contenido
         return $this;
     }
 
+    public function setImagen(?string $ruta_imagenes_contenidos): self
+    {
+        $this->ruta_imagenes_contenidos = $ruta_imagenes_contenidos;
+
+        return $this;
+    }
+
     public function getFechaCreacionContenido(): ?\DateTimeInterface
     {
         return $this->fecha_creacion_contenido;
