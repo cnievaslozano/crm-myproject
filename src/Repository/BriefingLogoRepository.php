@@ -58,6 +58,16 @@ class BriefingLogoRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+         // Método para encontrar los últimos N registros
+         public function findLastN($limit): array
+         {
+             return $this->createQueryBuilder('b')
+                 ->orderBy('b.fecha_creacion_briefing_logo', 'DESC')
+                 ->setMaxResults($limit)
+                 ->getQuery()
+                 ->getResult();
+         }
+
 //    /**
 //     * @return BriefingLogo[] Returns an array of BriefingLogo objects
 //     */

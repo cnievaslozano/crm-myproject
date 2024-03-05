@@ -61,6 +61,15 @@ class ContenidoRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
+         // Método para encontrar los últimos N registros
+         public function findLastN($limit): array
+         {
+             return $this->createQueryBuilder('b')
+                 ->orderBy('b.fecha_creacion_contenido', 'DESC')
+                 ->setMaxResults($limit)
+                 ->getQuery()
+                 ->getResult();
+         }
 
     //    /**
     //     * @return Contenido[] Returns an array of Contenido objects

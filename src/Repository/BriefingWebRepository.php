@@ -58,6 +58,16 @@ class BriefingWebRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+     // Método para encontrar los últimos N registros
+     public function findLastN($limit): array
+     {
+         return $this->createQueryBuilder('b')
+             ->orderBy('b.fecha_creacion_briefing_web', 'DESC')
+             ->setMaxResults($limit)
+             ->getQuery()
+             ->getResult();
+     }
+
 //    /**
 //     * @return BriefingWeb[] Returns an array of BriefingWeb objects
 //     */

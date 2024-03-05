@@ -59,6 +59,16 @@ class BriefingAppRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+         // Método para encontrar los últimos N registros
+         public function findLastN($limit): array
+         {
+             return $this->createQueryBuilder('b')
+                 ->orderBy('b.fecha_creacion_briefing_app', 'DESC')
+                 ->setMaxResults($limit)
+                 ->getQuery()
+                 ->getResult();
+         }
+
 //    /**
 //     * @return BriefingApp[] Returns an array of BriefingApp objects
 //     */
