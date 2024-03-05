@@ -31,7 +31,10 @@ class BriefingWebController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 // Asignar datos adicionales
-                $this->assignAdditionalData($briefingWeb, $user);
+                $briefingWeb->setFechaCreacionBriefingWeb(new \DateTime());
+                $briefingWeb->setUsuario($user);
+                $briefingWeb->setEstado("En Progreso");
+                $briefingWeb->setActivo(true);
 
                 // Persistir el briefingweb en la base de datos
                 $em->persist($briefingWeb);
@@ -56,19 +59,6 @@ class BriefingWebController extends AbstractController
             'username' => $user->getUsername(),
             'form' => $form->createView(),
         ]);
-    }
-
-    /**
-     * Asigna datos adicionales al briefing de la aplicación.
-     *
-     * @param BriefingWeb $briefingWeb El briefing de la aplicación.
-     * @param Uusario $user El usuario asociado al briefing.
-     */
-    private function assignAdditionalData(BriefingWeb $briefingWeb, Usuario $user): void
-    {
-        $briefingWeb->setFechaCreacionBriefingWeb(new \DateTime());
-        $briefingWeb->setUsuario($user);
-        $briefingWeb->setActivo(true);
     }
 
     public function show(BriefingWeb $briefingWeb): Response
