@@ -60,12 +60,13 @@ class ContenidoType extends AbstractType
             ->add('ruta_imagenes_contenidos', FileType::class, [
                 'attr' => [
                     'class' => 'form-control form-control-lg',
-                    'required' => false,
+                    
                 ],
+                'required' => false,
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Enviar Contenido',
-                'attr' => ['class' => 'btn custom-btn btn-lg btn-block'],
+                'attr' => ['class' => 'btn btn-granota btn-lg btn-block'],
             ]);;
     }
 

@@ -46,7 +46,7 @@ class EmpresaEditType extends AbstractType
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Crear Empresa',
-                'attr' => ['class' => 'btn custom-btn btn-lg btn-block'],
+                'attr' => ['class' => 'btn btn-granota btn-lg btn-block'],
             ]);;
     }
 

@@ -219,15 +219,10 @@ class BriefingWebType extends AbstractType
                     ])
                 ]
             ])
-            //->add('fecha_creacion_briefing_web')
-            /*temporal*/
-            /*->add('usuario', ChoiceType::class, [
-                'choices' => $this->getUsuariosSinRolAdmin(),
-                'choice_label' => 'username', 
-            ])*/
+
             ->add('submit', SubmitType::class, [
                 'label' => 'Enviar Briefing Web',
-                'attr' => ['class' => 'btn custom-btn btn-lg btn-block'],
+                'attr' => ['class' => 'btn btn-granota btn-lg btn-block'],
             ]);
         ;
     }

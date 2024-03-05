@@ -38,13 +38,10 @@ class ContactoType extends AbstractType
             ->add('telefono', TextType::class, [
                 'attr' => ['class' => 'form-control form-control-lg'],
             ])                    
-            ->add('usuario', ChoiceType::class, [
-                'choices' => $this->getUsuariosSinRolAdmin(),
-                'choice_label' => 'username', 
-            ])
+
             ->add('submit', SubmitType::class, [
                 'label' => 'Crear Contacto',
-                'attr' => ['class' => 'btn custom-btn btn-lg btn-block'],
+                'attr' => ['class' => 'btn btn-granota btn-lg btn-block'],
             ]);
         ;
     }
@@ -56,15 +53,5 @@ class ContactoType extends AbstractType
         ]);
     }
 
-    private function getUsuariosSinRolAdmin(): array
-    {
-        $usuarios = $this->usuarioRepository->findUsuariosSinRolAdmin();
 
-        $choices = [];
-        foreach ($usuarios as $usuario) {
-            $choices[$usuario->getUsername()] = $usuario;
-        }
-
-        return $choices;
-    }
 }
