@@ -38,7 +38,7 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="activarBriefingLabel">Empresa</h5>
+				<h5 class="modal-title" id="activarBriefingLabel">Empresa {{empresa.nombre}}</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
@@ -73,9 +73,7 @@
 <div class="container">
 	<!-- Mensajes -->
 	<div class="col-12">
-		<div id="flash-messages">
-
-		</div>
+		<div id="flash-messages"></div>
 
 	</div>
 
@@ -161,12 +159,15 @@
 
 			<table class="mt-4 table">
 				<tbody>
-					{% if briefingweb is not null %}
+					{% if briefingweb.activo %}
 					<tr>
 						<td>Id:
 							{{ briefingweb.id }}</td>
 						<td>Briefing web</td>
-						<td>{{ empresa.code}}</td>
+						<td>
+							{{ briefingweb.estado }}
+						</td>
+
 						<td>
 							<a
 								href="{{ path('briefing_' ~ briefingweb.tipo|lower ~ '_show', {'id': briefingweb.id}) }}">
@@ -193,12 +194,15 @@
 					</tr>
 					{% endif %}
 
-					{% if briefingapp is not null %}
+					{% if briefingapp.activo %}
 					<tr>
 						<td>Id:
 							{{ briefingapp.id }}</td>
 						<td>Briefing app</td>
-						<td>{{ empresa.code}}</td>
+						<td>
+							{{ briefingapp.estado }}
+						</td>
+
 						<td>
 							<a
 								href="{{ path('briefing_' ~ briefingapp.tipo|lower ~ '_show', {'id': briefingapp.id}) }}">
@@ -225,7 +229,7 @@
 					</tr>
 					{% endif %}
 
-					{% if briefinglogo is not null %}
+					{% if briefinglogo.activo %}
 					<tr>
 						<td>Id:
 							{{ briefinglogo.id }}</td>
@@ -305,14 +309,6 @@
 		item.addEventListener('click', event => {
 			event.preventDefault(); // Evitar comportamiento predeterminado del enlace
 
-			// Obtener el nombre de la empresa y su ID desde la tabla
-			let nombreEmpresa = document.querySelector('.empresa-nombre').innerText.trim();
-			let idEmpresa = {{empresa.id}};
-
-			// Asignar los valores al modal
-			document.getElementById('activarBriefingLabel').innerText = 'Empresa: ' + nombreEmpresa;
-			document.getElementById('idEmpresa').value = idEmpresa;
-
 			// Abre el modal
 			myModal.show(); // No es necesario crear una nueva instancia aquí
 		});
@@ -321,55 +317,56 @@
 
 
 
+
 	// AJAX
 	$(document).ready(function () {
-    $('#enviarBriefing').click(function () {
-        // Verificar si al menos una casilla está marcada
-        if ($('#checkboxWeb').is(':checked') || $('#checkboxLogo').is(':checked') || $('#checkboxApp').is(':checked')) {
-            // Los campos están marcados, proceder con el envío del formulario
-            var formData = {
-                web: $('#checkboxWeb').is(':checked'),
-                logo: $('#checkboxLogo').is(':checked'),
-                app: $('#checkboxApp').is(':checked'),
-                idEmpresa: $('#idEmpresa').val()
-            };
+		$('#enviarBriefing').click(function () {
+			// Verificar si al menos una casilla está marcada
+			if ($('#checkboxWeb').is(':checked') || $('#checkboxLogo').is(':checked') || $('#checkboxApp').is(':checked')) {
+				// Los campos están marcados, proceder con el envío del formulario
+				var formData = {
+					web: $('#checkboxWeb').is(':checked'),
+					logo: $('#checkboxLogo').is(':checked'),
+					app: $('#checkboxApp').is(':checked'),
+					idEmpresa: $('#idEmpresa').val()
+				};
 
-            $.ajax({
-                type: 'POST',
-                url: "{{ path('briefing_handle') }}",
-                data: formData,
-                success: function (response) {
-                    // Cerrar el modal
-                    $('#activarBriefing').modal('hide');
+				$.ajax({
+					type: 'POST',
+					url: "{{ path('briefing_handle') }}",
+					data: formData,
+					success: function (response) {
+						// Cerrar el modal
+						$('#activarBriefing').modal('hide');
 
-                    // Manejar la respuesta del controlador
-                    if (response.success) {
-                        // Mostrar mensajes de éxito
-                        if (response.success_flash_messages.length > 0) {
-                            response.success_flash_messages.forEach(function(message) {
-                                $('#flash-messages').append('<div class="alert alert-success">' + message + '</div>');
-                            });
-                        }
-                    } else {
-                        // Mostrar mensajes de error
-                        if (response.error_flash_messages.length > 0) {
-                            response.error_flash_messages.forEach(function(message) {
-                                $('#flash-messages').append('<div class="alert alert-danger">' + message + '</div>');
-                            });
-                        }
-                    }
-                },
-                error: function (xhr, status, error) {
-                    // Manejar errores
-                    console.error(error);
-                }
-            });
-        } else {
-            // Mostrar mensaje de error si ninguna casilla está marcada
-            $('#flash-messages').html('<div class="alert alert-danger">Debes marcar al menos una casilla.</div>');
-        }
-    });
-});
+						// Manejar la respuesta del controlador
+						if (response.success) {
+							// Mostrar mensajes de éxito
+							if (response.success_flash_messages.length > 0) {
+								response.success_flash_messages.forEach(function (message) {
+									$('#flash-messages').append('<div class="alert alert-success">' + message + '</div>');
+								});
+							}
+						} else {
+							// Mostrar mensajes de error
+							if (response.error_flash_messages.length > 0) {
+								response.error_flash_messages.forEach(function (message) {
+									$('#flash-messages').append('<div class="alert alert-danger">' + message + '</div>');
+								});
+							}
+						}
+					},
+					error: function (xhr, status, error) {
+						// Manejar errores
+						console.error(error);
+					}
+				});
+			} else {
+				// Mostrar mensaje de error si ninguna casilla está marcada
+				$('#flash-messages').html('<div class="alert alert-danger">Debes marcar al menos una casilla.</div>');
+			}
+		});
+	});
 
 </script>
 {% endblock %}
