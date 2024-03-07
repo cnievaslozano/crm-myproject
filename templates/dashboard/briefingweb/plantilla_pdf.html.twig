@@ -7,7 +7,7 @@
 	{{ parent() }}
 {% endblock %}
 {% block body %}
-<div class="container">
+	<div class="container">
 		<div class="row">
 			<div class="col-12">
 				<h1>Briefing Web de:
@@ -27,6 +27,12 @@
 						<tr>
 							<th>Lo ha creado el usuario</th>
 							<td>{{ usuario.username }}</td>
+						</tr>
+						<tr>
+							<th>Activo</th>
+							<td>
+								{{ briefing_web.isActivo ? 'si' : 'no' }}
+							</td>
 						</tr>
 						<tr>
 							<th>Descripción de la empresa</th>
@@ -51,11 +57,7 @@
 						<tr>
 							<th>Webs de ejemplos</th>
 							<td>
-								<ul>
-									{% for ejemplo in briefing_web.webEjemplo %}
-										<li>{{ ejemplo }}</li>
-									{% endfor %}
-								</ul>
+								{{ briefing_web.webEjemplo }}
 							</td>
 						</tr>
 						<tr>
@@ -63,11 +65,43 @@
 							<td>{{ briefing_web.funciones }}</td>
 						</tr>
 						<tr>
-							<th>Imágenes diseño</th>
+							<th>Dispone de logo</th>
 							<td>
-								{% for ejemplo in briefing_web.disenyoImagen %}
-									<li>{{ ejemplo }}</li>
-								{% endfor %}
+								{% if briefing_web.disponeLogo %}
+									Sí
+								{% else %}
+									No
+								{% endif %}
+							</td>
+						</tr>
+						<tr>
+							<th>Dispone de Manual de Marca</th>
+							<td>
+								{% if briefing_web.disponeLogo %}
+									Sí
+								{% else %}
+									No
+								{% endif %}
+							</td>
+						</tr>
+						<tr>
+							<th>Dispone de Colores Corporativos</th>
+							<td>
+								{% if briefing_web.disponeColoresCorporativos %}
+									Sí
+								{% else %}
+									No
+								{% endif %}
+							</td>
+						</tr>
+						<tr>
+							<th>Dispone de Recursos de Diseño</th>
+							<td>
+								{% if briefing_web.disponeRecursosDisenyo %}
+									Sí
+								{% else %}
+									No
+								{% endif %}
 							</td>
 						</tr>
 						<tr>
@@ -89,11 +123,12 @@
 							<td>{{ briefing_web.comentarios }}</td>
 						</tr>
 						<tr>
-							<th>Fecha creacion del briefing web</th>
-							<td>{{ briefing_web.fechaCreacionBriefingWeb ? briefing_web.fechaCreacionBriefingWeb|date('H:i:s') : '' }}</td>
+							<th>Fecha en la que se ha enviado</th>
+							<td>{{ briefing_web.fechaCreacionBriefingWeb ? briefing_web.fechaCreacionBriefingWeb|date('Y-m-d
+							H:i:s') }}</td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
 		</div>
-{% endblock %}
+	{% endblock %}

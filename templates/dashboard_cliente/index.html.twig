@@ -1,10 +1,77 @@
 {% extends 'dashboard_cliente/plantilla.html.twig' %}
 
-{% block title %}Dashboard 
-{{empresa.nombre}}
+{% block title %}Dashboard
+	{{empresa.nombre}}
 {% endblock %}
 {% block stylesheets %}
 	{{ parent() }}
+	<style>
+
+        .parent {
+
+        }
+		.parent div {
+			border: 1px solid #000;
+            border-radius: 20px;
+            background-color: white;
+            padding: 15px;
+		}
+
+		.parent {
+			display: grid;
+			grid-template-columns: repeat(7, 1fr);
+			grid-template-rows: repeat(7, 1fr);
+			grid-column-gap: 0;
+			grid-row-gap: 0;
+		}
+		.empresa {
+			grid-area: 1 / 1 / 4 / 5;
+		}
+		.web {
+			grid-area: 1 / 5 / 2 / 8;
+		}
+		.briefing {
+			grid-area: 2 / 5 / 4 / 8;
+		}
+		.incidencia {
+			grid-area: 4 / 1 / 8 / 4;
+		}
+		.contenido {
+			grid-area: 4 / 4 / 8 / 8;
+		}
+	</style>
 {% endblock %}
-{% block contenido %}
-<h1> ejemplo </h1>
+{% block body %}
+<div class="container d-flex justify-content-center ">
+    <div class="parent">
+        <div class="empresa">
+            <h2>Bienvenido/a,
+                <span class="text-primary">{{empresa.nombre}}</span>
+            </h2>
+            <p>Este es tu espacio de proyecto.
+                <br>
+                Muchas gracias por confiar en nosotros</p>
+        </div>
+        <div class="web">
+            <p>Página web</p>
+            <button class="btn btn-primary">Visitar</button>
+        </div>
+        <div class="briefing">
+            <h2>BRIEFING</h2>
+            <p>Este es el primer paso para llevar a cabo tu proyecto
+                <br>
+                ¿Empezamos?</p>
+            <button class="btn btn-primary">Rellenar</button>
+        </div>
+        <div class="incidencia">
+            <h2>Informar de una Incidencia</h2>
+            <p>Lamentamos oír eso. Por favor rellene el formulario que encontrará a continuación y en la mayor brevedad posible solucionaremos su incidencia.</p>
+        </div>
+        <div class="contenido">
+            <h2>Solicitar Contenido</h2>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

@@ -40,7 +40,7 @@ class BriefingApp
     private $estado;
 
     /**
-     * @ORM\Column(type="string", length=500)
+     * @ORM\Column(type="string", length=500, nullable=true)
      */
     private $descripcion_empresa;
 
@@ -50,12 +50,12 @@ class BriefingApp
     private $descripcion_proyecto;
 
     /**
-     * @ORM\Column(type="string", length=500)
+     * @ORM\Column(type="string", length=500, nullable=true)
      */
     private $objetivos;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $competencia;
 
@@ -80,7 +80,7 @@ class BriefingApp
     private $estructura_app;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $fecha_creacion_briefing_app;
     /**

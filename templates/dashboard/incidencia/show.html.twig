@@ -48,8 +48,14 @@
 							<td>{{ incidencia.url}}</td>
 						</tr>
 						<tr>
-							<th>Imagen</th>
-							<td>{{ incidencia.rutaImagenes }}</td>
+							<th>Imágenes</th>
+							<td>
+								{% if incidencia.rutaImagenes %}
+									<img src="/uploads/incidencias/{{ incidencia.rutaImagenes}}" alt="contenido" style="width: 400px;  margin-right: 20px;">
+								{% else %}
+									No hay imagen disponible.
+								{% endif %}
+							</td>
 						</tr>
 						<tr>
 							<th>Fecha de la incidencia</th>

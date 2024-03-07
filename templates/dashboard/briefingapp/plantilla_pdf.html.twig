@@ -26,6 +26,12 @@
 							<td>{{ briefing_app.id }}</td>
 						</tr>
 						<tr>
+							<th>Activo</th>
+							<td>
+								{{ briefing_app.isActivo ? 'si' : 'no' }}
+							</td>
+						</tr>
+						<tr>
 							<th>Lo ha creado el usuario</th>
 							<td>{{ usuario.username }}</td>
 						</tr>
@@ -50,8 +56,10 @@
 							<td>{{ briefing_app.namingSlogan }}</td>
 						</tr>
 						<tr>
-							<th>Imagen_logotipo_ruta (cambiar)</th>
-							<td>{{ briefing_app.imagenLogotipoRuta }}</td>
+							<th>Imagen para la app</th>
+							<td>
+								<img src="/uploads/logotipos/{{ briefing_app.imagenLogotipoRuta}}" alt="Logo" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 20px;">
+							</td>
 						</tr>
 						<tr>
 							<th>Gama cromática</th>
@@ -62,8 +70,8 @@
 							<td>{{ briefing_app.estructuraApp }}</td>
 						</tr>
 						<tr>
-							<th>Fecha_creacion_briefing_app</th>
-							<td>{{ briefing_app.fechaCreacionBriefingApp ? briefing_app.fechaCreacionBriefingApp|date('H:i:s') : '' }}</td>
+							<th>Fecha en la que se ha enviado</th>
+							<td>{{ briefing_app.fechaCreacionBriefingApp ? briefing_app.fechaCreacionBriefingApp|date('Y-m-d H:i:s')}}</td>
 						</tr>
 					</tbody>
 				</table>

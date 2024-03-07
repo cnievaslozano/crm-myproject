@@ -13,71 +13,72 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Repository\UsuarioRepository;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use App\Service\MisFunciones;
 
 
 class EmpresaController extends AbstractController
 {
-
-    public function new(Request $request, EntityManagerInterface $em, SluggerInterface $slugger): Response
+    public function new(Request $request, MisFunciones $misFunciones, EntityManagerInterface $em, SluggerInterface $slugger): Response
     {
-        // Crear una instancia del formulario
-        $empresa = new Empresa();
-        $form = $this->createForm(EmpresaType::class, $empresa);
-
-        // Procesar el formulario si se ha enviado
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            //imagen
-            $brochureFile = $form['imagen_logotipo_ruta']->getData();
-
-            if ($brochureFile) {
-                $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename . '-' . uniqid() . '.' . $brochureFile->guessExtension();
-
-                // Move the file to the directory where brochures are stored
-                try {
-                    $brochureFile->move(
-                        $this->getParameter('logotipos_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    $this->addFlash('error', 'Ha ocurrido un error al procesar la imagen.');
+        try {
+            // Crear una instancia del formulario
+            $empresa = new Empresa();
+            $form = $this->createForm(EmpresaType::class, $empresa);
+    
+            // Procesar el formulario si se ha enviado
+            $form->handleRequest($request);
+    
+            if ($form->isSubmitted() && $form->isValid()) {
+    
+                // Procesar la imagen de la empresa
+                $brochureFile = $form['imagen_logotipo_ruta']->getData();
+    
+                // Validar si el archivo es una imagen
+                if ($brochureFile !== null) {
+                    if (!$misFunciones->validateImage($brochureFile)) {
+                        $this->addFlash('error', 'El archivo no es una imagen válida');
+                        return $this->redirectToRoute('empresa_new');
+                    }
+                    $misFunciones->processImage($empresa, "empresa_new", "logotipos_directory", $slugger, $brochureFile);
                 }
-
-                // updates the 'brochureFilename' property to store the PDF file name
-                // instead of its contents
-                $empresa->setImagenLogotipoRuta($newFilename);
-            }
-
-            // datos que necesita la empresa que no se rellenan en el form
-            $empresa->setFechaCreacionEmpresa(new \DateTime());
-            $empresa->setActivo(true);
-            $empresa->setCode();
-
-            // Verificar si ya existe una empresa con el mismo nombre
-            $existingEmpresa = $em->getRepository(Empresa::class)->findOneBy(['nombre' => $empresa->getNombre()]);
-
-            if ($existingEmpresa) {
-                // Añadir mensaje de error específico
-                $this->addFlash('error', 'Ya existe una empresa con el mismo nombre.');
-            } else {
+    
+                // Establecer el resto de los campos de empresa
+                // datos que necesita la empresa que no se rellenan en el form
+                $empresa->setFechaCreacionEmpresa(new \DateTime());
+                $empresa->setActivo(true);
+                $empresa->setCode();
+    
+                // Verificar si ya existe una empresa con el mismo nombre
+                $existingEmpresa = $em->getRepository(Empresa::class)->findOneBy(['nombre' => $empresa->getNombre()]);
+    
+                if ($existingEmpresa) {
+                    // Añadir mensaje de error específico
+                    $this->addFlash('error', 'Ya existe una empresa con el mismo nombre.');
+                    return $this->redirectToRoute('dashboard_clientes');
+                }
+    
                 // Persistir la entidad Empresa en la base de datos
                 $em->persist($empresa);
                 $em->flush();
+    
                 // Añadir mensaje de éxito
                 $this->addFlash('success', 'La empresa se ha registrado con éxito.');
-                return $this->redirectToRoute('dashboard_clientes');
+                return $this->redirectToRoute('empresa_new');
             }
-        } 
-
-        return $this->render('formularios/empresa.html.twig', [
-            'form' => $form->createView(),
-        ]);
+    
+            return $this->render('formularios/empresa.html.twig', [
+                'form' => $form->createView(),
+            ]);
+        } catch (\Exception $e) {
+            // Manejar la excepción aquí, por ejemplo, mostrar un mensaje de error
+            $this->addFlash('error', 'Ha ocurrido un error: ' . $e->getMessage());
+    
+            // Redirigir a una página de error o realizar otras acciones necesarias
+            return $this->redirectToRoute('empresa_new');
+        }
     }
+    
 
     public function show(Empresa $empresa, UsuarioRepository $usuarioRepository): Response
     {

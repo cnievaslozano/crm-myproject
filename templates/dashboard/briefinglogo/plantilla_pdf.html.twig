@@ -7,7 +7,7 @@
 	{{ parent() }}
 {% endblock %}
 {% block body %}
-<div class="container">
+	<div class="container">
 		<div class="row">
 			<div class="col-12">
 				<h1>Briefing Logo de:
@@ -26,11 +26,15 @@
 							<td>{{ briefing_logo.id }}</td>
 						</tr>
 						<tr>
+							<th>Activo</th>
+							<td>{{  briefing_logo.isActivo ? 'si' : 'no'}}</td>
+						</tr>
+						<tr>
 							<th>Lo ha creado el usuario</th>
 							<td>{{ usuario.username }}</td>
 						</tr>
 						<tr>
-							<th>Nombre_logo</th>
+							<th>Nombre del logo</th>
 							<td>{{ briefing_logo.nombreLogo }}</td>
 						</tr>
 						<tr>
@@ -46,11 +50,11 @@
 							<td>{{ briefing_logo.elementos }}</td>
 						</tr>
 						<tr>
-							<th>Fecha_creacion_briefing_logo</th>
-							<td>{{ briefing_logo.fechaCreacionBriefingLogo ? briefing_logo.fechaCreacionBriefingLogo|date('H:i:s') : '' }}</td>
+							<th>Fecha en la que se ha enviado</th>
+							<td>{{ briefing_logo.fechaCreacionBriefingLogo ? briefing_logo.fechaCreacionBriefingLogo|date('Y-m-d H:i:s') }}</td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
 		</div>
-{% endblock %}
+	{% endblock %}

@@ -6,9 +6,9 @@
 {% endblock %}
 {% block body %}
 
-<section class="vh-100 d-flex justify-content-center">
-		<div class="container" style="width: 750px;">
-			<div class="row">
+<section class="vh-100 d-flex justify-content-center" >
+		<div class="container" >
+			<div class="row" >
 				<div class="col-sm-12 text-black">
 					<div class="d-flex flex-column align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5">
 
@@ -18,7 +18,7 @@
 							<span class="custom-label" style="color: #99c21e">¡Hola
 								{{ username }}!</span>
 							<br>
-							Estás enviando un Contenido
+							Estás enviando un <span class="text-primary">Contenido</span>
 						</h3>
 						{# Mensaje de error o exito #}
 
@@ -66,8 +66,8 @@
 							<strong>Imágenes</strong>
 						</div>
 						<div class="form-outline mb-4">
-							{{ form_widget(form.ruta_imagenes) }}
-							<label class="form-label" for="{{ form.ruta_imagenes.vars.id }}"></label>
+							{{ form_widget(form.ruta_imagenes_contenidos) }}
+							<label class="form-label" for="{{ form.ruta_imagenes_contenidos.vars.id }}"></label>
 						</div>
 						
 						<div class="col-12 gap-2">

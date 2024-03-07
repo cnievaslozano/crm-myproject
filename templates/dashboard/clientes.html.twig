@@ -1,76 +1,88 @@
 {% extends 'dashboard/plantilla.html.twig' %}
-{% block title %}Dashboard Clientes
-{% endblock %}
+{% block title %}Dashboard Clientes{% endblock %}
 {% block stylesheets %}
-	{{ parent() }}
-	{# cuando me instale node hacerlo de esta manera 
-		<link rel="stylesheet" href="{{ asset('styles/form.css') }}">
-	#}
+{{ parent() }}
+
+<style>
+</style>
 {% endblock %}
 {% block contenido %}
-	<div style="height: 160px;"></div>
 
-	<div class="row">
-
-		<div
-			class="col-12">
-			{# Mensaje exito #}
-			{% for flashMessage in app.flashes('success') %}
+<section class="d-flex vh-100 justify-content-center align-items-center">
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				{# Mensaje exito #}
+				{% for flashMessage in app.flashes('success') %}
 				<div class="alert alert-success">
 					{{ flashMessage }}
 				</div>
-			{% endfor %}
+				{% endfor %}
 
-			<a class="btn btn-primary" href="{{ path('empresa_new') }}">Nuevo Cliente +</a>
-		</div>
+				{# Mensaje error #}
+				{% for flashMessage in app.flashes('error') %}
+				<div class="alert alert-danger">
+					{{ flashMessage }}
+				</div>
+				{% endfor %}
+				<h5>Listado de clientes</h5>
+				<a class="btn btn-granota" href="{{ path('empresa_new') }}">Nuevo Cliente +</a>
+			</div>
 
-
-		<div class="col-12">
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th>Id</th>
-						<th>Empresa</th>
-						<th>Code</th>
-						<th>Ver</th>
-						<th>Editar</th>
-						<th>Activo</th>
-						<th>Borrar</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for empresa in empresas %}
+			<div class="col-12">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Id</th>
+							<th>Empresa</th>
+							<th class="text-center">Code</th>
+							<th class="text-center">Activo</th>
+							<th class="text-center">Ver</th>
+							<th class="text-center">Editar</th>
+							<th class="text-center">Borrar</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for empresa in empresas %}
 						<tr>
 							<td class="align-middle">{{ empresa.id }}</td>
 							<td class="align-middle">
-								<img src="https://placehold.jp/3d4070/ffffff/30x30.png?text=logo%20company" alt="Logo" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 20px;">
-								<span>{{ empresa.nombre }}</span>
+								<img src="/uploads/logotipos/{{ empresa.imagenLogotipoRuta }}" alt="Logo"
+									class="rounded-circle" style="width: 40px; height: 40px; margin-right: 20px;">
+								<span class="nombre-empresa-span">{{ empresa.nombre }}</span>
 							</td>
-							<td class="align-middle text-muted">{{empresa.code}}</td>
-							<td class="align-middle">
+							<td class="align-middle text-muted text-center">{{ empresa.code }}</td>
+							<td class="align-middle text-center">{{ empresa.activo ? 'Si' : 'No' }}</td>
+							<td class="align-middle text-center">
 								<a href="{{ path('empresa_show', {'id': empresa.id}) }}">
 									<i class="fa-solid fa-eye"></i>
 								</a>
 							</td>
-							<td class="align-middle">
+							<td class="align-middle text-center">
 								<a href="{{ path('empresa_edit', {'id': empresa.id}) }}">
 									<i class="fa-solid fa-pen-to-square"></i>
 								</a>
 							</td>
-							<td class="align-middle">{{ empresa.activo ? 'Si' : 'No' }}</td>
-							<td class="align-middle">
-								<form method="post" action="{{ path('empresa_delete', {'id': empresa.id}) }}" onsubmit="return confirm('¿Estás seguro que quieres borrar la empresa {{empresa.nombre}}?');">
+							<td class="align-middle text-center">
+								<form method="post" action="{{ path('empresa_delete', {'id': empresa.id}) }}"
+									onsubmit="return confirm('¿Estás seguro que quieres borrar la empresa {{empresa.nombre}}?');">
 									<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ empresa.id) }}">
-									<button class="btn"><i class="fa-solid fa-trash"></i></button>
+									<button class="btn">
+										<i class="fa-solid fa-trash" style="color:red;"></i>
+									</button>
 								</form>
 							</td>
 						</tr>
-					{% else %}
+						{% else %}
 						<tr>
 							<td colspan="8">No hay registros :)</td>
 						</tr>
-					{% endfor %}
-				</tbody>
-			</table>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
 		</div>
-	{% endblock %}
+	</div>
+</section>
+
+{% endblock %}

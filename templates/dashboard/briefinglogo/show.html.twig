@@ -35,7 +35,7 @@
 							<td>{{ usuario.username }}</td>
 						</tr>
 						<tr>
-							<th>Nombre_logo</th>
+							<th>Nombre del logo</th>
 							<td>{{ briefing_logo.nombreLogo }}</td>
 						</tr>
 						<tr>
@@ -51,7 +51,7 @@
 							<td>{{ briefing_logo.elementos }}</td>
 						</tr>
 						<tr>
-							<th>Fecha_creacion_briefing_logo</th>
+							<th>Fecha en la que se ha enviado</th>
 							<td>{{ briefing_logo.fechaCreacionBriefingLogo ? briefing_logo.fechaCreacionBriefingLogo|date('Y-m-d H:i:s') }}</td>
 						</tr>
 					</tbody>
@@ -60,7 +60,7 @@
 		</div>
 		<div class="row">
 			<div class="col-12 d-flex gap-2">
-				<a href="{{ path('briefings_index') }}" class="btn btn-primary">Volver</a>
+				<a href="{{ path('dashboard_briefings') }}" class="btn btn-primary">Volver</a>
 				<form method="post" action="{{ path('briefing_logo_delete', {'id': briefing_logo.id}) }}" onsubmit="return confirm('¿Estás seguro que quieres borrar el briefing logo de {{empresa.nombre}}?');" class="d-inline">
 					<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ briefing_logo.id) }}">
 					<button class="btn btn-danger">

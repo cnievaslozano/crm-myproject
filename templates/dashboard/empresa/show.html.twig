@@ -1,90 +1,375 @@
 {% extends 'dashboard/plantilla.html.twig' %}
 {% block title %}
-	{{empresa.nombre}}
+{{empresa.nombre}}
 {% endblock %}
 {% block stylesheets %}
-	{{ parent() }}
+{{ parent() }}
+<style>
+	.parent {
+		display: grid;
+		grid-template-columns: repeat(5, 1fr);
+		grid-template-rows: repeat(5, 1fr);
+		grid-column-gap: 0;
+		grid-row-gap: 0;
+	}
+
+	.div1 {
+		grid-area: 1 / 1 / 6 / 3;
+	}
+
+	.div2 {
+		grid-area: 1 / 3 / 3 / 6;
+	}
+
+	.div3 {
+		grid-area: 3 / 3 / 6 / 6;
+	}
+
+	.btn {
+		width: fit-content;
+	}
+</style>
+
 {% endblock %}
 {% block contenido %}
-	<div style="height: 160px;"></div>
-	<div class="container">
-		<div class="row">
-			<div class="col-12">
-				<h1>Cliente:
-					<span class="text-primary">{{ empresa.nombre }}
-					</span>
-				</h1>
+
+<!-- Modal -->
+<div class="modal fade" id="activarBriefing" tabindex="-1" aria-labelledby="activarBriefingLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="activarBriefingLabel">Empresa</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div class="form-check">
+					<input class="form-check-input" type="checkbox" value="web" id="checkboxWeb">
+					<label class="form-check-label" for="checkboxWeb">
+						Briefing Web
+					</label>
+				</div>
+				<div class="form-check">
+					<input class="form-check-input" type="checkbox" value="logo" id="checkboxLogo">
+					<label class="form-check-label" for="checkboxLogo">
+						Briefing Logo
+					</label>
+				</div>
+				<div class="form-check">
+					<input class="form-check-input" type="checkbox" value="app" id="checkboxApp">
+					<label class="form-check-label" for="checkboxApp">
+						Briefing App
+					</label>
+				</div>
+				<input type="hidden" id="idEmpresa" value="{{ empresa.id }}" />
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+				<button type="button" class="btn btn-granota" id="enviarBriefing">Enviar</button>
 			</div>
 		</div>
+	</div>
+</div>
 
-		<div class="row">
-			<div class="col-12">
-				<table class="table">
-					<tbody>
-						<tr>
-							<th>Id</th>
-							<td>{{ empresa.id }}</td>
-						</tr>
-						<tr>
-							<th>Nombre</th>
-							<td>{{ empresa.nombre }}</td>
-						</tr>
-						<tr>
-							<th>Code</th>
-							<td>{{ empresa.code }}</td>
-						</tr>
-						<tr>
-							<th>Imágen</th>
-							<td>...</td>
-						</tr>
-						<tr>
-							<th>Descripcion de la empresa</th>
-							<td>{{ empresa.descripcionEmpresa }}</td>
-						</tr>
-						<tr>
-							<th>Email</th>
-							<td>{{ empresa.email }}</td>
-						</tr>
-						<tr>
-							<th>Webs</th>
-							<td>...</td>
-						</tr>
-						<tr>
-							<th>Usuarios</th>
-							<td>...</td>
-						</tr>
-						<tr>
-							<th>Teléfono</th>
-							<td>{{ empresa.telefono }}</td>
-						</tr>
-						<tr>
-							<th>Activo</th>
-							<td>{{ empresa.activo ? 'Yes' : 'No' }}</td>
-						</tr>
-						<tr>
-							<th>Fecha_creacion_empresa</th>
-							<td>{{ empresa.fechaCreacionEmpresa ? empresa.fechaCreacionEmpresa|date('H:i:s') : '' }}</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
+<div class="container">
+	<!-- Mensajes -->
+	<div class="col-12">
+		<div id="flash-messages">
 
-		<div class="row">
-			<div class="col-12 d-flex gap-2">
-				<a href="{{ path('empresa_index') }}" class="btn btn-primary">Volver</a>
-				<a href="{{ path('empresa_edit', {'id': empresa.id}) }}" class="btn btn-secondary">
-					<i class="fa-solid fa-pen-to-square"></i>
-				</a>
-				<form method="post" action="{{ path('empresa_delete', {'id': empresa.id}) }}" onsubmit="return confirm('¿Estás seguro que quieres borrar la empresa {{empresa.nombre}}?');" class="d-inline">
-					<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ empresa.id) }}">
-					<button class="btn btn-danger">
-						<i class="fa-solid fa-trash"></i>
-					</button>
-				</form>
-			</div>
 		</div>
 
 	</div>
 
+	<div class=" d-flex justify-content-end gap-2">
+		<button class="btn btn-granota activar-briefing" data-bs-toggle="modal" data-id="{{ empresa.id }}"
+			data-bs-target="#activarBriefing">Nuevo proyecto</button>
+		<a class="btn btn-success" href="{{ path('usuario_new', {'id': empresa.id})}}">
+			<i class="fa-regular fa-user"></i>
+			Nuevo usuario</a>
+		<a class="btn btn-granota" href="{{ path('web_new', {'id': empresa.id} ) }}">Nueva Web</a>
+		<a href="{{ path('empresa_edit', {'id': empresa.id}) }}" class="btn btn-primary">
+			<i class="fa-solid fa-pen-to-square"></i>
+			Editar cliente
+		</a>
+		<a href="{{ path('dashboard_clientes') }}" class="btn btn-secondary ">
+			<i class="fa-solid fa-arrow-rotate-left"></i>
+			Volver</a>
+
+	</div>
+
+	<div class="parent gap-4 mt-3">
+		<div class="div1 border border-secondary p-4 rounded-3 bg-white">
+			<h2 class="text-center"><img src="/uploads/logotipos/{{ empresa.imagenLogotipoRuta}}" alt="Logo"
+					class="rounded-circle" style="width: 50px;">{{empresa.nombre}}</h2>
+
+			<table class="table">
+				<tbody>
+					<tr>
+						<th>Empresa:</th>
+						<td class="empresa-nombre">{{empresa.nombre}}</td>
+					</tr>
+					<tr>
+						<th>Code:</th>
+						<td class="text-muted empresa-id">{{empresa.code}}</td>
+					</tr>
+					<tr>
+						<th>Descripción:</th>
+						<td>{{empresa.descripcionEmpresa}}</td>
+					</tr>
+					<tr>
+						<th>Email:</th>
+						<td>
+							<a href="mailto:{{empresa.email}}">{{empresa.email}}</a>
+						</td>
+					</tr>
+					<tr>
+						<th>Télefono:</th>
+						<td>{{empresa.telefono}}</td>
+					</tr>
+					<tr>
+						<th>Sitios web:</th>
+						<td>
+							{% for web in empresa.web %}
+							<a href="https://{{ web.web }}">{{ web.web }}</a>
+							{% if not loop.last %},
+							{% endif %}
+							{% endfor %}
+						</td>
+
+					</tr>
+					<tr>
+						<th>Activo:</th>
+						<td>{{ empresa.activo ? 'Si' : 'No' }}</td>
+					</tr>
+					<tr>
+						<th>Fecha creación de la empresa</th>
+						<td>{{ empresa.fechaCreacionEmpresa ? empresa.fechaCreacionEmpresa|date('Y-m-d
+							H:i:s') }}
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<h4 class="text-muted mt-4">Proyectos</h4>
+
+
+		</div>
+		<div class="div2 border border-secondary rounded-3 p-4 bg-white">
+			<h5 class="fw-bold">Briefings</h5>
+			<button class="btn btn-secondary">Briefing web</button>
+			<button class="btn btn-secondary">Briefing Logotipo</button>
+			<button class="btn btn-secondary">Briefing App</button>
+
+			<table class="mt-4 table">
+				<tbody>
+					{% if briefingweb is not null %}
+					<tr>
+						<td>Id:
+							{{ briefingweb.id }}</td>
+						<td>Briefing web</td>
+						<td>{{ empresa.code}}</td>
+						<td>
+							<a
+								href="{{ path('briefing_' ~ briefingweb.tipo|lower ~ '_show', {'id': briefingweb.id}) }}">
+								<i class="fa-solid fa-eye"></i>
+							</a>
+						</td>
+						<td>
+							<a href="{{ path('briefing_' ~ briefingweb.tipo|lower ~ '_pdf', {'id': briefingweb.id}) }}">
+								<i class="fa-solid fa-download"></i>
+							</a>
+						</td>
+						<td>
+							<form method="post"
+								action="{{ path('briefing_' ~ briefingweb.tipo|lower ~ '_delete', {'id': briefingweb.id}) }}"
+								onsubmit="return confirm('¿Estás seguro que quieres borrar el briefing de {{ briefingweb.tipo|capitalize }} de {{ empresa.nombre }}?');">
+								<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ briefingweb.id) }}">
+								<button class="btn">
+									<i class="fa-solid fa-trash" style="color:red;"></i>
+								</button>
+							</form>
+						</td>
+						{% else %}
+						<td>No hay briefing web asociado</td>
+					</tr>
+					{% endif %}
+
+					{% if briefingapp is not null %}
+					<tr>
+						<td>Id:
+							{{ briefingapp.id }}</td>
+						<td>Briefing app</td>
+						<td>{{ empresa.code}}</td>
+						<td>
+							<a
+								href="{{ path('briefing_' ~ briefingapp.tipo|lower ~ '_show', {'id': briefingapp.id}) }}">
+								<i class="fa-solid fa-eye"></i>
+							</a>
+						</td>
+						<td>
+							<a href="{{ path('briefing_' ~ briefingapp.tipo|lower ~ '_pdf', {'id': briefingapp.id}) }}">
+								<i class="fa-solid fa-download"></i>
+							</a>
+						</td>
+						<td>
+							<form method="post"
+								action="{{ path('briefing_' ~ briefingapp.tipo|lower ~ '_delete', {'id': briefingapp.id}) }}"
+								onsubmit="return confirm('¿Estás seguro que quieres borrar el briefing de {{ briefingapp.tipo|capitalize }} de {{ empresa.nombre }}?');">
+								<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ briefingapp.id) }}">
+								<button class="btn">
+									<i class="fa-solid fa-trash" style="color:red;"></i>
+								</button>
+							</form>
+						</td>
+						{% else %}
+						<td>No hay briefing app asociado</td>
+					</tr>
+					{% endif %}
+
+					{% if briefinglogo is not null %}
+					<tr>
+						<td>Id:
+							{{ briefinglogo.id }}</td>
+						<td>Briefing logo</td>
+						<td>{{ empresa.code}}</td>
+						<td>
+							<a
+								href="{{ path('briefing_' ~ briefinglogo.tipo|lower ~ '_show', {'id': briefinglogo.id}) }}">
+								<i class="fa-solid fa-eye"></i>
+							</a>
+						</td>
+						<td>
+							<a
+								href="{{ path('briefing_' ~ briefinglogo.tipo|lower ~ '_pdf', {'id': briefinglogo.id}) }}">
+								<i class="fa-solid fa-download"></i>
+							</a>
+						</td>
+						<td>
+							<form method="post"
+								action="{{ path('briefing_' ~ briefinglogo.tipo|lower ~ '_delete', {'id': briefinglogo.id}) }}"
+								onsubmit="return confirm('¿Estás seguro que quieres borrar el briefing de {{ briefinglogo.tipo|capitalize }} de {{ empresa.nombre }}?');">
+								<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ briefinglogo.id) }}">
+								<button>
+									<i class="fa-solid fa-trash" style="color:red;"></i>
+									</a>
+							</form>
+
+						</td>
+						{% else %}
+						<td>No hay briefinglogo asociado</td>
+					</tr>
+					{% endif %}
+				</tbody>
+			</table>
+		</div>
+		<div class="div3 border border-secondary rounded-3 p-4 bg-white">
+			<h5 class="fw-bold">Usuarios</h5>
+
+			<table class="table">
+				{% if empresa.usuarios is empty %}
+				<tr>
+					<td colspan="3">No existen usuarios.</td>
+				</tr>
+				{% else %}
+				{% for usuario in empresa.usuarios %}
+				<tr>
+					<td>{{ usuario.username }}</td>
+					<td>
+						<a href="{{ path('usuario_show', {'id': usuario.id}) }}">
+							<i class="fa-solid fa-eye"></i>
+						</a>
+					</td>
+					<td>
+						<a href="#">
+							<i class="fa-solid fa-trash" style="color:red;"></i>
+						</a>
+					</td>
+				</tr>
+				{% endfor %}
+				{% endif %}
+			</table>
+		</div>
+	</div>
+</div>
+
+<script>
+	// MODAL
+	var myModal = new bootstrap.Modal(document.getElementById('activarBriefing'));
+	myModal.hide();
+
+	// Agrega el event listener al elemento del modal
+	document.getElementById('activarBriefing').addEventListener('hidden.bs.modal', function () {
+		console.log('Modal cerrado correctamente');
+	});
+
+	document.querySelectorAll('.activar-briefing').forEach(item => {
+		item.addEventListener('click', event => {
+			event.preventDefault(); // Evitar comportamiento predeterminado del enlace
+
+			// Obtener el nombre de la empresa y su ID desde la tabla
+			let nombreEmpresa = document.querySelector('.empresa-nombre').innerText.trim();
+			let idEmpresa = {{empresa.id}};
+
+			// Asignar los valores al modal
+			document.getElementById('activarBriefingLabel').innerText = 'Empresa: ' + nombreEmpresa;
+			document.getElementById('idEmpresa').value = idEmpresa;
+
+			// Abre el modal
+			myModal.show(); // No es necesario crear una nueva instancia aquí
+		});
+	});
+
+
+
+
+	// AJAX
+	$(document).ready(function () {
+    $('#enviarBriefing').click(function () {
+        // Verificar si al menos una casilla está marcada
+        if ($('#checkboxWeb').is(':checked') || $('#checkboxLogo').is(':checked') || $('#checkboxApp').is(':checked')) {
+            // Los campos están marcados, proceder con el envío del formulario
+            var formData = {
+                web: $('#checkboxWeb').is(':checked'),
+                logo: $('#checkboxLogo').is(':checked'),
+                app: $('#checkboxApp').is(':checked'),
+                idEmpresa: $('#idEmpresa').val()
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: "{{ path('briefing_handle') }}",
+                data: formData,
+                success: function (response) {
+                    // Cerrar el modal
+                    $('#activarBriefing').modal('hide');
+
+                    // Manejar la respuesta del controlador
+                    if (response.success) {
+                        // Mostrar mensajes de éxito
+                        if (response.success_flash_messages.length > 0) {
+                            response.success_flash_messages.forEach(function(message) {
+                                $('#flash-messages').append('<div class="alert alert-success">' + message + '</div>');
+                            });
+                        }
+                    } else {
+                        // Mostrar mensajes de error
+                        if (response.error_flash_messages.length > 0) {
+                            response.error_flash_messages.forEach(function(message) {
+                                $('#flash-messages').append('<div class="alert alert-danger">' + message + '</div>');
+                            });
+                        }
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Manejar errores
+                    console.error(error);
+                }
+            });
+        } else {
+            // Mostrar mensaje de error si ninguna casilla está marcada
+            $('#flash-messages').html('<div class="alert alert-danger">Debes marcar al menos una casilla.</div>');
+        }
+    });
+});
+
+</script>
 {% endblock %}

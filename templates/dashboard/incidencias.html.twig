@@ -2,88 +2,109 @@
 {% block title %}Dashboard Incidencias
 {% endblock %}
 {% block stylesheets %}
-	{{ parent() }}
+{{ parent() }}
 {% endblock %}
 {% block contenido %}
 
-	<div style="height: 160px;"></div>
+<section class="d-flex vh-100 justify-content-center align-items-center">
+	<div class="container">
 
-
-	<div class="row">
-		<div class="col-12">
-			{% for flashMessage in app.flashes('success') %}
+		<div class="row">
+			<div class="col-12">
+				{% for flashMessage in app.flashes('success') %}
 				<div class="alert alert-success">
 					{{ flashMessage }}
 				</div>
-			{% endfor %}
+				{% endfor %}
 
-			{% for flashMessage in app.flashes('error') %}
+				{% for flashMessage in app.flashes('error') %}
 				<div class="alert alert-danger">
 					{{ flashMessage }}
 				</div>
-			{% endfor %}
-		</div>
+				{% endfor %}
+			</div>
 
-		<div class="col-12">
+			<div class="col-12">
 
-			<h1>Listado de Incidencias</h1>
+				<h5>Listado de Incidencias</h5>
 
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th>Id</th>
-						<th>Empresa</th>
-						<th>Code</th>
-						<th>Título</th>
-						<th>Tipo</th>
-						<th>Ver</th>
-						<th>Descargar</th>
-						<th>Borrar</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for incidencia in incidencias %}
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Id</th>
+							<th>Empresa</th>
+							<th class="text-center">Code</th>
+							<th class="text-center">Título</th>
+							<th class="text-center">Tipo</th>
+							<th class="text-center">Ver</th>
+							<th class="text-center">Descargar</th>
+							<th class="text-center">Borrar</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for incidencia in incidencias %}
+						{% if incidencia.briefingWeb %}
+						{% set tipo = "web" %}
+						{% else %}
+						{% set tipo = "app" %}
+						{% endif %}
+
+						{% set empresa = null %}
+						{% set imagenLogotipoRuta = null %}
+						{% if tipo == "web" %}
+						{% set empresa = incidencia.briefingWeb.usuario.empresa %}
+						{% set imagenLogotipoRuta = empresa.imagenLogotipoRuta %}
+						{% elseif tipo == "app" %}
+						{% set empresa = incidencia.briefingApp.usuario.empresa %}
+						{% set imagenLogotipoRuta = empresa.imagenLogotipoRuta %}
+						{% endif %}
+
 						<tr>
 							<td class="align-middle">
 								{{incidencia.id}}
 							</td>
 							<td class="align-middle">
-								<img src="https://placehold.jp/3d4070/ffffff/30x30.png?text=logo%20company" alt="Logo" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 20px;">
-								<span>{{ incidencia.briefingWeb ? incidencia.briefingWeb.usuario.empresa.nombre : (incidencia.briefingApp ? incidencia.briefingApp.usuario.empresa.nombre : '') }}</span>
+								<img src="/uploads/logotipos/{{ imagenLogotipoRuta }}" alt="Logo" class="rounded-circle"
+									style="width: 40px; height: 40px; margin-right: 20px;">
+								<span>{{ empresa ? empresa.nombre : '' }}</span>
 							</td>
-							<td class="align-middle text-muted">Code</td>
-							<td class="align-middle">{{incidencia.titulo}}</td>
-							<td class="align-middle">{{incidencia.tipo}}</td>
+							<td class="align-middle text-muted text-center">{{ empresa.code}}</td>
+							<td class="align-middle text-center">{{incidencia.titulo}}</td>
+							<td class="align-middle text-center">{{incidencia.tipo}}</td>
 
-							<td class="align-middle">
+							<td class="align-middle text-center">
 								<a href="{{ path('incidencia_show', {'id': incidencia.id}) }}">
 									<i class="fa-solid fa-eye"></i>
 								</a>
 							</td>
-							<td class="align-middle">
+							<td class="align-middle text-center">
 								<a href="{{ path('incidencia_pdf', {'id': incidencia.id}) }}">
 									<i class="fa-solid fa-download"></i>
 								</a>
 							</td>
-							<td class="align-middle">
-								<form method="post" action="{{ path('incidencia_delete', {'id': incidencia.id}) }}" onsubmit="return confirm('¿Estás seguro que quieres borrar la incidencia {{incidencia.titulo}}?');">
-									<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ incidencia.id) }}">
+							<td class="align-middle text-center">
+								<form method="post" action="{{ path('incidencia_delete', {'id': incidencia.id}) }}"
+									onsubmit="return confirm('¿Estás seguro que quieres borrar la incidencia {{incidencia.titulo}}?');">
+									<input type="hidden" name="_token"
+										value="{{ csrf_token('delete' ~ incidencia.id) }}">
 									<button class="btn">
-										<i class="fa-solid fa-trash"></i>
+										<i class="fa-solid fa-trash" style="color:red;"></i>
 									</button>
 								</form>
 							</td>
 						</tr>
 
-					{% else %}
+						{% else %}
 						<tr>
 							<td colspan="8">no records found</td>
 						</tr>
-					{% endfor %}
-				</tbody>
-			</table>
+						{% endfor %}
+					</tbody>
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</div>
-
+</section>
 
 {% endblock %}

@@ -12,7 +12,13 @@ class DashboardClienteController extends AbstractController
 
     public function index(): Response 
     {
-        return $this->render('dashboard_cliente/index.html.twig');
+        $user = $this->getUser();
+
+        $empresa = $user->getEmpresa();
+
+        return $this->render('dashboard_cliente/index.html.twig', [
+            "empresa" => $empresa,
+        ]);
     }
 
 

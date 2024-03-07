@@ -4,12 +4,6 @@
 {% endblock %}
 {% block stylesheets %}
 	{{ parent() }}
-	<style>
-		.custom-btn {
-			background-color: #99c21e;
-			color: #ffffff;
-		}
-	</style>
 {% endblock %}
 {% block body %}
 	<section class="vh-100 d-flex align-items-center justify-content-center">
@@ -46,6 +40,12 @@
 
 						</div>
 
+						<div class="mb-2 mt-3">
+							<strong>Imágen del logotipo</strong>
+						</div>
+						<div class="form-outline mb-4">
+							<img src="/uploads/logotipos/{{ empresa.imagenLogotipoRuta}}" alt="Logo" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 20px;">
+						</div>
 
 						<div class="form-outline form-floating mb-4">
 							{{ form_widget(form.descripcion_empresa) }}
@@ -74,7 +74,7 @@
 
 						<div class="row">
 							<div class="col-12 d-flex gap-2">
-								<a href="{{ path('empresa_index') }}" class="btn btn-primary">Volver</a>
+								<a href="{{ path('dashboard_clientes') }}" class="btn btn-primary">Volver</a>
 								<form method="post" action="{{ path('empresa_delete', {'id': empresa.id}) }}" onsubmit="return confirm('¿Estás seguro que quieres borrar la empresa {{empresa.nombre}}?');" class="d-inline">
 									<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ empresa.id) }}">
 									<button class="btn btn-danger">

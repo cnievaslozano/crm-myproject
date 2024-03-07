@@ -7,8 +7,8 @@
 	{{ parent() }}
 {% endblock %}
 {% block contenido %}
-	<div style="height: 160px;"></div>
-	<div class="container">
+
+	<div class="container ">
 		<div class="row">
 			<div class="col-12">
 				<h1>Briefing App de:
@@ -28,7 +28,9 @@
 						</tr>
 						<tr>
 							<th>Activo</th>
-							<td> {{ briefing_app.isActivo ? 'si' : 'no' }} </td>
+							<td>
+								{{ briefing_app.isActivo ? 'si' : 'no' }}
+							</td>
 						</tr>
 						<tr>
 							<th>Lo ha creado el usuario</th>
@@ -55,8 +57,10 @@
 							<td>{{ briefing_app.namingSlogan }}</td>
 						</tr>
 						<tr>
-							<th>Imagen_logotipo_ruta (cambiar)</th>
-							<td>{{ briefing_app.imagenLogotipoRuta }}</td>
+							<th>Imagen para la app</th>
+							<td>
+								<img src="/uploads/logotipos/{{ briefing_app.imagenLogotipoRuta}}" alt="Logo" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 20px;">
+							</td>
 						</tr>
 						<tr>
 							<th>Gama cromática</th>
@@ -67,7 +71,7 @@
 							<td>{{ briefing_app.estructuraApp }}</td>
 						</tr>
 						<tr>
-							<th>Fecha_creacion_briefing_app</th>
+							<th>Fecha en la que se ha enviado</th>
 							<td>{{ briefing_app.fechaCreacionBriefingApp ? briefing_app.fechaCreacionBriefingApp|date('Y-m-d H:i:s')}}</td>
 						</tr>
 					</tbody>
@@ -76,7 +80,7 @@
 		</div>
 		<div class="row">
 			<div class="col-12 d-flex gap-2">
-				<a href="{{ path('briefings_index') }}" class="btn btn-primary">Volver</a>
+				<a href="{{ path('dashboard_briefings') }}" class="btn btn-primary">Volver</a>
 				<form method="post" action="{{ path('briefing_app_delete', {'id': briefing_app.id}) }}" onsubmit="return confirm('¿Estás seguro que quieres borrar el briefing app de {{empresa.nombre}}?');" class="d-inline">
 					<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ briefing_app.id) }}">
 					<button class="btn btn-danger">
