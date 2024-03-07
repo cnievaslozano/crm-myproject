@@ -98,6 +98,54 @@ class Empresa
         return $this;
     }
 
+        /**
+     * @ORM\OneToOne(targetEntity="App\Entity\BriefingWeb", mappedBy="empresa", cascade={"persist", "remove"})
+     */
+    private $briefing_web;
+
+    public function getBriefingWeb(): ?BriefingWeb
+    {
+        return $this->briefing_web;
+    }
+
+    public function setBriefingWeb(?BriefingWeb $briefing_web): self
+    {
+        $this->briefing_web = $briefing_web;
+
+        return $this;
+    }
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\BriefingApp", mappedBy="empresa", cascade={"persist", "remove"})
+     */
+    private $briefing_app;
+    public function getBriefingApp(): ?BriefingApp
+    {
+        return $this->briefing_app;
+    }
+
+    public function setBriefingApp(?BriefingApp $briefing_app): self
+    {
+        $this->briefing_app = $briefing_app;
+
+        return $this;
+    }
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\BriefingLogo", mappedBy="empresa", cascade={"persist", "remove"})
+     */
+    private $briefing_logo;
+    public function getBriefingLogo(): ?BriefingLogo
+    {
+        return $this->briefing_logo;
+    }
+
+    public function setBriefingLogo(?BriefingLogo $briefing_logo): self
+    {
+        $this->briefing_logo = $briefing_logo;
+
+        return $this;
+    }
+
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Usuario", mappedBy="empresa")
      */
