@@ -34,8 +34,8 @@
 						<tr>
 							<th>Id</th>
 							<th>Empresa</th>
-							<th class="text-center">Usuario</th>
 							<th class="text-center">Code</th>
+							<th class="text-center">Estado </ht>
 							<th class="text-center">Tipo</th>
 							<th class="text-center">Activo</th>
 							<th class="text-center">Ver</th>
@@ -55,6 +55,8 @@
 								<span>{{ briefing.empresa.nombre }}</span>
 							</td>
 							<td class="align-middle text-center text-muted">{{ briefing.empresa.code }}</td>
+							<td class="align-middle text-center">{{ briefing.estado }}</td>
+
 							<td class="align-middle text-center">
 								{{ briefing.tipo|capitalize }}
 							</td>
