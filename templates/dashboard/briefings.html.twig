@@ -49,13 +49,12 @@
 						<tr>
 							<td class="align-middle">{{ briefing.id }}</td>
 							<td class="align-middle">
-								<img src="/uploads/logotipos/{{ briefing.usuario.empresa.imagenLogotipoRuta }}"
+								<img src="/uploads/logotipos/{{ briefing.empresa.imagenLogotipoRuta }}"
 									alt="Logo" class="rounded-circle"
 									style="width: 40px; height: 40px; margin-right: 20px;">
-								<span>{{ briefing.usuario.empresa.nombre }}</span>
+								<span>{{ briefing.empresa.nombre }}</span>
 							</td>
-							<td class="align-middle text-center">{{ briefing.usuario.username }}</td>
-							<td class="align-middle text-center text-muted">{{ briefing.usuario.empresa.code }}</td>
+							<td class="align-middle text-center text-muted">{{ briefing.empresa.code }}</td>
 							<td class="align-middle text-center">
 								{{ briefing.tipo|capitalize }}
 							</td>
@@ -73,7 +72,7 @@
 							<td class="align-middle text-center">
 								<form method="post"
 									action="{{ path('briefing_' ~ briefing.tipo|lower ~ '_delete', {'id': briefing.id}) }}"
-									onsubmit="return confirm('¿Estás seguro que quieres borrar el briefing de {{ briefing.tipo|capitalize }} de {{ briefing.usuario.empresa.nombre }}?');">
+									onsubmit="return confirm('¿Estás seguro que quieres borrar el briefing de {{ briefing.tipo|capitalize }} de {{ briefing.empresa.nombre }}?');">
 									<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ briefing.id) }}">
 									<button class="btn">
 										<i class="fa-solid fa-trash" style="color:red;"></i>
