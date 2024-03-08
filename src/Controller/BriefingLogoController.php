@@ -33,7 +33,6 @@ class BriefingLogoController extends AbstractController
 
                 // Asignar datos adicionales
                 $briefingLogo->setFechaCreacionBriefingLogo(new \DateTime());
-                $briefingLogo->setUsuario($user);
                 $briefingLogo->setEstado("En Progreso");
                 $briefingLogo->setActivo(true);
 
@@ -63,26 +62,27 @@ class BriefingLogoController extends AbstractController
     }
     public function show(BriefingLogo $briefingLogo): Response
     {
-        // Obtener el usuario asociado al briefing
-        $usuario = $briefingLogo->getUsuario();
-        $empresa = $usuario->getEmpresa();
+        $empresa = $briefingLogo->getEmpresa();
 
         return $this->render('dashboard/briefinglogo/show.html.twig', [
             'empresa' => $empresa,
-            'usuario' => $usuario,
             'briefing_logo' => $briefingLogo,
         ]);
     }
 
     
 
-    public function delete(Request $request, BriefingLogo $briefingApp, BriefingLogoRepository $briefingLogoRepository): Response
+    public function delete(Request $request, BriefingLogo $briefingLogo, EntityManagerInterface $em): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $briefingApp->getId(), $request->request->get('_token'))) {
-            $briefingLogoRepository->remove($briefingApp, true);
-        }
+        if ($this->isCsrfTokenValid('delete' . $briefingLogo->getId(), $request->request->get('_token'))) {
+            $briefingLogo->setActivo(False);
+            $briefingLogo->setEstado("");
+            
+            $em->persist($briefingLogo);
+            $em->flush();
+         }
 
-        return $this->redirectToRoute('app_briefing_logo_crud_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('dashboard_briefings', [], Response::HTTP_SEE_OTHER);
     }
     public function descargarPDF($id): Response
     {

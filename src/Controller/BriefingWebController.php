@@ -32,7 +32,6 @@ class BriefingWebController extends AbstractController
             try {
                 // Asignar datos adicionales
                 $briefingWeb->setFechaCreacionBriefingWeb(new \DateTime());
-                $briefingWeb->setUsuario($user);
                 $briefingWeb->setEstado("En Progreso");
                 $briefingWeb->setActivo(true);
 
@@ -64,24 +63,27 @@ class BriefingWebController extends AbstractController
     public function show(BriefingWeb $briefingWeb): Response
     {
         // Obtener el usuario asociado al briefing
-        $usuario = $briefingWeb->getUsuario();
-        $empresa = $usuario->getEmpresa();
+        $empresa = $briefingWeb->getEmpresa();
 
         return $this->render('dashboard/briefingweb/show.html.twig', [
             'empresa' => $empresa,
-            'usuario' => $usuario,
             'briefing_web' => $briefingWeb,
         ]);
     }
 
 
-    public function delete(Request $request, BriefingWeb $briefingWeb, BriefingWebRepository $briefingWebRepository): Response
+    public function delete(Request $request, BriefingWeb $briefingWeb, EntityManagerInterface $em): Response
     {
         if ($this->isCsrfTokenValid('delete' . $briefingWeb->getId(), $request->request->get('_token'))) {
-            $briefingWebRepository->remove($briefingWeb, true);
-        }
+            $briefingWeb->setActivo(False);
+            $briefingWeb->setEstado("");
 
-        return $this->redirectToRoute('app_briefing_web_crud_index', [], Response::HTTP_SEE_OTHER);
+            
+            $em->persist($briefingWeb);
+            $em->flush();
+         }
+
+        return $this->redirectToRoute('dashboard_briefings');
     }
 
     public function descargarPDF($id): Response

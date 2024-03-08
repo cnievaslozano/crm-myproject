@@ -19,7 +19,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class BriefingAppController extends AbstractController
 {
 
-    public function new(Request $request ,MisFunciones $misFunciones, EntityManagerInterface $em, SluggerInterface $slugger): Response
+    public function new(Request $request, MisFunciones $misFunciones, EntityManagerInterface $em, SluggerInterface $slugger): Response
     {
         $user = $this->getUser();
 
@@ -36,8 +36,8 @@ class BriefingAppController extends AbstractController
                 $brochureFile = $form['imagen_logotipo_ruta']->getData();
 
                 // Validar si el archivo es una imagen
-                if($brochureFile !== null) {
-                    if(!$misFunciones->validateImage($brochureFile)) {
+                if ($brochureFile !== null) {
+                    if (!$misFunciones->validateImage($brochureFile)) {
                         $this->addFlash('error', 'El archivo no es una imagen válida.');
                         return $this->redirectToRoute('briefing_app_new');
                     }
@@ -45,7 +45,6 @@ class BriefingAppController extends AbstractController
                 }
 
                 // Asignar datos adicionales
-                $briefingApp->setUsuario($user);
                 $briefingApp->setFechaCreacionBriefingApp(new \DateTime());
                 $briefingApp->setActivo(true);
                 $briefingApp->setEstado("En Progreso");
@@ -75,21 +74,22 @@ class BriefingAppController extends AbstractController
 
     public function show(BriefingApp $briefingApp): Response
     {
-        // Obtener el usuario asociado al briefing
-        $usuario = $briefingApp->getUsuario();
-        $empresa = $usuario->getEmpresa();
+        $empresa = $briefingApp->getEmpresa();
 
         return $this->render('dashboard/briefingapp/show.html.twig', [
             'empresa' => $empresa,
-            'usuario' => $usuario,
             'briefing_app' => $briefingApp,
         ]);
     }
 
-    public function delete(Request $request, BriefingApp $briefingApp, BriefingAppRepository $briefingAppRepository): Response
+    public function delete(Request $request, BriefingApp $briefingApp, EntityManagerInterface $em): Response
     {
         if ($this->isCsrfTokenValid('delete' . $briefingApp->getId(), $request->request->get('_token'))) {
-            $briefingAppRepository->remove($briefingApp, true);
+            $briefingApp->setActivo(False);
+            $briefingApp->setEstado("");
+
+            $em->persist($briefingApp);
+            $em->flush();
         }
 
         return $this->redirectToRoute('dashboard_briefings', [], Response::HTTP_SEE_OTHER);
