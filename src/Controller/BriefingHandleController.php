@@ -9,11 +9,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Entity\Empresa;
-use App\Entity\BriefingWeb;
-use App\Entity\BriefingLogo;
-use App\Entity\BriefingApp;
-
-
 
 class BriefingHandleController extends AbstractController
 {
@@ -28,53 +23,19 @@ class BriefingHandleController extends AbstractController
     {
         try {
             // Obtener los datos del formulario
-            $web = $request->request->get('web');
-            $logo = $request->request->get('logo');
-            $app = $request->request->get('app');
             $idEmpresa = $request->request->get('idEmpresa');
-
-            // Obtengo empresa
             $empresa = $em->getRepository(Empresa::class)->find($idEmpresa);
 
             if (!$empresa) {
-                // Manejar el caso en que no se encuentre la empresa
                 throw $this->createNotFoundException('No se encontró la empresa para el ID proporcionado: ' . $idEmpresa);
             }
 
-            if ($web) {
-                $briefingweb = $em->getRepository(Empresa::class)->findBriefingWebByEmpresaId($idEmpresa);
-                if(is_null($briefingweb)){
-                    $briefingweb = new BriefingWeb();
-                    $briefingweb->setActivo(true);
-                    $briefingweb->setEstado("Falta Rellenar Cliente");                    
-                }
+            $this->assignBriefing($request->request->get('web'), $empresa->getBriefingWeb(), 'web', $em);
+            $this->assignBriefing($request->request->get('logo'), $empresa->getBriefingLogo(), 'logo', $em);
+            $this->assignBriefing($request->request->get('app'), $empresa->getBriefingApp(), 'app', $em);
 
-                $this->checkAndAssignBriefing($briefingweb, 'web', $empresa, $em);
-            }
-            if ($logo) {
-                $briefinglogo = $em->getRepository(Empresa::class)->findBriefingLogoByEmpresaId($idEmpresa);
-                if(is_null($briefinglogo)){
-                    $briefinglogo = new BriefingLogo();
-                    $briefinglogo->setActivo(true);
-                    $briefinglogo->setEstado("Falta Rellenar Cliente");  
-                }
-                $this->checkAndAssignBriefing($briefinglogo, 'logo', $empresa, $em);
-            }
-            if ($app) {
-                $briefingapp = $em->getRepository(Empresa::class)->findBriefingLogoByEmpresaId($idEmpresa);
-                if(is_null($briefingapp)){
-                    $briefingapp = new BriefingApp();
-                    $briefingapp->setActivo(true);
-                    $briefingapp->setEstado("Falta Rellenar Cliente");  
-                }
-                $this->checkAndAssignBriefing($briefingapp, 'app', $empresa, $em);
-            }
-
-            // Mensajes de éxito
-            $this->addFlash('success', 'Datos recibidos correctamente.');
         } catch (\Exception $e) {
-            // Mensajes de error
-            $this->addFlash('error', 'Ocurrió un error al procesar los datos.'. $e);
+            $this->addFlash('error', 'Ocurrió un error al procesar los datos. -> ' . $e->getMessage());
         }
 
         // Obtener los mensajes flash
@@ -89,15 +50,17 @@ class BriefingHandleController extends AbstractController
         ]);
     }
 
-    private function checkAndAssignBriefing($briefing, $type, $empresa, $em)
+    private function assignBriefing($value, $briefing, $type, $em)
     {
-        if ($briefing && !$briefing->isActivo()) {
+        if ($value == "true" && !$briefing->isActivo()) {
             $briefing->setActivo(true);
-            $em->persist($empresa);
+            $briefing->setEstado("Falta Rellenar Cliente");
+
+            $em->persist($briefing);
             $em->flush();
             $this->addFlash('success', 'Se asignó correctamente el briefing ' . $type);
-        } else {
-            $this->addFlash('error', 'Esta empresa ya tiene un briefing ' . $type . ' asignado o no se encontró el briefing.');
+        } elseif ($value == "true") {
+            $this->addFlash('error', 'Ya tiene asignado un briefing ' . $type . ' esta empresa');
         }
     }
 }
