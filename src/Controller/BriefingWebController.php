@@ -20,9 +20,9 @@ class BriefingWebController extends AbstractController
     {
 
         $user = $this->getUser();
+        $empresa = $user->getEmpresa();
 
-        // Crear una instancia del formulario
-        $briefingWeb = new BriefingWeb();
+        $briefingWeb = $empresa->getBriefingWeb();
         $form = $this->createForm(BriefingWebType::class, $briefingWeb);
 
         // Procesar el formulario si se ha enviado
@@ -30,6 +30,15 @@ class BriefingWebController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
+                if (!$briefingWeb->isActivo()) {
+                    throw new \Exception('El briefing web no lo tienes activo, porfavor contácta con un administrador.');
+                }
+
+                if ($briefingWeb->getFechaCreacionBriefingWeb()) {
+                    throw new \Exception('Ya has enviado un briefing de web anteriormente.');
+                }
+
+                
                 // Asignar datos adicionales
                 $briefingWeb->setFechaCreacionBriefingWeb(new \DateTime());
                 $briefingWeb->setEstado("En Progreso");
@@ -44,13 +53,9 @@ class BriefingWebController extends AbstractController
 
                 // Redirigir a una página de éxito o realizar otras acciones necesarias
                 return $this->redirectToRoute('briefing_web_new');
-            } catch (UniqueConstraintViolationException $e) {
-                // Capturar la excepción de violación de la restricción única
-                // y mostrar un mensaje de error al usuario
-                $this->addFlash('error', 'Ya has enviado un briefing web anteriormente.');
             } catch (\Exception $e) {
                 // Manejar otras excepciones
-                $this->addFlash('error', 'Ha ocurrido un error al procesar tu solicitud. Por favor, inténtalo de nuevo más tarde.');
+                $this->addFlash('error', $e->getMessage());
             }
         }
 
