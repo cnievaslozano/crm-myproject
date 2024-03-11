@@ -35,28 +35,26 @@
 							<th>Id</th>
 							<th>Empresa</th>
 							<th class="text-center">Code</th>
-							<th class="text-center">Estado </ht>
+							<th class="text-center">Estado</th>
 							<th class="text-center">Tipo</th>
 							<th class="text-center">Activo</th>
 							<th class="text-center">Ver</th>
 							<th class="text-center">Pdf</th>
 							<th class="text-center">Borrar</th>
-
 						</tr>
 					</thead>
 					<tbody>
 						{% for briefing in briefings %}
+						{% if briefing.isActivo %}
 						<tr>
 							<td class="align-middle">{{ briefing.id }}</td>
 							<td class="align-middle">
-								<img src="/uploads/logotipos/{{ briefing.empresa.imagenLogotipoRuta }}"
-									alt="Logo" class="rounded-circle"
-									style="width: 40px; height: 40px; margin-right: 20px;">
+								<img src="/uploads/logotipos/{{ briefing.empresa.imagenLogotipoRuta }}" alt="Logo"
+									class="rounded-circle" style="width: 40px; height: 40px; margin-right: 20px;">
 								<span>{{ briefing.empresa.nombre }}</span>
 							</td>
 							<td class="align-middle text-center text-muted">{{ briefing.empresa.code }}</td>
 							<td class="align-middle text-center">{{ briefing.estado }}</td>
-
 							<td class="align-middle text-center">
 								{{ briefing.tipo|capitalize }}
 							</td>
@@ -82,16 +80,11 @@
 								</form>
 							</td>
 						</tr>
-						{% else %}
-						<tr>
-							<td colspan="8">No se han encontrado briefings.</td>
-						</tr>
+						{% endif %}
 						{% endfor %}
 					</tbody>
-
 				</table>
 			</div>
-		</div>
-	</div>
-</section>
-{% endblock %}
+
+
+</section>{% endblock %}

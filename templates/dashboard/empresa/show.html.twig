@@ -309,14 +309,14 @@
 						<td>{{ incidencia.tipo }}</td>
 						<td>
 							<a href="{{ path('incidencia_show', {'id': incidencia.id}) }}">Ver</a>
-							<a href="{{ path('incidencia_pdf', {'id': incidencia.id}) }}">Descargar PDF</a>
+							<a href="{{ path('incidencia_pdf', {'id': incidencia.id}) }}">PDF</a>
 						</td>
 					</tr>
 					{% endfor %}
 				</tbody>
 			</table>
 			{% else %}
-			<p>No hay incidencias asociadas a este briefing web.</p>
+			<p>No hay incidencias :)</p>
 			{% endif %}
 		</div>
 	</div>
