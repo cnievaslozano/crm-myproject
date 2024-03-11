@@ -6,7 +6,7 @@
 {% endblock %}
 {% block contenido %}
 
-<section class="d-flex vh-100 justify-content-center align-items-center">
+<section class="d-flex justify-content-center ">
 	<div class="container">
 
 		<div class="row">
@@ -52,10 +52,10 @@
 						{% set empresa = null %}
 						{% set imagenLogotipoRuta = null %}
 						{% if tipo == "web" %}
-						{% set empresa = incidencia.briefingWeb.usuario.empresa %}
+						{% set empresa = incidencia.briefingWeb.empresa %}
 						{% set imagenLogotipoRuta = empresa.imagenLogotipoRuta %}
 						{% elseif tipo == "app" %}
-						{% set empresa = incidencia.briefingApp.usuario.empresa %}
+						{% set empresa = incidencia.briefingApp.empresa %}
 						{% set imagenLogotipoRuta = empresa.imagenLogotipoRuta %}
 						{% endif %}
 
