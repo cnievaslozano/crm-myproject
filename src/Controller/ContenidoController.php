@@ -23,15 +23,18 @@ class ContenidoController extends AbstractController
         try {
             // Crear una instancia del formulario
             $contenido = new Contenido();
+            $user = $this->getUser();
+            $empresa = $user->getEmpresa();
+            $briefingweb = $empresa->getBriefingWeb();
             $form = $this->createForm(ContenidoType::class, $contenido);
-    
+
             // Procesar el formulario si se ha enviado
             $form->handleRequest($request);
-    
+
             if ($form->isSubmitted() && $form->isValid()) {
                 // Procesar la imagen del contenido
                 $brochureFile = $form['ruta_imagenes_contenidos']->getData();
-    
+
                 // Validar si el archivo es una imagen
                 if ($brochureFile !== null) {
                     // Validar si el archivo es una imagen
@@ -41,27 +44,26 @@ class ContenidoController extends AbstractController
                     }
                     $misFunciones->processImage($contenido, "contenido_new", "contenidos_directory", $slugger, $brochureFile);
                 }
-    
+
                 // Establecer el resto de los campos del contenido
                 $contenido->setFechaCreacionContenido(new \DateTime())
                     ->setActivo(true)
-                    ->setBriefingWeb($user->getBriefingWeb());
-    
+                    ->setBriefingWeb($briefingweb);
+
                 // Verificar si el usuario tiene un briefing web asociado
-                if (null === $user->getBriefingWeb()) {
-                    $this->addFlash('error', 'No tienes un briefing web asociado. Por favor, contacta con el administrador.');
-                    return $this->redirectToRoute('contenido_new');
+                if (!$briefingweb->isActivo()) {
+                    throw new \Exception('No tienes un briefing web activo, no puedes solicitar un contenido. Por favor, contacta con el administrador.');
                 }
-    
+
                 // Persistir el contenido en la base de datos
                 $em->persist($contenido);
                 $em->flush();
-    
+
                 // Mostrar un mensaje de éxito y redirigir
                 $this->addFlash('success', 'El Contenido se ha enviado con éxito.');
                 return $this->redirectToRoute('contenido_new');
             }
-    
+
             // Renderizar el formulario
             return $this->render('formularios/contenido.html.twig', [
                 'username' => $user->getUsername(),
@@ -70,31 +72,22 @@ class ContenidoController extends AbstractController
         } catch (\Exception $e) {
             // Manejar la excepción aquí, por ejemplo, mostrar un mensaje de error
             $this->addFlash('error', 'Ha ocurrido un error: ' . $e->getMessage());
-    
+
             // Redirigir a una página de error o realizar otras acciones necesarias
-            return $this->redirectToRoute('contenido_new');
+            return $this->redirectToRoute('dashboard_empresa');
         }
     }
-    
+
 
     public function show(Contenido $contenido, ContenidoRepository $contenidoRepository): Response
     {
 
         $briefingweb = $contenido->getBriefingWeb();
+        $empresa = $briefingweb->getEmpresa();
 
-        // Inicializar la variable de usuario
-        $usuario = null;
-
-        // Verificar si el contenido tiene un briefing web asociado
-        if ($briefingweb !== null) {
-            // Obtener el usuario asociado al briefing web
-            $usuario = $briefingweb->getUsuario();
-            $empresa = $usuario->getEmpresa();
-        }
 
         return $this->render('dashboard/contenido/show.html.twig', [
             'empresa' => $empresa,
-            'usuario' => $usuario,
             'briefingweb' => $briefingweb,
             'contenido' => $contenido,
         ]);
