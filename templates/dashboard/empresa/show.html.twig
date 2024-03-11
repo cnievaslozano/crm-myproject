@@ -13,16 +13,20 @@
 		grid-row-gap: 0;
 	}
 
-	.div1 {
-		grid-area: 1 / 1 / 6 / 3;
+	.empresa {
+		grid-area: 1 / 1 / 5 / 3;
 	}
 
-	.div2 {
+	.briefings {
 		grid-area: 1 / 3 / 3 / 6;
 	}
 
-	.div3 {
-		grid-area: 3 / 3 / 6 / 6;
+	.usuarios {
+		grid-area: 3 / 3 / 5 / 6;
+	}
+
+	.incidencias {
+		grid-area: 5 / 1 / 6 / 6;
 	}
 
 	.btn {
@@ -43,19 +47,19 @@
 			</div>
 			<div class="modal-body">
 				<div class="form-check">
-					<input class="form-check-input" type="checkbox" value="web" id="checkboxWeb">
+					<input class="form-check-input" type="checkbox" id="checkboxWeb">
 					<label class="form-check-label" for="checkboxWeb">
 						Briefing Web
 					</label>
 				</div>
 				<div class="form-check">
-					<input class="form-check-input" type="checkbox" value="logo" id="checkboxLogo">
+					<input class="form-check-input" type="checkbox" id="checkboxLogo">
 					<label class="form-check-label" for="checkboxLogo">
 						Briefing Logo
 					</label>
 				</div>
 				<div class="form-check">
-					<input class="form-check-input" type="checkbox" value="app" id="checkboxApp">
+					<input class="form-check-input" type="checkbox" id="checkboxApp">
 					<label class="form-check-label" for="checkboxApp">
 						Briefing App
 					</label>
@@ -70,7 +74,7 @@
 	</div>
 </div>
 
-<div class="container">
+<div class="container m-auto">
 	<!-- Mensajes -->
 	<div class="col-12">
 		<div id="flash-messages"></div>
@@ -95,7 +99,7 @@
 	</div>
 
 	<div class="parent gap-4 mt-3">
-		<div class="div1 border border-secondary p-4 rounded-3 bg-white">
+		<div class="empresa border border-secondary p-4 rounded-3 bg-white">
 			<h2 class="text-center"><img src="/uploads/logotipos/{{ empresa.imagenLogotipoRuta}}" alt="Logo"
 					class="rounded-circle" style="width: 50px;">{{empresa.nombre}}</h2>
 
@@ -146,12 +150,8 @@
 					</tr>
 				</tbody>
 			</table>
-
-			<h4 class="text-muted mt-4">Proyectos</h4>
-
-
 		</div>
-		<div class="div2 border border-secondary rounded-3 p-4 bg-white">
+		<div class="briefings border border-secondary rounded-3 p-4 bg-white">
 			<h5 class="fw-bold">Briefings</h5>
 			<button class="btn btn-secondary">Briefing web</button>
 			<button class="btn btn-secondary">Briefing Logotipo</button>
@@ -184,13 +184,12 @@
 								action="{{ path('briefing_' ~ briefingweb.tipo|lower ~ '_delete', {'id': briefingweb.id}) }}"
 								onsubmit="return confirm('¿Estás seguro que quieres borrar el briefing de {{ briefingweb.tipo|capitalize }} de {{ empresa.nombre }}?');">
 								<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ briefingweb.id) }}">
-								<button class="btn">
+								<button class="btn p-0 ">
 									<i class="fa-solid fa-trash" style="color:red;"></i>
 								</button>
 							</form>
 						</td>
 						{% else %}
-						<td>No hay briefing web asociado</td>
 					</tr>
 					{% endif %}
 
@@ -219,13 +218,12 @@
 								action="{{ path('briefing_' ~ briefingapp.tipo|lower ~ '_delete', {'id': briefingapp.id}) }}"
 								onsubmit="return confirm('¿Estás seguro que quieres borrar el briefing de {{ briefingapp.tipo|capitalize }} de {{ empresa.nombre }}?');">
 								<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ briefingapp.id) }}">
-								<button class="btn">
+								<button class="btn p-0 ">
 									<i class="fa-solid fa-trash" style="color:red;"></i>
 								</button>
 							</form>
 						</td>
 						{% else %}
-						<td>No hay briefing app asociado</td>
 					</tr>
 					{% endif %}
 
@@ -234,7 +232,7 @@
 						<td>Id:
 							{{ briefinglogo.id }}</td>
 						<td>Briefing logo</td>
-						<td>{{ empresa.code}}</td>
+						<td>{{ briefinglogo.estado}}</td>
 						<td>
 							<a
 								href="{{ path('briefing_' ~ briefinglogo.tipo|lower ~ '_show', {'id': briefinglogo.id}) }}">
@@ -252,20 +250,20 @@
 								action="{{ path('briefing_' ~ briefinglogo.tipo|lower ~ '_delete', {'id': briefinglogo.id}) }}"
 								onsubmit="return confirm('¿Estás seguro que quieres borrar el briefing de {{ briefinglogo.tipo|capitalize }} de {{ empresa.nombre }}?');">
 								<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ briefinglogo.id) }}">
-								<button>
+								<button class="btn p-0 ">
 									<i class="fa-solid fa-trash" style="color:red;"></i>
 									</a>
+								</button>
 							</form>
 
 						</td>
 						{% else %}
-						<td>No hay briefinglogo asociado</td>
 					</tr>
 					{% endif %}
 				</tbody>
 			</table>
 		</div>
-		<div class="div3 border border-secondary rounded-3 p-4 bg-white">
+		<div class="usuarios border border-secondary rounded-3 p-4 bg-white">
 			<h5 class="fw-bold">Usuarios</h5>
 
 			<table class="table">
@@ -292,6 +290,35 @@
 				{% endif %}
 			</table>
 		</div>
+		<div class="incidencias border border-secondary rounded-3 p-4 bg-white">
+			<h5 class="fw-bold">Incidencias</h5>
+			{% if incidencias is not empty %}
+			<h2>Incidencias asociadas al briefing web</h2>
+			<table>
+				<thead>
+					<tr>
+						<th>Título</th>
+						<th>Tipo</th>
+						<th>Acciones</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for incidencia in incidencias %}
+					<tr>
+						<td>{{ incidencia.titulo }}</td>
+						<td>{{ incidencia.tipo }}</td>
+						<td>
+							<a href="{{ path('incidencia_show', {'id': incidencia.id}) }}">Ver</a>
+							<a href="{{ path('incidencia_pdf', {'id': incidencia.id}) }}">Descargar PDF</a>
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			{% else %}
+			<p>No hay incidencias asociadas a este briefing web.</p>
+			{% endif %}
+		</div>
 	</div>
 </div>
 
@@ -299,11 +326,6 @@
 	// MODAL
 	var myModal = new bootstrap.Modal(document.getElementById('activarBriefing'));
 	myModal.hide();
-
-	// Agrega el event listener al elemento del modal
-	document.getElementById('activarBriefing').addEventListener('hidden.bs.modal', function () {
-		console.log('Modal cerrado correctamente');
-	});
 
 	document.querySelectorAll('.activar-briefing').forEach(item => {
 		item.addEventListener('click', event => {

@@ -15,6 +15,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Service\MisFunciones;
+use App\Repository\IncidenciaRepository;
+use App\Entity\Incidencia;
+
 
 
 class EmpresaController extends AbstractController
@@ -95,7 +98,7 @@ class EmpresaController extends AbstractController
     }
 
 
-    public function show(Empresa $empresa): Response
+    public function show(Empresa $empresa, EntityManagerInterface $em): Response
     {
         // Inicializar variables para almacenar los briefingwebs, briefingapps y briefinglogos
         $briefingweb = null;
@@ -106,8 +109,13 @@ class EmpresaController extends AbstractController
         $briefingapp = $empresa->getBriefingApp();
         $briefinglogo = $empresa->getBriefingLogo();
 
+        // Obtener todas las incidencias asociadas al briefing web
+        $incidencias = $em->getRepository(Incidencia::class)->findByBriefingWeb($briefingweb);
+
+
         // Renderizar la vista con los datos obtenidos
         return $this->render('dashboard/empresa/show.html.twig', [
+            'incidencias' => $incidencias,
             'empresa' => $empresa,
             'briefingweb' => $briefingweb,
             'briefingapp' => $briefingapp,
