@@ -84,19 +84,19 @@ class BriefingApp
      */
     private $fecha_creacion_briefing_app;
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Usuario", inversedBy="briefing_app")
+     * @ORM\OneToOne(targetEntity="App\Entity\Empresa", inversedBy="briefing_app")
      * @ORM\JoinColumn(nullable=true)
      */
-    private $usuario;
+    private $empresa;
 
-    public function getUsuario(): ?Usuario
+    public function getEmpresa(): ?Empresa
     {
-        return $this->usuario;
+        return $this->empresa;
     }
 
-    public function setUsuario(?Usuario $usuario): self
+    public function setEmpresa(?Empresa $empresa): self
     {
-        $this->usuario = $usuario;
+        $this->empresa = $empresa;
 
         return $this;
     }

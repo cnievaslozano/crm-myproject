@@ -119,7 +119,7 @@ briefing_app_show:
     methods: ['GET']
 
 briefing_app_delete:
-    path: /dashboard/briefings/{id}
+    path: /dashboard/briefings/briefing-app/{id}
     controller: App\Controller\BriefingAppController::delete
     methods: ['POST']
 
@@ -140,7 +140,7 @@ briefing_web_show:
     methods: ['GET']
 
 briefing_web_delete:
-    path: /dashboard/briefings/{id}
+    path: /dashboard/briefings/briefing-web/{id}
     controller: App\Controller\BriefingWebController::delete
     methods: ['POST']
 
@@ -161,7 +161,7 @@ briefing_logo_show:
     methods: ['GET']
 
 briefing_logo_delete:
-    path: /dashboard/briefings/{id}
+    path: /dashboard/briefings/briefing-logo/{id}
     controller: App\Controller\BriefingLogoController::delete
     methods: ['POST']
 

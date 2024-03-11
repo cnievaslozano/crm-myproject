@@ -55,18 +55,16 @@ class DashboardController extends AbstractController
 
     public function briefings(BriefingAppRepository $briefingAppRepository, BriefingWebRepository $briefingWebRepository, BriefingLogoRepository $briefingLogoRepository): Response
     {
-
-
-        $briefingApps = $briefingAppRepository->findAllWithEmpresaAndUser();
-        $briefingWebs = $briefingWebRepository->findAllWithEmpresaAndUser();
-        $briefingLogos = $briefingLogoRepository->findAllWithEmpresaAndUser();
+        $briefingApps = $briefingAppRepository->findAll();
+        $briefingWebs = $briefingWebRepository->findAll();
+        $briefingLogos = $briefingLogoRepository->findAll();
 
         $briefings = array_merge($briefingApps, $briefingWebs, $briefingLogos);
 
-        // ordena por fecha
+        /* ordena por fecha
         usort($briefings, function ($a, $b) {
             return $a->getFecha()->getTimestamp() - $b->getFecha()->getTimestamp();
-        });
+        });*/
 
         return $this->render('dashboard/briefings.html.twig', [
             'briefings' => $briefings,
@@ -75,8 +73,7 @@ class DashboardController extends AbstractController
 
     public function contenidos(ContenidoRepository $contenidoRepository): Response
     {
-
-        $contenidos = $contenidoRepository->findAllWithBriefingWebEmpresaAndUser();
+        $contenidos = $contenidoRepository->findAll();
 
         return $this->render('dashboard/contenidos.html.twig', [
             'contenidos' => $contenidos,

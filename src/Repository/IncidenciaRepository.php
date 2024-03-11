@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Incidencia;
+use App\Entity\BriefingWeb;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -38,39 +39,53 @@ class IncidenciaRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    /**
+     * Encuentra todas las incidencias asociadas a un briefing web.
+     *
+     * @param BriefingWeb $briefingWeb
+     * @return Incidencia[] Devuelve un arreglo de incidencias
+     */
+    public function findByBriefingWeb(BriefingWeb $briefingWeb): array
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.briefing_web = :briefingWeb')
+            ->setParameter('briefingWeb', $briefingWeb)
+            ->getQuery()
+            ->getResult();
+    }
 
-         // Método para encontrar los últimos N registros
-         public function findLastN($limit): array
-         {
-             return $this->createQueryBuilder('b')
-                 ->orderBy('b.fecha_creacion_incidencia', 'DESC')
-                 ->setMaxResults($limit)
-                 ->getQuery()
-                 ->getResult();
-         }
+    // Método para encontrar los últimos N registros
+    public function findLastN($limit): array
+    {
+        return $this->createQueryBuilder('b')
+            ->orderBy('b.fecha_creacion_incidencia', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
 
-//    /**
-//     * @return Incidencia[] Returns an array of Incidencia objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('i')
-//            ->andWhere('i.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('i.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    //    /**
+    //     * @return Incidencia[] Returns an array of Incidencia objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('i')
+    //            ->andWhere('i.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('i.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
 
-//    public function findOneBySomeField($value): ?Incidencia
-//    {
-//        return $this->createQueryBuilder('i')
-//            ->andWhere('i.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    //    public function findOneBySomeField($value): ?Incidencia
+    //    {
+    //        return $this->createQueryBuilder('i')
+    //            ->andWhere('i.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }

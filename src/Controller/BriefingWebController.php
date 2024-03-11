@@ -20,9 +20,9 @@ class BriefingWebController extends AbstractController
     {
 
         $user = $this->getUser();
+        $empresa = $user->getEmpresa();
 
-        // Crear una instancia del formulario
-        $briefingWeb = new BriefingWeb();
+        $briefingWeb = $empresa->getBriefingWeb();
         $form = $this->createForm(BriefingWebType::class, $briefingWeb);
 
         // Procesar el formulario si se ha enviado
@@ -30,9 +30,17 @@ class BriefingWebController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
+                if (!$briefingWeb->isActivo()) {
+                    throw new \Exception('El briefing web no lo tienes activo, porfavor contácta con un administrador.');
+                }
+
+                if ($briefingWeb->getFechaCreacionBriefingWeb()) {
+                    throw new \Exception('Ya has enviado un briefing de web anteriormente.');
+                }
+
+                
                 // Asignar datos adicionales
                 $briefingWeb->setFechaCreacionBriefingWeb(new \DateTime());
-                $briefingWeb->setUsuario($user);
                 $briefingWeb->setEstado("En Progreso");
                 $briefingWeb->setActivo(true);
 
@@ -45,13 +53,9 @@ class BriefingWebController extends AbstractController
 
                 // Redirigir a una página de éxito o realizar otras acciones necesarias
                 return $this->redirectToRoute('briefing_web_new');
-            } catch (UniqueConstraintViolationException $e) {
-                // Capturar la excepción de violación de la restricción única
-                // y mostrar un mensaje de error al usuario
-                $this->addFlash('error', 'Ya has enviado un briefing web anteriormente.');
             } catch (\Exception $e) {
                 // Manejar otras excepciones
-                $this->addFlash('error', 'Ha ocurrido un error al procesar tu solicitud. Por favor, inténtalo de nuevo más tarde.');
+                $this->addFlash('error', $e->getMessage());
             }
         }
 
@@ -64,24 +68,27 @@ class BriefingWebController extends AbstractController
     public function show(BriefingWeb $briefingWeb): Response
     {
         // Obtener el usuario asociado al briefing
-        $usuario = $briefingWeb->getUsuario();
-        $empresa = $usuario->getEmpresa();
+        $empresa = $briefingWeb->getEmpresa();
 
         return $this->render('dashboard/briefingweb/show.html.twig', [
             'empresa' => $empresa,
-            'usuario' => $usuario,
             'briefing_web' => $briefingWeb,
         ]);
     }
 
 
-    public function delete(Request $request, BriefingWeb $briefingWeb, BriefingWebRepository $briefingWebRepository): Response
+    public function delete(Request $request, BriefingWeb $briefingWeb, EntityManagerInterface $em): Response
     {
         if ($this->isCsrfTokenValid('delete' . $briefingWeb->getId(), $request->request->get('_token'))) {
-            $briefingWebRepository->remove($briefingWeb, true);
-        }
+            $briefingWeb->setActivo(False);
+            $briefingWeb->setEstado("");
 
-        return $this->redirectToRoute('app_briefing_web_crud_index', [], Response::HTTP_SEE_OTHER);
+            
+            $em->persist($briefingWeb);
+            $em->flush();
+         }
+
+        return $this->redirectToRoute('dashboard_briefings');
     }
 
     public function descargarPDF($id): Response

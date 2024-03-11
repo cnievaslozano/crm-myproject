@@ -110,12 +110,11 @@
 				{% for briefing in ultimosbriefingsWeb %}
 				<tr>
 					<td class="align-middle">
-						<img src="/uploads/logotipos/{{ briefing.usuario.empresa.imagenLogotipoRuta }}" alt="Logo"
+						<img src="/uploads/logotipos/{{ briefing.empresa.imagenLogotipoRuta }}" alt="Logo"
 							class="rounded-circle" style="width: 40px; height: 40px; margin-right:20px">
-						<span>{{ briefing.usuario.empresa.nombre }}</span>
+						<span>{{ briefing.empresa.nombre }}</span>
 					</td>
-					<td class="align-middle text-center">{{ briefing.usuario.username }}</td>
-					<td class="align-middle text-center text-muted">{{ briefing.usuario.empresa.code }}</td>
+					<td class="align-middle text-center text-muted">{{ briefing.empresa.code }}</td>
 					<td class="align-middle text-center">
 						{{ briefing.tipo|capitalize }}
 					</td>
@@ -176,12 +175,12 @@
 				{% for contenido in ultimoscontenidos %}
 				<tr>
 					<td class="align-middle">
-						<img src="/uploads/logotipos/{{ contenido.briefingWeb.usuario.empresa.imagenLogotipoRuta}}"
+						<img src="/uploads/logotipos/{{ contenido.briefingWeb.empresa.imagenLogotipoRuta}}"
 							alt="Logo" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 20px;">
-						<span>{{ contenido.briefingWeb.usuario.empresa.nombre }}</span>
+						<span>{{ contenido.briefingWeb.empresa.nombre }}</span>
 					</td>
 					<td class="align-middle text-muted text-center">
-						{{contenido.briefingWeb.usuario.empresa.code}}</td>
+						{{contenido.briefingWeb.empresa.code}}</td>
 					<td class="align-middle text-center">{{ contenido.titulo }}</td>
 				</tr>
 				{% endfor %}

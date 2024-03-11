@@ -20,9 +20,12 @@ class IncidenciasController extends AbstractController
     public function new(Request $request, EntityManagerInterface $em, FileUploader $fileUploader): Response
     {
         $user = $this->getUser();
+        $empresa = $user->getEmpresa();
         $incidencia = new Incidencia();
         $form = $this->createForm(IncidenciaType::class, $incidencia);
         $form->handleRequest($request);
+        $briefingApp = false;
+        $briefingWeb = false;
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
@@ -37,10 +40,10 @@ class IncidenciasController extends AbstractController
                 $tipo = $form['tipo']->getData();
 
                 if ($tipo == 'Web') {
-                    $briefingWeb = $user->getBriefingWeb();
+                    $briefingWeb = $empresa->getBriefingWeb();
                     $incidencia->setBriefingWeb($briefingWeb);
                 } elseif ($tipo == 'App') {
-                    $briefingApp = $user->getBriefingApp();
+                    $briefingApp = $empresa->getBriefingApp();
                     $incidencia->setBriefingApp($briefingApp);
                 }
 
@@ -71,20 +74,14 @@ class IncidenciasController extends AbstractController
 
     public function show(Incidencia $incidencia): Response
     {
-        //obtener el briefing asociado a la incidencia
+        //obtenemos el usuario del briefing
         $briefingAsociado = $incidencia->getBriefingApp() ?? $incidencia->getBriefingWeb();
 
-        //obtenemos el usuario del briefing
-        $usuario = $briefingAsociado->getUsuario();
-
         //obtener la empresa asociada a la incidencia
-        $empresa = $usuario->getEmpresa();
-
-
+        $empresa = $briefingAsociado->getEmpresa();
 
         return $this->render('dashboard/incidencia/show.html.twig', [
             'empresa' => $empresa,
-            'usuario' => $usuario,
             'briefing' => $briefingAsociado,
             'incidencia' => $incidencia
         ]);
@@ -144,6 +141,5 @@ class IncidenciasController extends AbstractController
         $response->headers->add(['refresh' => '1;url=' . $this->generateUrl('dashboard_incidencias')]);
 
         return $response;
-        
     }
 }

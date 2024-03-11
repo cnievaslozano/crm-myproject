@@ -92,53 +92,7 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\BriefingWeb", mappedBy="usuario", cascade={"persist", "remove"})
-     */
-    private $briefing_web;
 
-    public function getBriefingWeb(): ?BriefingWeb
-    {
-        return $this->briefing_web;
-    }
-
-    public function setBriefingWeb(?BriefingWeb $briefing_web): self
-    {
-        $this->briefing_web = $briefing_web;
-
-        return $this;
-    }
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\BriefingApp", mappedBy="usuario", cascade={"persist", "remove"})
-     */
-    private $briefing_app;
-    public function getBriefingApp(): ?BriefingApp
-    {
-        return $this->briefing_app;
-    }
-
-    public function setBriefingApp(?BriefingApp $briefing_app): self
-    {
-        $this->briefing_app = $briefing_app;
-
-        return $this;
-    }
-
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\BriefingLogo", mappedBy="usuario", cascade={"persist", "remove"})
-     */
-    private $briefing_logo;
-    public function getBriefingLogo(): ?BriefingLogo
-    {
-        return $this->briefing_logo;
-    }
-
-    public function setBriefingLogo(?BriefingLogo $briefing_logo): self
-    {
-        $this->briefing_logo = $briefing_logo;
-
-        return $this;
-    }
     public function getNombreUsuario(): ?string
     {
         return $this->nombre_usuario;

@@ -6,7 +6,7 @@
 {% endblock %}
 {% block contenido %}
 
-<section class="d-flex vh-100 justify-content-center align-items-center">
+<section class="d-flex justify-content-center">
 	<div class="container">
 		<div class="row">
 			<div class="col-12">
@@ -38,7 +38,7 @@
 							<th class="text-center">Título</th>
 							<th class="text-center">Activo</th>
 							<th class="text-center">Ver</th>
-							<th class="text-center">Descargar</th>
+							<th class="text-center">Pdf</th>
 							<th class="text-center">Borrar</th>
 						</tr>
 					</thead>
@@ -48,13 +48,13 @@
 						<tr>
 							<td class="align-middle">{{ contenido.id }}</td>
 							<td class="align-middle">
-								<img src="/uploads/logotipos/{{ contenido.briefingWeb.usuario.empresa.imagenLogotipoRuta}}"
+								<img src="/uploads/logotipos/{{ contenido.briefingWeb.empresa.imagenLogotipoRuta}}"
 									alt="Logo" class="rounded-circle"
 									style="width: 40px; height: 40px; margin-right: 20px;">
-								<span>{{ contenido.briefingWeb.usuario.empresa.nombre }}</span>
+								<span>{{ contenido.briefingWeb.empresa.nombre }}</span>
 							</td>
 							<td class="align-middle text-muted text-center">
-								{{contenido.briefingWeb.usuario.empresa.code}}</td>
+								{{contenido.briefingWeb.empresa.code}}</td>
 							<td class="align-middle text-center">{{ contenido.titulo }}</td>
 							<td class="align-middle text-center">
 								{{ contenido.isActivo ? 'si' : 'no' }}
@@ -82,7 +82,7 @@
 						</tr>
 						{% else %}
 						<tr>
-							<td colspan="8">no records found</td>
+							<td colspan="8">No se han encontrado registros :)</td>
 						</tr>
 						{% endfor %}
 					</tbody>

@@ -6,7 +6,7 @@
 {% endblock %}
 {% block contenido %}
 
-<section class="d-flex vh-100 justify-content-center align-items-center">
+<section class="d-flex justify-content-center ">
 	<div class="container">
 
 		<div class="row">
@@ -37,7 +37,7 @@
 							<th class="text-center">Título</th>
 							<th class="text-center">Tipo</th>
 							<th class="text-center">Ver</th>
-							<th class="text-center">Descargar</th>
+							<th class="text-center">Pdf</th>
 							<th class="text-center">Borrar</th>
 						</tr>
 					</thead>
@@ -52,10 +52,10 @@
 						{% set empresa = null %}
 						{% set imagenLogotipoRuta = null %}
 						{% if tipo == "web" %}
-						{% set empresa = incidencia.briefingWeb.usuario.empresa %}
+						{% set empresa = incidencia.briefingWeb.empresa %}
 						{% set imagenLogotipoRuta = empresa.imagenLogotipoRuta %}
 						{% elseif tipo == "app" %}
-						{% set empresa = incidencia.briefingApp.usuario.empresa %}
+						{% set empresa = incidencia.briefingApp.empresa %}
 						{% set imagenLogotipoRuta = empresa.imagenLogotipoRuta %}
 						{% endif %}
 
@@ -96,7 +96,7 @@
 
 						{% else %}
 						<tr>
-							<td colspan="8">no records found</td>
+							<td colspan="8">No se han encontrado registros :)</td>
 						</tr>
 						{% endfor %}
 					</tbody>
