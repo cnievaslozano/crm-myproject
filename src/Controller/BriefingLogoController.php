@@ -20,9 +20,9 @@ class BriefingLogoController extends AbstractController
     {
 
         $user = $this->getUser();
+        $empresa = $user->getEmpresa();
 
-        // Crear una instancia del formulario
-        $briefingLogo = new BriefingLogo();
+        $briefingLogo = $empresa->getBriefingLogo();
         $form = $this->createForm(BriefingLogoType::class, $briefingLogo);
 
         // Procesar el formulario si se ha enviado
@@ -30,6 +30,13 @@ class BriefingLogoController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
+                if (!$briefingLogo->isActivo()) {
+                    throw new \Exception('El briefing logo no lo tienes activo, porfavor contácta con un administrador.');
+                }
+                
+                if ($briefingLogo->getFechaCreacionBriefingLogo()) {
+                    throw new \Exception('Ya has enviado un briefing de logo anteriormente.');
+                }
 
                 // Asignar datos adicionales
                 $briefingLogo->setFechaCreacionBriefingLogo(new \DateTime());
@@ -45,13 +52,9 @@ class BriefingLogoController extends AbstractController
 
                 // Redirigir a una página de éxito o realizar otras acciones necesarias
                 return $this->redirectToRoute('briefing_logo_new');
-            } catch (UniqueConstraintViolationException $e) {
-                // Capturar la excepción de violación de la restricción única
-                // y mostrar un mensaje de error al usuario
-                $this->addFlash('error', 'Ya has enviado un briefing de logo anteriormente.');
             } catch (\Exception $e) {
-                // Manejar otras excepciones
-                $this->addFlash('error', 'Ha ocurrido un error al procesar tu solicitud. Por favor, inténtalo de nuevo más tarde.');
+                // Capturar la excepción y mostrar un mensaje de error al usuario
+                $this->addFlash('error', $e->getMessage());
             }
         }
 
@@ -70,17 +73,17 @@ class BriefingLogoController extends AbstractController
         ]);
     }
 
-    
+
 
     public function delete(Request $request, BriefingLogo $briefingLogo, EntityManagerInterface $em): Response
     {
         if ($this->isCsrfTokenValid('delete' . $briefingLogo->getId(), $request->request->get('_token'))) {
             $briefingLogo->setActivo(False);
             $briefingLogo->setEstado("");
-            
+
             $em->persist($briefingLogo);
             $em->flush();
-         }
+        }
 
         return $this->redirectToRoute('dashboard_briefings', [], Response::HTTP_SEE_OTHER);
     }
