@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityManagerInterface;
@@ -38,7 +38,7 @@ class BriefingWebController extends AbstractController
                     throw new \Exception('Ya has enviado un briefing de web anteriormente.');
                 }
 
-                
+
                 // Asignar datos adicionales
                 $briefingWeb->setFechaCreacionBriefingWeb(new \DateTime());
                 $briefingWeb->setEstado("En Progreso");
@@ -77,18 +77,31 @@ class BriefingWebController extends AbstractController
     }
 
 
-    public function delete(Request $request, BriefingWeb $briefingWeb, EntityManagerInterface $em): Response
+    public function delete(Request $request, BriefingWeb $briefingWeb, EntityManagerInterface $em, SessionInterface $session): Response
     {
+        $empresa = $briefingWeb->getEmpresa();
+
         if ($this->isCsrfTokenValid('delete' . $briefingWeb->getId(), $request->request->get('_token'))) {
             $briefingWeb->setActivo(False);
             $briefingWeb->setEstado("");
 
-            
+            $this->addFlash('success', 'se ha eliminado el briefing web de ' . $empresa->getNombre());
             $em->persist($briefingWeb);
             $em->flush();
-         }
+        }
 
-        return $this->redirectToRoute('dashboard_briefings');
+        // Guardar la página desde la que se elimina el briefing en una variable de sesión
+        $referer = $request->headers->get('referer');
+        if (strpos($referer, $this->generateUrl('dashboard_briefings')) !== false) {
+            $session->set('delete_referer', 'dashboard_briefings');
+        } else {
+            $session->set('delete_referer', 'empresa_show');
+        }
+
+        // Obtener la página de redirección desde la variable de sesión
+        $redirectRoute = $session->get('delete_referer');
+
+        return $this->redirectToRoute($redirectRoute, ['id' => $empresa->getId()]);
     }
 
     public function descargarPDF($id): Response
