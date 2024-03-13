@@ -11,6 +11,7 @@ use App\Form\UsuarioType;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use App\Entity\Empresa;
+use App\Repository\UsuarioRepository;
 
 class UserController extends AbstractController
 {
@@ -73,4 +74,21 @@ class UserController extends AbstractController
             'empresa' => $empresa,
         ]);
     }
+
+    public function delete(Request $request, Usuario $usuario, EntityManagerInterface $em): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $usuario->getId(), $request->request->get('_token'))) {
+            $usuario->setActivo(False);
+
+            $em->persist($usuario);
+            $em->flush();
+
+            $this->addFlash('success','se ha eliminado con éxito el usuario ' . $usuario->getUsername());
+        }
+
+        $empresa = $usuario->getEmpresa();
+
+        return $this->redirectToRoute('empresa_show', ['id' => $empresa->getId()]);
+    }
+    
 }
