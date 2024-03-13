@@ -15,9 +15,17 @@ class DashboardClienteController extends AbstractController
         $user = $this->getUser();
 
         $empresa = $user->getEmpresa();
+        $briefingweb = $empresa->getBriefingWeb();
+        $briefinglogo = $empresa->getBriefingLogo();
+        $briefingapp = $empresa->getBriefingApp();
+
 
         return $this->render('dashboard_cliente/index.html.twig', [
             "empresa" => $empresa,
+            "usuario" => $user,
+            "briefingweb" => $briefingweb,
+            "briefinglogo" => $briefinglogo,
+            "briefingapp" => $briefingapp,
         ]);
     }
 
