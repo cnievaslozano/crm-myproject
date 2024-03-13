@@ -15,12 +15,16 @@ logout:
 
 
 ######################################################################
-#   USUARIO
+#   USUARIO -> ADMIN
 ######################################################################
-# REGISTRAR USUARIOS -> ADMIN
 usuario_new:
     path: /registro/usuario/{id}
     controller: App\Controller\UserController::new
+
+usuario_delete:
+    path: /registro/usuario/{id}
+    controller: App\Controller\UserController::delete
+    methods: ['POST']
 
 usuario_show:
     path: /usuario/{id}
