@@ -24,22 +24,23 @@ class EmpresaController extends AbstractController
 {
     public function new(Request $request, MisFunciones $misFunciones, EntityManagerInterface $em, SluggerInterface $slugger): Response
     {
+
+        // Crear una instancia del formulario
+        $empresa = new Empresa();
+        $briefingweb = new BriefingWeb();
+        $briefingapp = new BriefingApp();
+        $briefinglogo = new BriefingLogo();
+
+        $briefingweb->setActivo(false);
+        $briefingapp->setActivo(false);
+        $briefinglogo->setActivo(false);
+
+        $form = $this->createForm(EmpresaType::class, $empresa);
+
+        // Procesar el formulario si se ha enviado
+        $form->handleRequest($request);
+
         try {
-            // Crear una instancia del formulario
-            $empresa = new Empresa();
-            $briefingweb = new BriefingWeb();
-            $briefingapp = new BriefingApp();
-            $briefinglogo = new BriefingLogo();
-
-            $briefingweb->setActivo(false);
-            $briefingapp->setActivo(false);
-            $briefinglogo->setActivo(false);
-
-            $form = $this->createForm(EmpresaType::class, $empresa);
-
-            // Procesar el formulario si se ha enviado
-            $form->handleRequest($request);
-
             if ($form->isSubmitted() && $form->isValid()) {
 
                 // Procesar la imagen de la empresa
@@ -148,10 +149,13 @@ class EmpresaController extends AbstractController
     }
 
 
-    public function delete(Request $request, Empresa $empresa, EmpresaRepository $empresaRepository): Response
+    public function delete(Request $request, Empresa $empresa, EntityManagerInterface $em): Response
     {
         if ($this->isCsrfTokenValid('delete' . $empresa->getId(), $request->request->get('_token'))) {
-            $empresaRepository->remove($empresa, true);
+            $empresa->setActivo(False);
+
+            $em->persist($empresa);
+            $em->flush();
         }
 
         return $this->redirectToRoute('dashboard_clientes', [], Response::HTTP_SEE_OTHER);
