@@ -22,7 +22,7 @@ usuario_new:
     controller: App\Controller\UserController::new
 
 usuario_delete:
-    path: /registro/usuario/{id}
+    path: /usuario/{id}
     controller: App\Controller\UserController::delete
     methods: ['POST']
 
