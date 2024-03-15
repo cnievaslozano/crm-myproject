@@ -13,6 +13,11 @@ logout:
     path: /logout
     controller: App\Controller\SecurityController::logout
 
+# 404 ERROR PAGE
+not_found_page:
+    path: /404
+    controller: App\Controller\ExceptionController::show404
+
 
 ######################################################################
 #   USUARIO -> ADMIN
