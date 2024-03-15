@@ -254,6 +254,15 @@
             "templates/base.html.twig"
         ]
     },
+    "symfony/ux-dropzone": {
+        "version": "v2.9.1"
+    },
+    "symfony/ux-swup": {
+        "version": "v2.16.0"
+    },
+    "symfony/ux-typed": {
+        "version": "v2.16.0"
+    },
     "symfony/validator": {
         "version": "5.4",
         "recipe": {
