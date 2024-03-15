@@ -38,9 +38,25 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         $username = $request->request->get('username', '');
         $user = $this->userProvider->loadUserByIdentifier($username);
 
+        // comprobamos si el usuario esta activo
         if (!$user || !$user->isActivo()) {
             throw new CustomUserMessageAuthenticationException('Tu cuenta no está activa. Contacta con un administrador');
         }
+
+        // comprobamos si es usuario normal
+        if ($user->getRoles() == 'ROLE_USER') {
+            $empresa = $user->getEmpresa();
+            // comprobamos si tiene asociado empresa
+            if ($empresa === null) {
+                throw new CustomUserMessageAuthenticationException('No se encontró una empresa asociada a tu usuario.');
+            }
+            // comprobamos si la empresa esta activa
+            if (!$empresa->isActivo()) {
+                throw new CustomUserMessageAuthenticationException('Tu empresa no está activa. Contacta con un administrador');
+            }
+        }
+
+
 
         return new Passport(
             new UserBadge($username),
