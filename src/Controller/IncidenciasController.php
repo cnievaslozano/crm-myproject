@@ -53,6 +53,7 @@ class IncidenciasController extends AbstractController
 
 
                 $incidencia->setFechaCreacionIncidencia(new \DateTime());
+                $incidencia->setSolucionado(False);
 
                 $em->persist($incidencia);
                 $em->flush();
@@ -87,11 +88,19 @@ class IncidenciasController extends AbstractController
         ]);
     }
 
-    public function delete(Request $request, Incidencia $incidencia, IncidenciaRepository $incidenciaRepository)
+    public function delete(Request $request, Incidencia $incidencia, EntityManagerInterface $em): Response
     {
+        $empresa = $incidencia->getBriefingWeb()->getEmpresa();
+        if (!$empresa) {
+            $empresa = $incidencia->getBriefingApp()->getEmpresa();
+        }
 
         if ($this->isCsrfTokenValid('delete' . $incidencia->getId(), $request->request->get('_token'))) {
-            $incidenciaRepository->remove($incidencia, true);
+
+            $incidencia->setSolucionado(True);
+            $em->persist($incidencia);
+            $em->flush();
+            $this->addFlash('success', 'se ha eliminado éxitosamente la incidencia ' . $empresa->getNombre());
         }
 
         return $this->redirectToRoute('dashboard_incidencias', [], Response::HTTP_SEE_OTHER);
@@ -104,14 +113,12 @@ class IncidenciasController extends AbstractController
 
         //obtenemos el usuario del briefing
         $briefingAsociado = $incidencia->getBriefingApp() ?? $incidencia->getBriefingWeb();
-        $usuario = $briefingAsociado->getUsuario();
-        $empresa = $usuario->getEmpresa();
+        $empresa = $briefingAsociado->getEmpresa();
 
         $html =  $this->renderView('dashboard/incidencia/plantilla_pdf.html.twig', [
             'incidencia' => $incidencia,
             'empresa' => $empresa,
             'briefing' => $briefingAsociado,
-            'usuario' => $usuario,
         ]);
 
         // Crea una instancia de Dompdf
