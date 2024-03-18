@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Response;
@@ -88,17 +88,31 @@ class BriefingAppController extends AbstractController
         ]);
     }
 
-    public function delete(Request $request, BriefingApp $briefingApp, EntityManagerInterface $em): Response
+    public function delete(Request $request, BriefingApp $briefingApp, EntityManagerInterface $em, SessionInterface $session): Response
     {
+        $empresa = $briefingApp->getEmpresa();
+
         if ($this->isCsrfTokenValid('delete' . $briefingApp->getId(), $request->request->get('_token'))) {
             $briefingApp->setActivo(False);
             $briefingApp->setEstado("");
 
+            $this->addFlash('success', 'se ha eliminado éxitosamente el briefing app de ' . $empresa->getNombre());
             $em->persist($briefingApp);
             $em->flush();
         }
 
-        return $this->redirectToRoute('dashboard_briefings', [], Response::HTTP_SEE_OTHER);
+        // Guardar la página desde la que se elimina el briefing en una variable de sesión
+        $referer = $request->headers->get('referer');
+        if (strpos($referer, $this->generateUrl('dashboard_briefings')) !== false) {
+            $session->set('delete_referer', 'dashboard_briefings');
+        } else {
+            $session->set('delete_referer', 'empresa_show');
+        }
+
+        // Obtener la página de redirección desde la variable de sesión
+        $redirectRoute = $session->get('delete_referer');
+
+        return $this->redirectToRoute($redirectRoute, ['id' => $empresa->getId()]);
     }
     public function descargarPDF($id): Response
     {
