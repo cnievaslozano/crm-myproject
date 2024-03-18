@@ -3,108 +3,130 @@
 {% endblock %}
 {% block stylesheets %}
 {{ parent() }}
+<style>
+	li .empresa {
+		flex-basis: 40%;
+	}
+
+	li .code {
+		flex-basis: 10%;
+	}
+
+	li .titulo {
+		flex-basis: 15%;
+	}
+
+	li .tipo {
+		flex-basis: 10%;
+	}
+
+	li .ver {
+		flex-basis: 5%;
+	}
+
+	li .pdf {
+		flex-basis: 5%;
+	}
+
+	li .borrar {
+		flex-basis: 5%;
+	}
+
+	li .nohay {
+		flex-basis: 100%;
+	}
+</style>
 {% endblock %}
 {% block contenido %}
 
-<section class="d-flex justify-content-center ">
-	<div class="container">
+<div style="height:160px;"></div>
+<div class="container">
 
-		<div class="row">
-			<div class="col-12">
-				{% for flashMessage in app.flashes('success') %}
-				<div class="alert alert-success">
-					{{ flashMessage }}
-				</div>
-				{% endfor %}
-
-				{% for flashMessage in app.flashes('error') %}
-				<div class="alert alert-danger">
-					{{ flashMessage }}
-				</div>
-				{% endfor %}
+	<div class="row">
+		<div class="col-12 mb-4">
+			{% for flashMessage in app.flashes('success') %}
+			<div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+				{{ flashMessage }}
+				<button type="button" class="btn-close text-center" data-dismiss="alert" aria-label="Close"></button>
 			</div>
+			{% endfor %}
 
-			<div class="col-12">
-
-				<h5>Listado de Incidencias</h5>
-
-				<table class="table table-striped">
-					<thead>
-						<tr>
-							<th>Id</th>
-							<th>Empresa</th>
-							<th class="text-center">Code</th>
-							<th class="text-center">Título</th>
-							<th class="text-center">Tipo</th>
-							<th class="text-center">Ver</th>
-							<th class="text-center">Pdf</th>
-							<th class="text-center">Borrar</th>
-						</tr>
-					</thead>
-					<tbody>
-						{% for incidencia in incidencias %}
-						{% if incidencia.briefingWeb %}
-						{% set tipo = "web" %}
-						{% else %}
-						{% set tipo = "app" %}
-						{% endif %}
-
-						{% set empresa = null %}
-						{% set imagenLogotipoRuta = null %}
-						{% if tipo == "web" %}
-						{% set empresa = incidencia.briefingWeb.empresa %}
-						{% set imagenLogotipoRuta = empresa.imagenLogotipoRuta %}
-						{% elseif tipo == "app" %}
-						{% set empresa = incidencia.briefingApp.empresa %}
-						{% set imagenLogotipoRuta = empresa.imagenLogotipoRuta %}
-						{% endif %}
-
-						<tr>
-							<td class="align-middle">
-								{{incidencia.id}}
-							</td>
-							<td class="align-middle">
-								<img src="/uploads/logotipos/{{ imagenLogotipoRuta }}" alt="Logo" class="rounded-circle"
-									style="width: 40px; height: 40px; margin-right: 20px;">
-								<span>{{ empresa ? empresa.nombre : '' }}</span>
-							</td>
-							<td class="align-middle text-muted text-center">{{ empresa.code}}</td>
-							<td class="align-middle text-center">{{incidencia.titulo}}</td>
-							<td class="align-middle text-center">{{incidencia.tipo}}</td>
-
-							<td class="align-middle text-center">
-								<a href="{{ path('incidencia_show', {'id': incidencia.id}) }}">
-									<i class="fa-solid fa-eye"></i>
-								</a>
-							</td>
-							<td class="align-middle text-center">
-								<a href="{{ path('incidencia_pdf', {'id': incidencia.id}) }}">
-									<i class="fa-solid fa-download"></i>
-								</a>
-							</td>
-							<td class="align-middle text-center">
-								<form method="post" action="{{ path('incidencia_delete', {'id': incidencia.id}) }}"
-									onsubmit="return confirm('¿Estás seguro que quieres borrar la incidencia {{incidencia.titulo}}?');">
-									<input type="hidden" name="_token"
-										value="{{ csrf_token('delete' ~ incidencia.id) }}">
-									<button class="btn">
-										<i class="fa-solid fa-trash" style="color:red;"></i>
-									</button>
-								</form>
-							</td>
-						</tr>
-
-						{% else %}
-						<tr>
-							<td colspan="8">No se han encontrado registros :)</td>
-						</tr>
-						{% endfor %}
-					</tbody>
-					</tbody>
-				</table>
+			{# Mensaje error #}
+			{% for flashMessage in app.flashes('error') %}
+			<div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+				{{ flashMessage }}
+				<button type="button" class="btn-close text-center" data-bs-dismiss="alert" aria-label="Close"></button>
 			</div>
+			{% endfor %}
+			<h5 class="fw-bold">Listado de Incidencias</h5>
+		</div>
+
+		<div class="col-12">
+			<ul class="custom-table">
+				{% for incidencia in pagination %}
+				{% if incidencia.solucionado == false %}
+				{# Verifica si la incidencia está asociada a un briefing web o app y establece el tipo correspondiente
+				#}
+				{% set tipo = incidencia.briefingWeb ? "web" : "app" %}
+
+				{# Inicializa las variables de empresa e imagenLogotipoRuta #}
+				{% set empresa = null %}
+				{% set imagenLogotipoRuta = null %}
+
+				{# Verifica el tipo de incidencia y asigna la empresa y la ruta de la imagen del logotipo
+				correspondientes #}
+				{% if tipo == "web" %}
+				{% set empresa = incidencia.briefingWeb.empresa %}
+				{% set imagenLogotipoRuta = empresa.imagenLogotipoRuta %}
+				{% elseif tipo == "app" %}
+				{% set empresa = incidencia.briefingApp.empresa %}
+				{% set imagenLogotipoRuta = empresa.imagenLogotipoRuta %}
+				{% endif %}
+
+				<li class="table-row">
+					<div class="colo colo-1">{{ incidencia.id }}</div>
+					<div class="colo empresa">
+						<img src="/uploads/logotipos/{{ imagenLogotipoRuta }}" alt="Logo" class="rounded-circle"
+							style="width: 40px; height: 40px; margin-right: 20px;">
+						<span>{{ empresa ? empresa.nombre : '' }}</span>
+					</div>
+					<div class="colo text-muted code">{{ empresa.code}}</div>
+					<div class="colo titulo">{{ incidencia.titulo }}</div>
+					<div class="colo tipo">{{ incidencia.tipo }}</div>
+					<div class="colo ver">
+						<a href="{{ path('incidencia_show', {'id': incidencia.id}) }}">
+							<i class="fa-solid fa-eye" style="color:#0d6efd;"></i>
+						</a>
+					</div>
+					<div class="colo pdf">
+						<a href="{{ path('incidencia_pdf', {'id': incidencia.id}) }}">
+							<i class="fa-solid fa-download" style="color:#0d6efd;"></i>
+						</a>
+					</div>
+					<div class="colo borrar">
+						<form method="post" action="{{ path('incidencia_delete', {'id': incidencia.id}) }}"
+							onsubmit="return confirm('¿Estás seguro que quieres borrar la incidencia {{incidencia.titulo}}?');">
+							<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ incidencia.id) }}">
+							<button class="btn">
+								<i class="fa-solid fa-trash" style="color:red;"></i>
+							</button>
+						</form>
+					</div>
+				</li>
+				{% endif %}
+				{% else %}
+				<li class="table-row">
+					<div class="colo no hay">No se han encontrado registros :)</div>
+				</li>
+				{% endfor %}
+			</ul>
+
+		</div>
+		<div class="col-12">
+			{{ knp_pagination_render(pagination)}}
 		</div>
 	</div>
-</section>
+</div>
+
 
 {% endblock %}

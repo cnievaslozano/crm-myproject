@@ -4,87 +4,119 @@
 {% endblock %}
 {% block stylesheets %}
 {{ parent() }}
+
+<style>
+	li .empresa {
+		flex-basis: 40%;
+	}
+
+	li .code {
+		flex-basis: 5%;
+	}
+
+	li .estado {
+		flex-basis: 20%;
+	}
+
+	li .tipo {
+		flex-basis: 10%;
+	}
+
+	li .activo {
+		flex-basis: 5%;
+	}
+
+	li .ver {
+		flex-basis: 5%;
+	}
+
+	li .pdf {
+		flex-basis: 5%;
+	}
+
+	li .borrar {
+		flex-basis: 5%;
+	}
+</style>
+
 {% endblock %}
 {% block contenido %}
 
-<section class="d-flex justify-content-center">
-	<div class="container">
-		<div class="row">
+<div style="height:100px;"></div>
+<div class="container">
+	<div class="row">
 
-			<div class="col-12">
-				<h5>Listado de Briefings</h5>
-				{# Mensaje exito #}
-				{% for flashMessage in app.flashes('success') %}
-				<div class="alert alert-success">
-					{{ flashMessage }}
-				</div>
-				{% endfor %}
-				{# Mensaje error #}
-				{% for flashMessage in app.flashes('error') %}
-				<div class="alert alert-danger">
-					{{ flashMessage }}
-				</div>
-				{% endfor %}
+		<div class="col-12 mb-4">
 
+			{# Mensaje exito #}
+			{% for flashMessage in app.flashes('success') %}
+			<div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+				{{ flashMessage }}
+				<button type="button" class="btn-close text-center" data-dismiss="alert" aria-label="Close"></button>
 			</div>
+			{% endfor %}
 
-			<div class="col-12">
-				<table class="table table-striped">
-					<thead>
-						<tr>
-							<th>Id</th>
-							<th>Empresa</th>
-							<th class="text-center">Code</th>
-							<th class="text-center">Estado</th>
-							<th class="text-center">Tipo</th>
-							<th class="text-center">Activo</th>
-							<th class="text-center">Ver</th>
-							<th class="text-center">Pdf</th>
-							<th class="text-center">Borrar</th>
-						</tr>
-					</thead>
-					<tbody>
-						{% for briefing in briefings %}
-						{% if briefing.isActivo %}
-						<tr>
-							<td class="align-middle">{{ briefing.id }}</td>
-							<td class="align-middle">
-								<img src="/uploads/logotipos/{{ briefing.empresa.imagenLogotipoRuta }}" alt="Logo"
-									class="rounded-circle" style="width: 40px; height: 40px; margin-right: 20px;">
-								<span>{{ briefing.empresa.nombre }}</span>
-							</td>
-							<td class="align-middle text-center text-muted">{{ briefing.empresa.code }}</td>
-							<td class="align-middle text-center">{{ briefing.estado }}</td>
-							<td class="align-middle text-center">
-								{{ briefing.tipo|capitalize }}
-							</td>
-							<td class="align-middle text-center">{{ briefing.isActivo ? 'si' : 'no' }}</td>
-							<td class="align-middle text-center">
-								<a href="{{ path('briefing_' ~ briefing.tipo|lower ~ '_show', {'id': briefing.id}) }}">
-									<i class="fa-solid fa-eye"></i>
-								</a>
-							</td>
-							<td class="align-middle text-center">
-								<a href="{{ path('briefing_' ~ briefing.tipo|lower ~ '_pdf', {'id': briefing.id}) }}">
-									<i class="fa-solid fa-download"></i>
-								</a>
-							</td>
-							<td class="align-middle text-center">
-								<form method="post"
-									action="{{ path('briefing_' ~ briefing.tipo|lower ~ '_delete', {'id': briefing.id}) }}"
-									onsubmit="return confirm('¿Estás seguro que quieres borrar el briefing de {{ briefing.tipo|capitalize }} de {{ briefing.empresa.nombre }}?');">
-									<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ briefing.id) }}">
-									<button class="btn">
-										<i class="fa-solid fa-trash" style="color:red;"></i>
-									</button>
-								</form>
-							</td>
-						</tr>
-						{% endif %}
-						{% endfor %}
-					</tbody>
-				</table>
+			{# Mensaje error #}
+			{% for flashMessage in app.flashes('error') %}
+			<div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+				{{ flashMessage }}
+				<button type="button" class="btn-close text-center" data-bs-dismiss="alert" aria-label="Close"></button>
 			</div>
+			{% endfor %}
+			<h5 class="fw-bold">Listado de Briefings</h5>
 
+		</div>
 
-</section>{% endblock %}
+		<div class="col-12">
+			<ul class="custom-table">
+				{% for briefing in pagination %}
+				{% if briefing.isActivo %}
+				<li class="table-row">
+					<div class="colo colo-1">{{ briefing.id }}</div>
+					<div class="colo empresa">
+						<img src="/uploads/logotipos/{{ briefing.empresa.imagenLogotipoRuta }}" alt="Logo"
+							class="rounded-circle" style="width: 40px; height: 40px; margin-right: 20px;">
+						<span>{{ briefing.empresa.nombre }}</span>
+					</div>
+					<div class="colo code text-muted">{{ briefing.empresa.code }}</div>
+					<div class="colo estado">{{ briefing.estado }}</div>
+					<div class="colo tipo">
+						{{ briefing.tipo|capitalize }}
+					</div>
+					<div class="colo activo">{{ briefing.isActivo ? '<i class="fa-solid fa-thumbs-up"
+							style="color:#99c21e;"></i>' : '<i class="fa-solid fa-thumbs-down" style="color:red;"></i>'
+						}}</div>
+					<div class="colo ver">
+						<a href="{{ path('briefing_' ~ briefing.tipo|lower ~ '_show', {'id': briefing.id}) }}">
+							<i class="fa-solid fa-eye" style="color:#0d6efd;"></i>
+						</a>
+					</div>
+					<div class="colo pdf">
+						<a href="{{ path('briefing_' ~ briefing.tipo|lower ~ '_pdf', {'id': briefing.id}) }}">
+							<i class="fa-solid fa-download" style="color:#0d6efd;"></i>
+						</a>
+					</div>
+					<div class="colo borrar">
+						<form method="post"
+							action="{{ path('briefing_' ~ briefing.tipo|lower ~ '_delete', {'id': briefing.id}) }}"
+							onsubmit="return confirm('¿Estás seguro que quieres borrar el briefing de {{ briefing.tipo|capitalize }} de {{ briefing.empresa.nombre }}?');">
+							<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ briefing.id) }}">
+							<button class="btn">
+								<i class="fa-solid fa-trash" style="color:red;"></i>
+							</button>
+						</form>
+					</div>
+				</li>
+				{% endif %}
+				{% endfor %}
+				</tbody>
+			</ul>
+		</div>
+		<div class="col-12">
+			{{ knp_pagination_render(pagination)}}
+		</div>
+
+	</div>
+</div>
+
+{% endblock %}

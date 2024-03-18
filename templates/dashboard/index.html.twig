@@ -8,11 +8,22 @@
 		width: 700px;
 		text-wrap: balance;
 	}
+
+	.custom-table li {
+		border-radius: 3px;
+		padding: 15px 20px;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 10px;
+		text-align: center;
+		transition: transform 0.3s ease;
+	}
 </style>
 {% endblock %}
 {% block contenido %}
 <div class="row mt-3 p-3">
-
+	<!-- BIENVENIDA -->
 	<div class="col-md-6 mb-3">
 		<h1 class=" text-black fw-bold" style="letter-spacing: 1px;"> ¡Hola! <span class="granota">administrador</span>
 			<br> Bienvenido a <svg xmlns="http://www.w3.org/2000/svg" fill="#0275d8" stroke-width="1"
@@ -48,8 +59,11 @@
 			La aplicación web para gestionar clientes. Permite administrar briefings,
 			incidencias y contenido compartido por los clientes. Con <span
 				class="text-primary fw-bold">myproject</span>, las empresas pueden mejorar la
-			comunicación y la eficiencia en la gestión de sus proyectos con <span class="granota fw-bold">granota</span>.</p>
+			comunicación y la eficiencia en la gestión de sus proyectos con <span
+				class="granota fw-bold">granota</span>.</p>
 	</div>
+	<!-- END BIENVENIDA -->
+	<!-- LOGO GRANOTA -->
 	<div class="col-md-6 mb-3">
 		<svg xmlns="http://www.w3.org/2000/svg" style="width: 300px;" class="mx-auto d-block"
 			viewBox="0 0 373.42 142.39">
@@ -97,96 +111,96 @@
 			</g>
 		</svg>
 	</div>
-
-
-	<div class="col-md-6 mt-3">
-		<table class="table table-striped">
-			<thead>
-				<tr>
-					<th>Últimos briefings</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for briefing in ultimosbriefingsWeb %}
-				<tr>
-					<td class="align-middle">
+	<!-- END LOGO GRANOTA -->
+	<!-- BRIEFINGS -->
+	<div class="col-md-6 mt-3 col-sm-12">
+		<ul class="custom-table">
+			<li class="fw-bold" style="letter-spacing: 0.5px;">ÚLTIMOS BRIEFINGS</li>
+			{% for briefing in ultimosbriefingsWeb %}
+			<a href="{{ path('briefing_' ~ briefing.tipo|lower ~ '_show', {'id': briefing.id}) }}">
+				<li class="table-row">
+					<div class="colo" style="flex-basis:70%;">
 						<img src="/uploads/logotipos/{{ briefing.empresa.imagenLogotipoRuta }}" alt="Logo"
 							class="rounded-circle" style="width: 40px; height: 40px; margin-right:20px">
 						<span>{{ briefing.empresa.nombre }}</span>
-					</td>
-					<td class="align-middle text-center text-muted">{{ briefing.empresa.code }}</td>
-					<td class="align-middle text-center">
+					</div>
+					<div class="colo text-muted" style="flex-basis:15%;">{{ briefing.empresa.code }}</div>
+					<div class="colo" style="flex-basis:15%;">
 						{{ briefing.tipo|capitalize }}
-					</td>
-				</tr>
-				{% endfor %}
-			</tbody>
-		</table>
+					</div>
+				</li>
+			</a>
+			{% endfor %}
+		</ul>
 	</div>
+	<!-- END BRIEFINGS -->
+	<!-- CLIENTES -->
+	<div class="col-md-6 mt-3 col-sm-12">
+		<ul class="custom-table">
+			<li class="fw-bold" style="letter-spacing: 0.5px;">ÚLTIMOS CLIENTES</li>
 
-	<div class="col-md-6 mt-3">
-		<table class="table table-striped">
-			<thead>
-				<tr>
-					<th>Últimos clientes</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for empresa in ultimosclientes %}
-				<tr>
-					<td class="align-middle">
+			{% for empresa in ultimosclientes %}
+			<a href="{{ path('empresa_show', {'id': empresa.id}) }}">
+				<li class="table-row">
+					<div class="colo" style="flex-basis:80%;">
 						<img src="/uploads/logotipos/{{ empresa.imagenLogotipoRuta }}" alt="Logo" class="rounded-circle"
 							style="width: 40px; height: 40px; margin-right: 20px;">
 						<span class="nombre-empresa-span">{{ empresa.nombre }}</span>
-					</td>
-					<td class="align-middle text-muted text-center">{{ empresa.code }}</td>
-				</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-	</div>
+					</div>
+					<div class="align-middle text-muted text-center" style="flex-basis:20%;">{{ empresa.code }}</div>
+				</li>
+			</a>
+			{% endfor %}
 
-	<div class="col-md-6">
-		<table class="table table-striped">
-			<thead>
-				<tr>
-					<th>Últimas incidencias</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for incidencia in ultimasincidencias %}
-				<tr>	
-					<td class="align-middle text-center">{{incidencia.titulo}}</td>
-					<td class="align-middle text-center">{{incidencia.tipo}}</td>
-				</tr>
-				{% endfor %}
-			</tbody>
-		</table>
+		</ul>
 	</div>
+	<!-- END CLIENTES -->
+	<!-- INCIDENCIAS -->
+	<div class="col-md-6 col-sm-12">
+		<ul class="custom-table">
+			<li class="fw-bold" style="letter-spacing: 0.5px;">ÚLTIMAS INCIDENCIAS</li>
+			{% for incidencia in ultimasincidencias %}
+			<a href="{{ path('incidencia_pdf', {'id': incidencia.id}) }}">
+				<li class="table-row">
+					<div class="colo" style="flex-basis:70%;">
+						{% if incidencia.briefingweb is not null and incidencia.briefingweb.empresa is not null %}
+						<img src="/uploads/logotipos/{{ incidencia.briefingweb.empresa.imagenLogotipoRuta }}" alt="Logo"
+							class="rounded-circle" style="width: 40px; height: 40px; margin-right:20px">
 
-	<div class="col-md-6">
-		<table class="table table-striped">
-			<thead>
-				<tr>
-					<th>Contenidos recientes</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for contenido in ultimoscontenidos %}
-				<tr>
-					<td class="align-middle">
-						<img src="/uploads/logotipos/{{ contenido.briefingWeb.empresa.imagenLogotipoRuta}}"
-							alt="Logo" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 20px;">
+
+						<span>{{ incidencia.briefingweb.empresa.nombre }}</span>
+						{% endif %}
+					</div>
+					<div class="colo" style="flex-basis:20%;">{{incidencia.titulo}}</div>
+					<div class="colo" style="flex-basis:10%;">{{incidencia.tipo}}</div>
+				</li>
+			</a>
+			{% endfor %}
+		</ul>
+	</div>
+	<!-- END INCIDENCIAS -->
+	<!-- CONTENIDOS -->
+	<div class="col-md-6 col-sm-12">
+		<ul class="custom-table">
+			<li class="fw-bold" style="letter-spacing: 0.5px;">ÚLTIMOS CONTENIDOS</li>
+			{% for contenido in ultimoscontenidos %}
+			<a href="{{ path('contenido_show', {'id': contenido.id}) }}">
+				<li class="table-row">
+					<div class="colo" style="flex-basis:60%;">
+						<img src="/uploads/logotipos/{{ contenido.briefingWeb.empresa.imagenLogotipoRuta}}" alt="Logo"
+							class="rounded-circle" style="width: 40px; height: 40px; margin-right: 20px;">
 						<span>{{ contenido.briefingWeb.empresa.nombre }}</span>
-					</td>
-					<td class="align-middle text-muted text-center">
-						{{contenido.briefingWeb.empresa.code}}</td>
-					<td class="align-middle text-center">{{ contenido.titulo }}</td>
-				</tr>
-				{% endfor %}
-			</tbody>
-		</table>
+					</div>
+					<div class="colo text-muted" style="flex-basis:10%;">
+						{{contenido.briefingWeb.empresa.code}}
+					</div>
+					<div class="colo" style="flex-basis:30%;">{{ contenido.titulo }}</div>
+				</li>
+			</a>
+			{% endfor %}
+		</ul>
 	</div>
+	<!--END CONTENIDOS-->
 
 </div>
 {% endblock %}
