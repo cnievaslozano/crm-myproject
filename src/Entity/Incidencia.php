@@ -43,6 +43,11 @@ class Incidencia
     private $ruta_imagenes;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private $solucionado;
+
+    /**
      * @ORM\Column(type="datetime")
      */
     private $fecha_creacion_incidencia;
@@ -153,6 +158,18 @@ class Incidencia
     public function setFechaCreacionIncidencia(\DateTimeInterface $fecha_creacion_incidencia): self
     {
         $this->fecha_creacion_incidencia = $fecha_creacion_incidencia;
+
+        return $this;
+    }
+
+    public function getSolucionado(): ?bool
+    {
+        return $this->solucionado;
+    }
+
+    public function setSolucionado(bool $solucionado): self
+    {
+        $this->solucionado = $solucionado;
 
         return $this;
     }
