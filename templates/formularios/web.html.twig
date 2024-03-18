@@ -3,197 +3,216 @@
 {% block title %}Enviar Briefing Web
 {% endblock %}
 {% block stylesheets %}
-	{{ parent() }}
+{{ parent() }}
 {% endblock %}
 {% block body %}
-	<section class="vh-100 d-flex justify-content-center">
-		<div class="container" style="max-width: 750px;">
-			<div class="row">
-				<div class="col-sm-12 text-black">
-					<div class="d-flex flex-column align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5">
+<section class="vh-100 d-flex justify-content-center">
+	<div class="container" style="max-width: 750px;">
+		<div class="row">
+			<div class="col-sm-12 text-black">
+				<div class="d-flex flex-column align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5">
 
-						{{ form_start(form, {'attr': {'class': 'custom-form'}}) }}
+					{{ form_start(form, {'attr': {'class': 'custom-form'}}) }}
 
-						<h3 class="fw-bold pb-2" style="letter-spacing: 1px;">
-							<span class="custom-label" style="color: #99c21e">¡Hola
-								{{ username }}!</span>
-							<br>
-							Estás enviando un Briefing Web
-						</h3>
-						<p>
-							Recuerda dar todos los detalles posibles para que podamos hacer realidad tu<br>
-							proyecto. Si tienes alguna duda no dudes en contactar con nosotros.</p>
-						{# Mensaje de error o exito #}
+					<h3 class="fw-bold pb-2" style="letter-spacing: 1px;">
+						<span class="custom-label" style="color: #99c21e">¡Hola
+							{{ username }}!</span>
+						<br>
+						Estás enviando un Briefing Web
+					</h3>
+					<p>
+						Recuerda dar todos los detalles posibles para que podamos hacer realidad tu<br>
+						proyecto. Si tienes alguna duda no dudes en contactar con nosotros.</p>
+					{# Mensaje de error o exito #}
 
-						{% for flashMessage in app.flashes('success') %}
-							<div class="alert alert-success">
-								{{ flashMessage }}
-							</div>
-						{% endfor %}
+					{% for flashMessage in app.flashes('success') %}
+					<div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+						{{ flashMessage }}
+						<button type="button" class="btn-close text-center" data-dismiss="alert"
+							aria-label="Close"></button>
+					</div>
+					{% endfor %}
 
-						{% for flashMessage in app.flashes('error') %}
-							<div class="alert alert-danger">
-								{{ flashMessage }}
-							</div>
-						{% endfor %}
-						{# Personalizar el renderizado de cada campo #}
+					{# Mensaje error #}
+					{% for flashMessage in app.flashes('error') %}
+					<div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+						{{ flashMessage }}
+						<button type="button" class="btn-close text-center" data-bs-dismiss="alert"
+							aria-label="Close"></button>
+					</div>
+					{% endfor %}
+					{# Personalizar el renderizado de cada campo #}
 
-						<div class="mb-2 mt-3">
-							<strong>Descripción de la empresa</strong>
-						</div>
-						<div class="form-outline form-floating mb-4">
-							{{ form_widget(form.descripcion_empresa) }}
-							<label class="form-label" for="{{ form.descripcion_empresa.vars.id }}">¿A qué se dedica, cómo de grande es...?</label>
-
-						</div>
-
-						<div class="mb-2 mt-3">
-							<strong>Descripción del proyecto</strong>
-						</div>
-						<div class="form-outline form-floating mb-4">
-							{{ form_widget(form.descripcion_proyecto) }}
-							<label class="form-label" for="{{ form.descripcion_proyecto.vars.id }}">¿Cómo te gustaría que fuese el proyecto?</label>
-
-						</div>
-
-						<div class="mb-2 mt-3">
-							<strong>Productos Vs Servicios</strong>
-						</div>
-						<div class="form-outline form-floating mb-4">
-							{{ form_widget(form.productos_y_o_servicios) }}
-							<label class="form-label" for="{{ form.productos_y_o_servicios.vars.id }}">¿Qué productos y/o servicios ofrece?</label>
-						</div>
-
-						<div class="mb-2 mt-3">
-							<strong>Competencia</strong>
-						</div>
-						<div class="form-outline form-floating mb-4">
-							{{ form_widget(form.competencia) }}
-							<label class="form-label" for="{{ form.competencia.vars.id }}">¿Quién es tu competencia? Breve análisis de las mejores webs del sector.</label>
-						</div>
-
-						<div class="mb-2 mt-3">
-							<strong>Objetivos</strong>
-						</div>
-						<div class="mb-2 mt-3">
-							<p>¿Cuál es el objetivo principal de tu empresa? ¿Qué objetivos principal quieres
-																																								                    que tenga tu web?</p>
-						</div>
-						<div class="form-outline mb-4">
-							{{ form_widget(form.objetivos) }}
-
-						</div>
-
-						<div class="mb-2 mt-3">
-							<strong>Estructura y Contenido Web</strong>
-						</div>
-						<div class="mb-2 mt-3">
-							<p>Si tienes definida la estructura o contenido será necesario facilitarla antes de comenzarel desarrollo web. También incluir signos y otros mensajes claves.</p>
-						</div>
-						<div class="form-outline mb-4">
-							{{ form_widget(form.estructura_y_contenido) }}
-						</div>
-
-						<div class="mb-2 mt-3">
-							<strong>Funciones</strong>
-						</div>
-						<div class="mb-2 mt-3">
-							<p>Compra online, buscador, blog, foro, formulario de contacto, comentarios, libros de visitas, catálogo,
-																								                    inegración con redes sociales...</p>
-						</div>
-						<div class="form-outline  mb-4">
-							{{ form_widget(form.funciones) }}
-
-						</div>
-
-
-						<div class="mb-2 mt-3">
-							<strong>Diseño e imagen</strong>
-
-							<div class="mb-2 mt-3">
-								<p>
-									En caso afirmativo, por favor envíelo por correo electrónico																																																                        y el porqué de cada una.
-								</p>
-							</div>
-							<div class="row">
-								<div class="col-sm-6">
-									<div class="form-outline form-floating mb-4">
-										<label class="form-label" for="{{ form.disponeLogo.vars.id }}">¿Dispone de logotipo?</label>
-										{{ form_widget(form.disponeLogo) }}
-									</div>
-								</div>
-								<div class="col-sm-6">
-									<div class="form-outline form-floating mb-4">
-										<label class="form-label" for="{{ form.disponeManualMarca.vars.id }}">¿Dispone de manual de marca corporativa?</label>
-										{{ form_widget(form.disponeManualMarca) }}
-									</div>
-								</div>
-								<div class="col-sm-6">
-									<div class="form-outline form-floating mb-4">
-										<label class="form-label" for="{{ form.disponeColoresCorporativos.vars.id }}">¿Dispone de colores corporativos definidos?</label>
-										{{ form_widget(form.disponeColoresCorporativos) }}
-									</div>
-								</div>
-								<div class="col-sm-6">
-									<div class="form-outline form-floating mb-4">
-										<label class="form-label" for="{{ form.disponeRecursosDisenyo.vars.id }}">¿Dispone de fotografías, vídeos, diseño?</label>
-										{{ form_widget(form.disponeRecursosDisenyo) }}
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<div class="mb-2 mt-3">
-							<strong>Webs de ejemplo</strong>
-						</div>
-						<div class="mb-2 mt-2">
-							<p>Enlaces a alguna webs que por estética u estructura te resultan atractivas para tu empresa																																																																																																							                        y el porqué de cada una.
-							</p>
-						</div>
-						<div class="form-outline mb-4" >
-							{{ form_widget(form.web_ejemplo) }}
-							<label class="form-label" for="{{ form.web_ejemplo.vars.id }}"></label>
-						</div>
-
-						<div class="mb-2 mt-3">
-							<strong>¿Necesitas mantenimiento?</strong>
-						</div>
-						<div class="form-outline form-floating mb-4">
-							{{ form_widget(form.mantenimiento) }}
-							<label class="form-label" for="{{ form.mantenimiento.vars.id }}"></label>
-						</div>
-
-						<div class="mb-2 mt-3">
-							<strong>Dominio</strong>
-						</div>
-						<div class="mb-2 mt-3">
-							<p>Este tipo de servicios pueden ser ofrecidos por la empresa de desarrollo web o bien puedes
-																                    contratarlos a parte. Es importante tener en cuenta que el dominio es preferible que pertenezca a la propia empresa</p>
-						</div>
-						<div class="form-outline mb-4">
-							{{ form_widget(form.dominio) }}
-						</div>
-
-						<div class="mb-2 mt-3">
-							<strong>Comentarios</strong>
-						</div>
-						<div class="form-outline form-floating mb-4">
-							{{ form_widget(form.comentarios) }}
-							<label class="form-label" for="{{ form.comentarios.vars.id }}">Aclaraciones o algo para comentar</label>
-						</div>
-
-						<div class="col-12 gap-2">
-							<div class="pt-1 mb-4">
-								{{ form_row(form.submit) }}
-							</div>
-							<a href="{{ path('dashboard_empresa') }}" class="btn btn-primary">Volver</a>
-						</div>
-
-						{{ form_end(form) }}
+					<div class="mb-2 mt-3">
+						<strong>Descripción de la empresa</strong>
+					</div>
+					<div class="form-outline form-floating mb-4">
+						{{ form_widget(form.descripcion_empresa) }}
+						<label class="form-label" for="{{ form.descripcion_empresa.vars.id }}">¿A qué se dedica, cómo de
+							grande es...?</label>
 
 					</div>
+
+					<div class="mb-2 mt-3">
+						<strong>Descripción del proyecto</strong>
+					</div>
+					<div class="form-outline form-floating mb-4">
+						{{ form_widget(form.descripcion_proyecto) }}
+						<label class="form-label" for="{{ form.descripcion_proyecto.vars.id }}">¿Cómo te gustaría que
+							fuese el proyecto?</label>
+
+					</div>
+
+					<div class="mb-2 mt-3">
+						<strong>Productos Vs Servicios</strong>
+					</div>
+					<div class="form-outline form-floating mb-4">
+						{{ form_widget(form.productos_y_o_servicios) }}
+						<label class="form-label" for="{{ form.productos_y_o_servicios.vars.id }}">¿Qué productos y/o
+							servicios ofrece?</label>
+					</div>
+
+					<div class="mb-2 mt-3">
+						<strong>Competencia</strong>
+					</div>
+					<div class="form-outline form-floating mb-4">
+						{{ form_widget(form.competencia) }}
+						<label class="form-label" for="{{ form.competencia.vars.id }}">¿Quién es tu competencia? Breve
+							análisis de las mejores webs del sector.</label>
+					</div>
+
+					<div class="mb-2 mt-3">
+						<strong>Objetivos</strong>
+					</div>
+					<div class="mb-2 mt-3">
+						<p>¿Cuál es el objetivo principal de tu empresa? ¿Qué objetivos principal quieres
+							que tenga tu web?</p>
+					</div>
+					<div class="form-outline mb-4">
+						{{ form_widget(form.objetivos) }}
+
+					</div>
+
+					<div class="mb-2 mt-3">
+						<strong>Estructura y Contenido Web</strong>
+					</div>
+					<div class="mb-2 mt-3">
+						<p>Si tienes definida la estructura o contenido será necesario facilitarla antes de comenzarel
+							desarrollo web. También incluir signos y otros mensajes claves.</p>
+					</div>
+					<div class="form-outline mb-4">
+						{{ form_widget(form.estructura_y_contenido) }}
+					</div>
+
+					<div class="mb-2 mt-3">
+						<strong>Funciones</strong>
+					</div>
+					<div class="mb-2 mt-3">
+						<p>Compra online, buscador, blog, foro, formulario de contacto, comentarios, libros de visitas,
+							catálogo,
+							inegración con redes sociales...</p>
+					</div>
+					<div class="form-outline  mb-4">
+						{{ form_widget(form.funciones) }}
+
+					</div>
+
+
+					<div class="mb-2 mt-3">
+						<strong>Diseño e imagen</strong>
+
+						<div class="mb-2 mt-3">
+							<p>
+								En caso afirmativo, por favor envíelo por correo electrónico y el porqué de cada una.
+							</p>
+						</div>
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="form-outline form-floating mb-4">
+									<label class="form-label" for="{{ form.disponeLogo.vars.id }}">¿Dispone de
+										logotipo?</label>
+									{{ form_widget(form.disponeLogo) }}
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-outline form-floating mb-4">
+									<label class="form-label" for="{{ form.disponeManualMarca.vars.id }}">¿Dispone de
+										manual de marca corporativa?</label>
+									{{ form_widget(form.disponeManualMarca) }}
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-outline form-floating mb-4">
+									<label class="form-label"
+										for="{{ form.disponeColoresCorporativos.vars.id }}">¿Dispone de colores
+										corporativos definidos?</label>
+									{{ form_widget(form.disponeColoresCorporativos) }}
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-outline form-floating mb-4">
+									<label class="form-label" for="{{ form.disponeRecursosDisenyo.vars.id }}">¿Dispone
+										de fotografías, vídeos, diseño?</label>
+									{{ form_widget(form.disponeRecursosDisenyo) }}
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="mb-2 mt-3">
+						<strong>Webs de ejemplo</strong>
+					</div>
+					<div class="mb-2 mt-2">
+						<p>Enlaces a alguna webs que por estética u estructura te resultan atractivas para tu empresa y
+							el porqué de cada una.
+						</p>
+					</div>
+					<div class="form-outline mb-4">
+						{{ form_widget(form.web_ejemplo) }}
+						<label class="form-label" for="{{ form.web_ejemplo.vars.id }}"></label>
+					</div>
+
+					<div class="mb-2 mt-3">
+						<strong>¿Necesitas mantenimiento?</strong>
+					</div>
+					<div class="form-outline form-floating mb-4">
+						{{ form_widget(form.mantenimiento) }}
+						<label class="form-label" for="{{ form.mantenimiento.vars.id }}"></label>
+					</div>
+
+					<div class="mb-2 mt-3">
+						<strong>Dominio</strong>
+					</div>
+					<div class="mb-2 mt-3">
+						<p>Este tipo de servicios pueden ser ofrecidos por la empresa de desarrollo web o bien puedes
+							contratarlos a parte. Es importante tener en cuenta que el dominio es preferible que
+							pertenezca a la propia empresa</p>
+					</div>
+					<div class="form-outline mb-4">
+						{{ form_widget(form.dominio) }}
+					</div>
+
+					<div class="mb-2 mt-3">
+						<strong>Comentarios</strong>
+					</div>
+					<div class="form-outline form-floating mb-4">
+						{{ form_widget(form.comentarios) }}
+						<label class="form-label" for="{{ form.comentarios.vars.id }}">Aclaraciones o algo para
+							comentar</label>
+					</div>
+
+					<div class="col-12 gap-2">
+						<div class="pt-1 mb-4">
+							{{ form_row(form.submit) }}
+						</div>
+						<a href="{{ path('dashboard_empresa') }}" class="btn btn-primary">Volver</a>
+					</div>
+
+					{{ form_end(form) }}
+
 				</div>
 			</div>
 		</div>
-	</section>
+	</div>
+</section>
 {% endblock %}

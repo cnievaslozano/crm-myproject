@@ -21,14 +21,19 @@
                     {# Mensaje de error o exito #}
 
                     {% for flashMessage in app.flashes('success') %}
-                    <div class="alert alert-success">
+                    <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
                         {{ flashMessage }}
+                        <button type="button" class="btn-close text-center" data-dismiss="alert"
+                            aria-label="Close"></button>
                     </div>
                     {% endfor %}
 
+                    {# Mensaje error #}
                     {% for flashMessage in app.flashes('error') %}
-                    <div class="alert alert-danger">
+                    <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
                         {{ flashMessage }}
+                        <button type="button" class="btn-close text-center" data-bs-dismiss="alert"
+                            aria-label="Close"></button>
                     </div>
                     {% endfor %}
                     {# Personalizar el renderizado de cada campo #}
