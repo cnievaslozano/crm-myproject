@@ -58,7 +58,7 @@
 				<button type="button" class="btn-close text-center" data-bs-dismiss="alert" aria-label="Close"></button>
 			</div>
 			{% endfor %}
-			<h5 class="fw-bold">Listado de Incidencias</h5>
+			<h5>Listado de Incidencias</h5>
 		</div>
 
 		<div class="col-12">
@@ -87,7 +87,7 @@
 					<div class="colo colo-1">{{ incidencia.id }}</div>
 					<div class="colo empresa">
 						<img src="/uploads/logotipos/{{ imagenLogotipoRuta }}" alt="Logo" class="rounded-circle"
-							style="width: 40px; height: 40px; margin-right: 20px;">
+							>
 						<span>{{ empresa ? empresa.nombre : '' }}</span>
 					</div>
 					<div class="colo text-muted code">{{ empresa.code}}</div>
@@ -95,12 +95,12 @@
 					<div class="colo tipo">{{ incidencia.tipo }}</div>
 					<div class="colo ver">
 						<a href="{{ path('incidencia_show', {'id': incidencia.id}) }}">
-							<i class="fa-solid fa-eye" style="color:#0d6efd;"></i>
+							<i class="fa-solid fa-eye text-primary"></i>
 						</a>
 					</div>
 					<div class="colo pdf">
 						<a href="{{ path('incidencia_pdf', {'id': incidencia.id}) }}">
-							<i class="fa-solid fa-download" style="color:#0d6efd;"></i>
+							<i class="fa-solid fa-download text-primary"></i>
 						</a>
 					</div>
 					<div class="colo borrar">
@@ -108,7 +108,7 @@
 							onsubmit="return confirm('¿Estás seguro que quieres borrar la incidencia {{incidencia.titulo}}?');">
 							<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ incidencia.id) }}">
 							<button class="btn">
-								<i class="fa-solid fa-trash" style="color:red;"></i>
+								<i class="fa-solid fa-trash text-danger"></i>
 							</button>
 						</form>
 					</div>

@@ -63,7 +63,7 @@
 				<button type="button" class="btn-close text-center" data-bs-dismiss="alert" aria-label="Close"></button>
 			</div>
 			{% endfor %}
-			<h5 class="fw-bold">Listado de Briefings</h5>
+			<h5>Listado de Briefings</h5>
 
 		</div>
 
@@ -75,7 +75,7 @@
 					<div class="colo colo-1">{{ briefing.id }}</div>
 					<div class="colo empresa">
 						<img src="/uploads/logotipos/{{ briefing.empresa.imagenLogotipoRuta }}" alt="Logo"
-							class="rounded-circle" style="width: 40px; height: 40px; margin-right: 20px;">
+							class="rounded-circle">
 						<span>{{ briefing.empresa.nombre }}</span>
 					</div>
 					<div class="colo code text-muted">{{ briefing.empresa.code }}</div>
@@ -84,16 +84,16 @@
 						{{ briefing.tipo|capitalize }}
 					</div>
 					<div class="colo activo">{{ briefing.isActivo ? '<i class="fa-solid fa-thumbs-up"
-							style="color:#99c21e;"></i>' : '<i class="fa-solid fa-thumbs-down" style="color:red;"></i>'
+							style="color:#99c21e;"></i>' : '<i class="fa-solid fa-thumbs-down text-danger"></i>'
 						}}</div>
 					<div class="colo ver">
 						<a href="{{ path('briefing_' ~ briefing.tipo|lower ~ '_show', {'id': briefing.id}) }}">
-							<i class="fa-solid fa-eye" style="color:#0d6efd;"></i>
+							<i class="fa-solid fa-eye text-primary"></i>
 						</a>
 					</div>
 					<div class="colo pdf">
 						<a href="{{ path('briefing_' ~ briefing.tipo|lower ~ '_pdf', {'id': briefing.id}) }}">
-							<i class="fa-solid fa-download" style="color:#0d6efd;"></i>
+							<i class="fa-solid fa-download  text-primary"></i>
 						</a>
 					</div>
 					<div class="colo borrar">
@@ -102,7 +102,7 @@
 							onsubmit="return confirm('¿Estás seguro que quieres borrar el briefing de {{ briefing.tipo|capitalize }} de {{ briefing.empresa.nombre }}?');">
 							<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ briefing.id) }}">
 							<button class="btn">
-								<i class="fa-solid fa-trash" style="color:red;"></i>
+								<i class="fa-solid fa-trash text-danger"></i>
 							</button>
 						</form>
 					</div>

@@ -57,7 +57,7 @@
 				<button type="button" class="btn-close text-center" data-bs-dismiss="alert" aria-label="Close"></button>
 			</div>
 			{% endfor %}
-			<h5 class="fw-bold">
+			<h5>
 				Gestor de contenidos
 			</h5>
 		</div>
@@ -69,7 +69,7 @@
 					<div class="colo colo-1">{{ contenido.id }}</div>
 					<div class="colo empresa">
 						<img src="/uploads/logotipos/{{ contenido.briefingWeb.empresa.imagenLogotipoRuta}}" alt="Logo"
-							class="rounded-circle" style="width: 40px; height: 40px; margin-right: 20px;">
+							class="rounded-circle">
 						<span>{{ contenido.briefingWeb.empresa.nombre }}</span>
 					</div>
 					<div class="colo code text-muted ">
@@ -77,17 +77,17 @@
 					<div class="colo titulo">{{ contenido.titulo }}</div>
 					<div class="colo activo">
 						{{ contenido.isActivo ?'<i class="fa-solid fa-thumbs-up" style="color:#99c21e;"></i>' : '<i
-							class="fa-solid fa-thumbs-down" style="color:red;"></i>'
+							class="fa-solid fa-thumbs-down text-danger"></i>'
 						}}
 					</div>
 					<div class="colo ver">
 						<a href="{{ path('contenido_show', {'id': contenido.id}) }}">
-							<i class="fa-solid fa-eye" style="color:#0d6efd;"></i>
+							<i class="fa-solid fa-eye text-primary"></i>
 						</a>
 					</div>
 					<div class="colo pdf">
 						<a href="{{ path('contenido_pdf', {'id': contenido.id}) }}">
-							<i class="fa-solid fa-download" style="color:#0d6efd;"></i>
+							<i class="fa-solid fa-download text-primary"></i>
 						</a>
 					</div>
 					<div class="colo borrar">
@@ -95,7 +95,7 @@
 							onsubmit="return confirm('¿Estás seguro que quieres borrar el contenido {{contenido.titulo}}?');">
 							<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ contenido.id) }}">
 							<button class="btn">
-								<i class="fa-solid fa-trash" style="color:red;"></i>
+								<i class="fa-solid fa-trash text-danger"></i>
 							</button>
 						</form>
 					</div>
