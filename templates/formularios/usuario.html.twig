@@ -1,13 +1,12 @@
-{% extends 'base.html.twig' %}
+{% extends 'formularios/plantilla-form.html.twig' %}
 
-{% block title %}Registro de usuarios
-{% endblock %}
-
-{% block stylesheets %}
-{{ parent() }}
+{% block title %}
+	Registro de usuarios
 {% endblock %}
 
 {% block body %}
+
+{% import 'components/flash.html.twig' as mensajeFlash %}
 
 <section class="vh-100 d-flex align-items-center justify-content-center">
 	<div class="container">
@@ -23,24 +22,9 @@
 						Estás creando un usuario para
 						<span class="text-primary">{{empresa.nombre}}</span>
 					</h3>
-					{# Mensaje de error o exito #}
-
-					{% for flashMessage in app.flashes('success') %}
-					<div class="alert alert-success alert-dismissible fade show text-center" role="alert">
-						{{ flashMessage }}
-						<button type="button" class="btn-close text-center" data-dismiss="alert"
-							aria-label="Close"></button>
-					</div>
-					{% endfor %}
-
-					{# Mensaje error #}
-					{% for flashMessage in app.flashes('error') %}
-					<div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
-						{{ flashMessage }}
-						<button type="button" class="btn-close text-center" data-bs-dismiss="alert"
-							aria-label="Close"></button>
-					</div>
-					{% endfor %}
+					
+					{# MENSAJE FLASH #}
+					{{mensajeFlash.flashComponent()}}
 
 					{# Personalizar el renderizado de cada campo #}
 					<div class="form-outline form-floating mb-4">
