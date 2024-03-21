@@ -1,13 +1,15 @@
-{% extends 'base.html.twig' %}
+{% extends 'formularios/plantilla-form.html.twig' %}
 
-{% block title %}Enviar Briefing App
+{% block title %}
+	Enviar Briefing App
 {% endblock %}
-{% block stylesheets %}
-{{ parent() }}
-{% endblock %}
+
 {% block body %}
+
+{% import 'components/flash.html.twig' as mensajeFlash %}
+
 <section class="vh-100 d-flex justify-content-center">
-	<div class="container" style="max-width: 750px;">
+	<div class="container">
 		<div class="row">
 			<div class="col-sm-12 text-black">
 				<div class="d-flex flex-column align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5">
@@ -15,32 +17,18 @@
 					{{ form_start(form, {'attr': {'class': 'custom-form'}}) }}
 
 					<h3 class="fw-bold pb-2" style="letter-spacing: 1px;">
-						<span class="custom-label" style="color: #99c21e">¡Hola
+						<span class="custom-label text-granota">¡Hola
 							{{ username }}!</span>
 						<br>
-						Estás enviando un Briefing de App
+						Estás enviando un <span class="text-primary">Briefing de App</span>
 					</h3>
 					<p>
 						Recuerda dar todos los detalles posibles para que podamos hacer realidad tu<br>
 						proyecto. Si tienes alguna duda no dudes en contactar con nosotros.</p>
-					{# Mensaje de error o exito #}
 
-					{% for flashMessage in app.flashes('success') %}
-					<div class="alert alert-success alert-dismissible fade show text-center" role="alert">
-						{{ flashMessage }}
-						<button type="button" class="btn-close text-center" data-dismiss="alert"
-							aria-label="Close"></button>
-					</div>
-					{% endfor %}
+					{# MENSAJE FLASH #}
+					{{mensajeFlash.flashComponent()}}
 
-					{# Mensaje error #}
-					{% for flashMessage in app.flashes('error') %}
-					<div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
-						{{ flashMessage }}
-						<button type="button" class="btn-close text-center" data-bs-dismiss="alert"
-							aria-label="Close"></button>
-					</div>
-					{% endfor %}
 					{# Personalizar el renderizado de cada campo #}
 
 					<div class="mb-2 mt-3">
