@@ -37,26 +37,17 @@
 	}
 </style>
 {% endblock %}
+
 {% block contenido %}
+
+{% import 'components/flash.html.twig' as mensajeFlash %}
 
 <div style="height:160px;"></div>
 <div class="container">
 	<div class="row">
 		<div class="col-12 mb-4">
-			{% for flashMessage in app.flashes('success') %}
-			<div class="alert alert-success alert-dismissible fade show text-center" role="alert">
-				{{ flashMessage }}
-				<button type="button" class="btn-close text-center" data-dismiss="alert" aria-label="Close"></button>
-			</div>
-			{% endfor %}
-
-			{# Mensaje error #}
-			{% for flashMessage in app.flashes('error') %}
-			<div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
-				{{ flashMessage }}
-				<button type="button" class="btn-close text-center" data-bs-dismiss="alert" aria-label="Close"></button>
-			</div>
-			{% endfor %}
+			{# MENSAJE FLASH #}
+			{{mensajeFlash.flashComponent()}}
 			<h5>
 				Gestor de contenidos
 			</h5>
