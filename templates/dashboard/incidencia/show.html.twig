@@ -1,14 +1,15 @@
 {% extends 'dashboard/plantilla.html.twig' %}
 
 {% block title %}
-	Incidencia de
-	{{empresa.nombre}}
+Incidencia de
+{{empresa.nombre}}
 {% endblock %}
 {% block stylesheets %}
-	{{ parent()}}
+{{ parent()}}
 {% endblock %}
 {% block contenido %}
-	<div style="height: 160px;"></div>
+<section class="d-flex justify-content-center">
+
 	<div class="container">
 		<div class="row">
 			<div class="col-12">
@@ -25,6 +26,10 @@
 						<tr>
 							<th>Id</th>
 							<td>{{ incidencia.id }}</td>
+						</tr>
+						<tr>
+							<th>¿Solucionado?</th>
+							<td>{{ incidencia.solucionado ? 'Sí' : 'No' }}</td>
 						</tr>
 						<tr>
 							<th>Pertenece al briefing
@@ -47,9 +52,10 @@
 							<th>Imágenes</th>
 							<td>
 								{% if incidencia.rutaImagenes %}
-									<img src="/uploads/incidencias/{{ incidencia.rutaImagenes}}" alt="contenido" style="width: 400px;  margin-right: 20px;">
+								<img src="/uploads/incidencias/{{ incidencia.rutaImagenes}}" alt="contenido"
+									style="width: 400px;  margin-right: 20px;">
 								{% else %}
-									No hay imagen disponible.
+								No hay imagen disponible.
 								{% endif %}
 							</td>
 						</tr>
@@ -65,7 +71,9 @@
 		<div class="row">
 			<div class="col-12 d-flex gap-2">
 				<a href="{{ path('dashboard_incidencias') }}" class="btn btn-primary">Volver</a>
-				<form method="post" action="{{ path('incidencia_delete', {'id': incidencia.id}) }}" onsubmit="return confirm('¿Estás seguro que quieres borrar la incidencia de {{empresa.nombre}}?');" class="d-inline">
+				<form method="post" action="{{ path('incidencia_delete', {'id': incidencia.id}) }}"
+					onsubmit="return confirm('¿Estás seguro que quieres borrar la incidencia de {{empresa.nombre}}?');"
+					class="d-inline">
 					<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ incidencia.id) }}">
 					<button class="btn btn-danger">
 						<i class="fa-solid fa-trash"></i>
@@ -76,5 +84,6 @@
 
 
 	</div>
+</section>
 
 {% endblock %}

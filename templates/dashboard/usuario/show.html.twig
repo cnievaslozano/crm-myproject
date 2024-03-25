@@ -1,93 +1,54 @@
 {% extends 'dashboard/plantilla.html.twig' %}
 {% block title %}
-{{empresa.nombre}}
+{{empresa.nombre}} - {{usuario.nombreUsuario}}
 {% endblock %}
-{% block stylesheets %}
-{{ parent() }}
 
-<style></style>
-{% endblock %}
 {% block contenido %}
-<section class="vh-100 d-flex align-items-center justify-content-center">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <h1 class="text-primary">
-                    {{usuario.username}}
-                </h1>
-            </div>
-        </div>
 
-        <div class="row">
-            <div class="col-12">
-                <table class="table">
-                    <tbody>
-                        <tr>
-                            <th>Id</th>
-                            <td>{{ usuario.id }}</td>
-                        </tr>
-                        <tr>
-                            <th>Empresa</th>
-                            <td>{{ usuario.empresa.nombre }}</td>
-                        </tr>
-                        <tr>
-                            <th>Nombre</th>
-                            <td>{{ usuario.nombreUsuario }}</td>
-                        </tr>
-                        <tr>
-                            <th>Apellidos</th>
-                            <td>{{ usuario.apellidosUsuario }}</td>
-                        </tr>
-                        <tr>
-                            <th>Rol</th>
-                            <td>{{ usuario.funcion }}</td>
-                        </tr>
-                        {% if usuario.contacto is not empty %}
-                        {% for contacto in usuario.contacto %}
-                        <tr>
-                            <th>Nombre del contacto
-                                {{ loop.index }}</th>
-                            <td>{{ contacto.nombreContacto }}</td>
-                        </tr>
-                        <tr>
-                            <th>Email
-                                {{ loop.index }}</th>
-                            <td>{{ contacto.email }}</td>
-                        </tr>
-                        <tr>
-                            <th>Télefono
-                                {{ loop.index }}</th>
-                            <td>{{ contacto.telefono }}</td>
-                        </tr>
-                        {% endfor %}
-                        {% else %}
-                        <tr>
-                            <td colspan="2">No se encontraron contactos de este usuario.</td>
-                        </tr>
-                        {% endif %}
+{% import 'components/boton_volver.html.twig' as botonVolver %}
 
-                        <tr>
-                            <th>Fecha creación del usuario</th>
-                            <td>{{ usuario.fechaCreacionUsuario|date('Y-m-d
-                                H:i:s') }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="d-flex gap-2 ">
-                    <a class="btn btn-granota" href="{{ path('contacto_new', {'id': usuario.id})}}">Añadir
+<section class="d-flex justify-content-center">
+    <div class="row">
+        <div class="col-12">
+            <div class="card-container mx-auto d-flex flex-column align-items-center ">
+
+                <img class="round" src="/uploads/logotipos/{{ empresa.imagenLogotipoRuta}}" alt="Empresa" />
+                <h1>{{ usuario.nombreUsuario }} {{ usuario.apellidosUsuario}}</h1>
+                <h6>{{ usuario.empresa.nombre }} | {{ usuario.funcion }}</h6>
+
+                <h6>Contactos:</h6>
+                {% if usuario.contacto is not empty %}
+                <ul>
+                    {% for contacto in usuario.contacto %}
+                    <li>{{ contacto.nombreContacto }}: {{ contacto.email }} | {{ contacto.telefono }}</li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p>No hay contactos</p>
+                {% endif %}
+
+                <p class="text-center text-muted ">
+                    {{ usuario.fechaCreacionUsuario|date('Y-m-d
+                    H:i:s') }}
+                </p>
+                <div class="d-flex gap-2  ">
+                    <a class="btn btn-granota btn-lg" href="{{ path('contacto_new', {'id': usuario.id})}}">Añadir
                         contacto</a>
-                    <button href="#" class="btn btn-danger ">
-                        <i class="fa-solid fa-trash"></i>
-                    </button>
-                    {%- include 'components/boton_volver.html.twig' with {
-                    'clase': 'btn btn-secondary',
-                    'ruta': path('empresa_show', {'id': empresa.id}),
-                    } -%}
+                    <form method="post" action="{{ path('usuario_delete', {'id': usuario.id}) }}"
+                        onsubmit="return confirm('¿Estás seguro que quieres borrar el usuario {{ usuario.username }} de {{ empresa.nombre }}?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ usuario.id) }}">
+                        <button class="btn btn-danger btn-lg">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </form>
+
+                    {{botonVolver.propiedades('btn btn-secondary btn-lg', path('empresa_show', {'id': empresa.id}))}}
+                
                 </div>
+
             </div>
         </div>
     </div>
-
 </section>
 
 

@@ -51,6 +51,10 @@
 		{# MENSAJE FLASH #}
 		{{mensajeFlash.flashComponent()}}
 
+		<div class="col-12 mb-4 d-flex justify-content-between">
+			<h5>Listado de briefings</h5>
+		</div>
+
 		<div class="col-12">
 			<ul class="custom-table">
 				{% for briefing in pagination %}
@@ -67,8 +71,7 @@
 					<div class="colo tipo">
 						{{ briefing.tipo|capitalize }}
 					</div>
-					<div class="colo activo">{{ briefing.isActivo ? '<i class="fa-solid fa-thumbs-up"
-							style="color:#99c21e;"></i>' : '<i class="fa-solid fa-thumbs-down text-danger"></i>'
+					<div class="colo activo">{{ briefing.isActivo ? '<i class="fa-solid fa-thumbs-up text-granota"></i>' : '<i class="fa-solid fa-thumbs-down text-danger"></i>'
 						}}</div>
 					<div class="colo ver">
 						<a href="{{ path('briefing_' ~ briefing.tipo|lower ~ '_show', {'id': briefing.id}) }}">

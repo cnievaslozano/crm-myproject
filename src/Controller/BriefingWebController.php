@@ -85,7 +85,7 @@ class BriefingWebController extends AbstractController
             $briefingWeb->setActivo(False);
             $briefingWeb->setEstado("");
 
-            $this->addFlash('success', 'se ha eliminado el briefing web de ' . $empresa->getNombre());
+            $this->addFlash('success', 'se ha eliminado éxitosamente el briefing web de ' . $empresa->getNombre());
             $em->persist($briefingWeb);
             $em->flush();
         }
