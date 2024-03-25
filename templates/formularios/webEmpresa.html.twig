@@ -4,59 +4,51 @@
 Nueva web
 {% endblock %}
 
-{% block body %}
+{% block formulario %}
 
 {% import 'components/flash.html.twig' as mensajeFlash %}
+{% import 'components/boton_volver.html.twig' as botonVolver %}
 
-<section class="vh-100">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12 text-black">
-                <div class="d-flex flex-column align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5">
-                    {{ form_start(form, {'attr': {'class': 'custom-form'}}) }}
-                    <h3 class="fw-bold pb-2" style="letter-spacing: 1px;">
-                        <span class="custom-label" style="color: #99c21e">¡Hola
-                            administrador!</span>
-                        <br>
-                        Estás añadiendo una web a <span class="text-primary">{{empresa.nombre}}</span>
-                    </h3>
+{# Título #}
+<h3>
+    <span class="custom-label text-granota">¡Hola
+        administrador!</span>
+    <br>
+    Estás añadiendo una web a <span class="text-primary">{{empresa.nombre}}</span>
+</h3>
 
-                    {# MENSAJE FLASH #}
-                    {{mensajeFlash.flashComponent()}}
+{# Mensaje Flash #}
+{{mensajeFlash.flashComponent()}}
 
-                    {# Personalizar el renderizado de cada campo #}
-                    <div class="mb-2 mt-3">
-                        <strong>¿Cómo se llama web?</strong>
-                    </div>
-                    <div class="form-outline mb-2">
-                        {{ form_widget(form.web) }}
-                        <label class="form-label" for="{{ form.web.vars.id }}"></label>
-                    </div>
+{# Campo nombre web #}
+<div class="mb-2 mt-3">
+    <strong>¿Cómo se llama web?</strong>
+</div>
+<div class="form-outline mb-2">
+    {{ form_widget(form.web) }}
+    <label class="form-label" for="{{ form.web.vars.id }}"></label>
+</div>
 
-                    <div class="mb-2 mt-2">
-                        <strong>¿Qué es está web?</strong>
-                    </div>
-                    <div class="form-outline mb-2">
-                        {{ form_widget(form.descripcion_web) }}
-                        <label class="form-label" for="{{ form.descripcion_web.vars.id }}"></label>
-                    </div>
+{# Campo Descripción web #}
+<div class="mb-2 mt-2">
+    <strong>¿Qué es está web?</strong>
+</div>
+<div class="form-outline mb-2">
+    {{ form_widget(form.descripcion_web) }}
+    <label class="form-label" for="{{ form.descripcion_web.vars.id }}"></label>
+</div>
 
-                    <div class="col-12 gap-2 ">
-                        <div class="pt-1 mb-4">
-                            {{ form_row(form.submit) }}
-                        </div>
-                        {%- include 'components/boton_volver.html.twig' with {
-                        'clase': 'btn btn-primary',
-                        'ruta': path('empresa_show', {'id': empresa.id}),
-                        } -%}
+{# Enviar Form #}
+<div class="col-12 gap-2 ">
 
-                    </div>
-
-                    {{ form_end(form) }}
-                </div>
-            </div>
-        </div>
+    <div class="pt-1 mb-4">
+        {{ form_row(form.submit) }}
     </div>
-</section>
+
+    {{botonVolver.propiedades('btn btn-primary', path('empresa_show', {'id': empresa.id}))}}
+
+</div>
+
+
 
 {% endblock %}

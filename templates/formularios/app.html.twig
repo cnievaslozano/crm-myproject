@@ -1,120 +1,113 @@
 {% extends 'formularios/plantilla-form.html.twig' %}
 
 {% block title %}
-	Enviar Briefing App
+Enviar Briefing App
 {% endblock %}
 
-{% block body %}
+{% block formulario %}
 
 {% import 'components/flash.html.twig' as mensajeFlash %}
+{% import 'components/boton_volver.html.twig' as botonVolver %}
 
-<section class="vh-100 d-flex justify-content-center">
-	<div class="container">
-		<div class="row">
-			<div class="col-sm-12 text-black">
-				<div class="d-flex flex-column align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5">
+{# Título #}
+<h3>
+	<span class="custom-label text-granota">¡Hola
+		{{ username }}!</span>
+	<br>
+	Estás enviando un <span class="text-primary">Briefing de App</span>
+</h3>
+<p>
+	Recuerda dar todos los detalles posibles para que podamos hacer realidad tu<br>
+	proyecto. Si tienes alguna duda no dudes en contactar con nosotros.</p>
 
-					{{ form_start(form, {'attr': {'class': 'custom-form'}}) }}
+{# Mensaje Flash #}
+{{mensajeFlash.flashComponent()}}
 
-					<h3 class="fw-bold pb-2" style="letter-spacing: 1px;">
-						<span class="custom-label text-granota">¡Hola
-							{{ username }}!</span>
-						<br>
-						Estás enviando un <span class="text-primary">Briefing de App</span>
-					</h3>
-					<p>
-						Recuerda dar todos los detalles posibles para que podamos hacer realidad tu<br>
-						proyecto. Si tienes alguna duda no dudes en contactar con nosotros.</p>
+{# Campo descripción de la empresa #}
+<div class="mb-2 mt-3">
+	<strong>Descripción de la empresa</strong>
+</div>
+<div class="form-outline form-floating mb-4">
+	{{ form_widget(form.descripcion_empresa) }}
+	<label class="form-label" for="{{ form.descripcion_empresa.vars.id }}">¿A qué se dedica la, cómo
+		de grande es...?</label>
+</div>
 
-					{# MENSAJE FLASH #}
-					{{mensajeFlash.flashComponent()}}
+{# Campo descripción del proyecto #}
+<div class="mb-2 mt-3">
+	<strong>Descripción del proyecto</strong>
+</div>
+<div class="form-outline form-floating mb-4">
+	{{ form_widget(form.descripcion_proyecto) }}
+	<label class="form-label" for="{{ form.descripcion_proyecto.vars.id }}">¿Cómo te gustaría que
+		fuese el proyecto?</label>
 
-					{# Personalizar el renderizado de cada campo #}
+</div>
 
-					<div class="mb-2 mt-3">
-						<strong>Descripción de la empresa</strong>
-					</div>
-					<div class="form-outline form-floating mb-4">
-						{{ form_widget(form.descripcion_empresa) }}
-						<label class="form-label" for="{{ form.descripcion_empresa.vars.id }}">¿A qué se dedica la, cómo
-							de grande es...?</label>
+{# Campo Objetivos #}
+<div class="mb-2 mt-3">
+	<strong>Objetivos</strong>
+</div>
+<div class="form-outline form-floating mb-4">
+	{{ form_widget(form.objetivos) }}
+	<label class="form-label" for="{{ form.objetivos.vars.id }}">¿Cuál es el objetivo principal de
+		tu empresa?</label>
 
-					</div>
+</div>
 
-					<div class="mb-2 mt-3">
-						<strong>Descripción del proyecto</strong>
-					</div>
-					<div class="form-outline form-floating mb-4">
-						{{ form_widget(form.descripcion_proyecto) }}
-						<label class="form-label" for="{{ form.descripcion_proyecto.vars.id }}">¿Cómo te gustaría que
-							fuese el proyecto?</label>
+{# Campo Competencia #}
+<div class="mb-2 mt-3">
+	<strong>Competencia</strong>
+</div>
+<div class="form-outline form-floating mb-4">
+	{{ form_widget(form.competencia) }}
+	<label class="form-label" for="{{ form.competencia.vars.id }}">¿Quién es tu competencia? Breve
+		análisis de las mejoras webs del sector.</label>
+</div>
 
-					</div>
+{# Campo Naming y slogan #}
+<div class="mb-2 mt-3">
+	<strong>Naming y eslogan</strong>
+</div>
+<div class="form-outline mb-4">
+	{{ form_widget(form.naming_slogan) }}
+</div>
 
-					<div class="mb-2 mt-3">
-						<strong>Objetivos</strong>
-					</div>
-					<div class="form-outline form-floating mb-4">
-						{{ form_widget(form.objetivos) }}
-						<label class="form-label" for="{{ form.objetivos.vars.id }}">¿Cuál es el objetivo principal de
-							tu empresa?</label>
+{# Campo Logo imagen #}
+<div class="mb-2 mt-3">
+	<strong>Imagen del logotipo</strong>
+</div>
+<div class="form-outline mb-4">
+	{{ form_widget(form.imagen_logotipo_ruta) }}
 
-					</div>
+</div>
 
-					<div class="mb-2 mt-3">
-						<strong>Competencia</strong>
-					</div>
-					<div class="form-outline form-floating mb-4">
-						{{ form_widget(form.competencia) }}
-						<label class="form-label" for="{{ form.competencia.vars.id }}">¿Quién es tu competencia? Breve
-							análisis de las mejoras webs del sector.</label>
-					</div>
+{# Campo Gama Cromática #}
+<div class="mb-2 mt-3">
+	<strong>Gama Cromática</strong>
+</div>
+<div class="form-outline form-floating mb-4">
+	{{ form_widget(form.gama_cromatica) }}
+	<label class="form-label" for="{{ form.gama_cromatica.vars.id }}">¿Qué colores utilizará la
+		aplicación?</label>
+</div>
 
-					<div class="mb-2 mt-3">
-						<strong>Naming y eslogan</strong>
-					</div>
-					<div class="form-outline mb-4">
-						{{ form_widget(form.naming_slogan) }}
-					</div>
+{# Campo Estructura de la app #}
+<div class="mb-2 mt-3">
+	<strong>Estructura de la app</strong>
+</div>
+<div class="form-outline form-floating mb-4">
+	{{ form_widget(form.estructura_app) }}
+	<label class="form-label" for="{{ form.estructura_app.vars.id }}">Explica detalladamente como te
+		gustaría que fuese la app.</label>
+</div>
 
-					<div class="mb-2 mt-3">
-						<strong>Imágen del logotipo</strong>
-					</div>
-					<div class="form-outline mb-4">
-						{{ form_widget(form.imagen_logotipo_ruta) }}
-
-					</div>
-
-					<div class="mb-2 mt-3">
-						<strong>Gama Cromática</strong>
-					</div>
-					<div class="form-outline form-floating mb-4">
-						{{ form_widget(form.gama_cromatica) }}
-						<label class="form-label" for="{{ form.gama_cromatica.vars.id }}">¿Qué colores utilizará la
-							aplicación?</label>
-					</div>
-
-					<div class="mb-2 mt-3">
-						<strong>Estructura de la app</strong>
-					</div>
-					<div class="form-outline form-floating mb-4">
-						{{ form_widget(form.estructura_app) }}
-						<label class="form-label" for="{{ form.estructura_app.vars.id }}">Explica detalladamente como te
-							gustaría que fuese la app.</label>
-					</div>
-
-					<div class="col-12 gap-2">
-						<div class="pt-1 mb-4">
-							{{ form_row(form.submit) }}
-						</div>
-						<a href="{{ path('dashboard_empresa') }}" class="btn btn-primary">Volver</a>
-					</div>
-
-					{{ form_end(form) }}
-
-				</div>
-			</div>
-		</div>
+{# Enviar Form #}
+<div class="col-12 gap-2">
+	<div class="pt-1 mb-4">
+		{{ form_row(form.submit) }}
 	</div>
-</section>
+	{{botonVolver.propiedades('btn btn-primary',  path('dashboard_empresa') ) }}
+</div>
+
 {% endblock %}

@@ -1,80 +1,69 @@
 {% extends 'formularios/plantilla-form.html.twig' %}
 
 {% block title %}
-	Enviar Contenido 
+Enviar Contenido
 {% endblock %}
 
-{% block body %}
+{% block formulario %}
 
 {% import 'components/flash.html.twig' as mensajeFlash %}
+{% import 'components/boton_volver.html.twig' as botonVolver %}
 
-<section class="vh-100 d-flex justify-content-center">
-	<div class="container">
-		<div class="row">
-			<div class="col-sm-12 text-black">
-				<div class="d-flex flex-column align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5">
+{# Título #}
+<h3>
+	<span class="custom-label text-granota">¡Hola
+		{{ username }}!</span>
+	<br>
+	Estás enviando un <span class="text-primary">Contenido</span>
+</h3>
 
-					{{ form_start(form, {'attr': {'class': 'custom-form'}}) }}
+{# Mensaje Flash #}
+{{mensajeFlash.flashComponent()}}
 
-					<h3 class="fw-bold pb-2" style="letter-spacing: 1px;">
-						<span class="custom-label" style="color: #99c21e">¡Hola
-							{{ username }}!</span>
-						<br>
-						Estás enviando un <span class="text-primary">Contenido</span>
-					</h3>
-					
-					{# MENSAJE FLASH #}
-					{{mensajeFlash.flashComponent()}}
+{# Campo Frase contenido #}
+<div class="mb-2 mt-3">
+	<strong>Título, describe en una frase el contenido</strong>
+</div>
+<div class="form-outline mb-4">
+	{{ form_widget(form.titulo) }}
+	<label class="form-label" for="{{ form.titulo.vars.id }}"></label>
+</div>
 
-					{# Personalizar el renderizado de cada campo #}
+{# Campo Punto del menu #}
+<div class="mb-2 mt-3">
+	<strong>Punto del menu</strong>
+</div>
+<div class="form-outline mb-4">
+	{{ form_widget(form.punto_menu) }}
+	<label class="form-label" for="{{ form.punto_menu.vars.id }}"></label>
+</div>
 
-					<div class="mb-2 mt-3">
-						<strong>Título, describe en una frase el contenido</strong>
-					</div>
-					<div class="form-outline mb-4">
-						{{ form_widget(form.titulo) }}
-						<label class="form-label" for="{{ form.titulo.vars.id }}"></label>
+{# Campo Contenido #}
+<div class="mb-2 mt-2">
+	<strong>Contenido</strong>
+</div>
+<div class="form-outline mb-4">
+	{{ form_widget(form.contenido) }}
+	<label class="form-label" for="{{ form.contenido.vars.id }}"></label>
+</div>
 
-					</div>
+{# Campo Imágenes #}
+<div class="mb-2 mt-2">
+	<strong>Imágenes</strong>
+</div>
+<div class="form-outline mb-4">
+	{{ form_widget(form.ruta_imagenes_contenidos) }}
+	<label class="form-label" for="{{ form.ruta_imagenes_contenidos.vars.id }}"></label>
+</div>
 
-					<div class="mb-2 mt-3">
-						<strong>Punto del menu</strong>
-					</div>
-					<div class="form-outline mb-4">
-						{{ form_widget(form.punto_menu) }}
-						<label class="form-label" for="{{ form.punto_menu.vars.id }}"></label>
-
-					</div>
-
-					<div class="mb-2 mt-2">
-						<strong>Contenido</strong>
-					</div>
-					<div class="form-outline mb-4">
-						{{ form_widget(form.contenido) }}
-						<label class="form-label" for="{{ form.contenido.vars.id }}"></label>
-
-					</div>
-
-					<div class="mb-2 mt-2">
-						<strong>Imágenes</strong>
-					</div>
-					<div class="form-outline mb-4">
-						{{ form_widget(form.ruta_imagenes_contenidos) }}
-						<label class="form-label" for="{{ form.ruta_imagenes_contenidos.vars.id }}"></label>
-					</div>
-
-					<div class="col-12 gap-2">
-						<div class="pt-1 mb-4">
-							{{ form_row(form.submit) }}
-						</div>
-						<a href="{{ path('dashboard_empresa') }}" class="btn btn-primary">Volver</a>
-					</div>
-
-					{{ form_end(form) }}
-
-				</div>
-			</div>
-		</div>
+{# Enviar Formulario #}
+<div class="col-12 gap-2">
+	<div class="pt-1 mb-4">
+		{{ form_row(form.submit) }}
 	</div>
-</section>
+
+	{{botonVolver.propiedades('btn btn-primary', path('dashboard_empresa')) }}
+
+</div>
+
 {% endblock %}

@@ -23,18 +23,30 @@
 
 </head>
 {% block stylesheets %}
-    {# Bloque necesario para que se herede bien los estilos#}
+{# Bloque necesario para que se herede bien los estilos#}
 {% endblock %}
 
-{% import 'components/footer.html.twig' as footer %}
-
 <body class="body__formularios">
-    {% block body %}
+    <section class="vh-100 d-flex justify-content-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div
+                        class="d-flex flex-column align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5">
+                        
+                        {{ form_start(form, {'attr': {'class': 'custom-form'}}) }}
 
-    {% endblock %}
+                        
+                        {% block formulario %}
 
-    {# FOOTER #}
-	{{ footer.footerComponent() }}
+                        {% endblock %}
+
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
 </body>
 
