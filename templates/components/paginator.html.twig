@@ -1,25 +1,4 @@
 {%- block paginator -%}
-
-<style>
-
-/* Color personalizado para los botones de paginación */
-.pagination .page-link {
-    background-color: #b3d844;
-    border-color: #9bbb3d;
-    color: white;
-}
-
-/* Color personalizado para los botones activos */
-.pagination .page-item.active .page-link {
-    background-color: #9bbb3d;
-    border-color: #b3d844;
-}
-
-/* Color personalizado para los enlaces "Previous" y "Next" */
-.pagination .page-item.disabled .page-link {
-    color: #b3d844;
-}
-</style>
 {% if pageCount > 1 %}
 <nav>
 {% set classAlign = (align is not defined) ? '' : align=='center' ? ' justify-content-center' : (align=='right' ? '
