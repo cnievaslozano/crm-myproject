@@ -53,3 +53,13 @@ Es un proyecto de gestión de clientes, permite administrar briefings, incidenci
 
 2. Abre tu navegador web y accede a la URL proporcionada por Symfony Server (generalmente `http://localhost:8000`).
 
+3. Usuario administrador:
+   -  Para crear un usuario con ROL_ADMIN hay un seeder en src\DataFixtures\AppFixtures.php que crea un usuario admin, desde ahí puedes cambiar la contraseña y el nombre. También crear más usuarios…etc. Para ejecutar esto:
+
+   ```bash
+    php bin/console doctrine:fixtures:load
+    ```
+
+    Si no directamente en la base de datos podrías crear usuarios, con el rol que quieras.
+
+Luego de forma web, cuando se crea una empresa, en el área de la empresa puedes crear un usuario normal, que pertenece a esa empresa.
