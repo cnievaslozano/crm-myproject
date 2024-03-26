@@ -1,6 +1,6 @@
 {% extends 'dashboard/plantilla.html.twig' %}
 {% block title %}
-	{{empresa.nombre}}
+{{empresa.nombre}}
 {% endblock %}
 
 {% block contenido %}
@@ -208,13 +208,13 @@
 						<td>
 							<a
 								href="{{ path('briefing_' ~ briefinglogo.tipo|lower ~ '_show', {'id': briefinglogo.id}) }}">
-								<i class="fa-solid fa-eye" style="color: #0d6efd"></i>
+								<i class="fa-solid fa-eye text-primary"></i>
 							</a>
 						</td>
 						<td>
 							<a
 								href="{{ path('briefing_' ~ briefinglogo.tipo|lower ~ '_pdf', {'id': briefinglogo.id}) }}">
-								<i class="fa-solid fa-download" style="color: #0d6efd"></i>
+								<i class="fa-solid fa-download text-primary" ></i>
 							</a>
 						</td>
 						<td>
@@ -278,6 +278,8 @@
 					<tr>
 						<td>{{ incidencia.titulo }}</td>
 						<td>{{ incidencia.tipo }}</td>
+						<td>{{ incidencia.solucionado ? '<i class="fa-solid fa-thumbs-up text-granota"></i>' : '<i
+								class="fa-solid fa-thumbs-down text-danger"></i>' }}</td>
 						<td>
 							<a href="{{ path('incidencia_show', {'id': incidencia.id}) }}">
 								<i class="fa-solid fa-eye" style="color: #0d6efd"></i>

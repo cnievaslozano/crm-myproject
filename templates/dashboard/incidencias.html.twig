@@ -20,6 +20,10 @@
 		flex-basis: 10%;
 	}
 
+	li .solucionado {
+		flex-basis: 5%;
+	}
+
 	li .ver {
 		flex-basis: 5%;
 	}
@@ -46,7 +50,7 @@
 
 	<div class="row">
 		<div class="col-12 mb-4">
-			
+
 			{# MENSAJE FLASH #}
 			{{mensajeFlash.flashComponent()}}
 
@@ -78,13 +82,15 @@
 				<li class="table-row">
 					<div class="colo colo-1">{{ incidencia.id }}</div>
 					<div class="colo empresa">
-						<img src="/uploads/logotipos/{{ imagenLogotipoRuta }}" alt="Logo" class="rounded-circle"
-							>
+						<img src="/uploads/logotipos/{{ imagenLogotipoRuta }}" alt="Logo" class="rounded-circle">
 						<span>{{ empresa ? empresa.nombre : '' }}</span>
 					</div>
 					<div class="colo text-muted code">{{ empresa.code}}</div>
 					<div class="colo titulo">{{ incidencia.titulo }}</div>
 					<div class="colo tipo">{{ incidencia.tipo }}</div>
+					<div class="colo solucionado">{{ incidencia.solucionado ? '<i
+							class="fa-solid fa-thumbs-up text-granota"></i>' : '<i
+							class="fa-solid fa-thumbs-down text-danger"></i>' }}</div>
 					<div class="colo ver">
 						<a href="{{ path('incidencia_show', {'id': incidencia.id}) }}">
 							<i class="fa-solid fa-eye text-primary"></i>
