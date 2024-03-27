@@ -1,11 +1,9 @@
-{% extends 'formularios/plantilla-form.html.twig' %}
+{% extends 'plantillas/plantilla-form.html.twig' %}
 {% block title %}
 Editar{{empresa.nombre}}
 {% endblock %}
-{% block stylesheets %}
-{{ parent() }}
-{% endblock %}
-{% block body %}
+
+{% block formulario %}
 <section class="vh-100 d-flex align-items-center justify-content-center">
 	<div class="container">
 		<div class="row">
