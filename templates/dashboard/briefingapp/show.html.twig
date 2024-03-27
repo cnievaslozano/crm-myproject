@@ -1,100 +1,68 @@
-{% extends 'dashboard/plantilla.html.twig' %}
+{% extends 'plantillas/plantilla-granota.html.twig' %}
 
-{% block title %}Briefing App de
-	{{empresa.nombre}}
+{% block title %}
+Briefing App de {{empresa.nombre}}
 {% endblock %}
 
 {% block contenido %}
 
 {% import 'components/boton_volver.html.twig' as botonVolver %}
 
-	<section class="d-flex justify-content-center">
+<section class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+	<div class="row">
+		<div class="col-12">
+			<div class="card-container mx-auto text-center">
 
-		<div class="container d-flex flex-column justify-content-center align-items-center ">
-			<div class="row">
-				<div class="col-12">
-					<h1>Briefing App de:
-						<span class="text-primary">{{ empresa.nombre }}
-						</span>
-					</h1>
-				</div>
-			</div>
+				<img class="round" src="/uploads/logotipos/{{ empresa.imagenLogotipoRuta }}" alt="logo de Empresa" />
+				<h1>Briefing App de: <span class="text-primary">{{ empresa.nombre }}</span></h1>
+				<h6>{{ briefing_app.id }} | {{ briefing_app.estado }} | {{ briefing_app.isActivo ? 'Asignado' : 'No
+					asignado' }}</h6>
 
-			<div class="row">
-				<div class="col-12">
-					<table class="table">
-						<tbody>
-							<tr>
-								<th>Id</th>
-								<td>{{ briefing_app.id }}</td>
-							</tr>
-							<tr>
-								<th>Activo</th>
-								<td>
-									{{ briefing_app.isActivo ? 'si' : 'no' }}
-								</td>
-							</tr>
-							<tr>
-								<th>Estado</th>
-								<td>
-									{{ briefing_app.estado }}
-								</td>
-							</tr>
-							<tr>
-								<th>Descripción de la empresa</th>
-								<td>{{ briefing_app.descripcionEmpresa }}</td>
-							</tr>
-							<tr>
-								<th>Descripción del proyecto</th>
-								<td>{{ briefing_app.descripcionProyecto }}</td>
-							</tr>
-							<tr>
-								<th>Objetivos</th>
-								<td>{{ briefing_app.objetivos }}</td>
-							</tr>
-							<tr>
-								<th>Competencia</th>
-								<td>{{ briefing_app.competencia }}</td>
-							</tr>
-							<tr>
-								<th>Naming/slogan</th>
-								<td>{{ briefing_app.namingSlogan }}</td>
-							</tr>
-							<tr>
-								<th>Imagen para la app</th>
-								<td>
-									<img src="/uploads/logotipos/{{ briefing_app.imagenLogotipoRuta }}" alt="Logo" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 20px;">
-								</td>
-							</tr>
-							<tr>
-								<th>Gama cromática</th>
-								<td>{{ briefing_app.gamaCromatica }}</td>
-							</tr>
-							<tr>
-								<th>Estructura de la aplicación</th>
-								<td>{{ briefing_app.estructuraApp }}</td>
-							</tr>
-							<tr>
-								<th>Fecha en la que se ha enviado</th>
-								<td>{{ briefing_app.fechaCreacionBriefingApp ? briefing_app.fechaCreacionBriefingApp|date('Y-m-d H:i:s')}}</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-12 d-flex gap-2">
-					<form method="post" action="{{ path('briefing_app_delete', {'id': briefing_app.id}) }}" onsubmit="return confirm('¿Estás seguro que quieres borrar el briefing app de {{empresa.nombre}}?');" class="d-inline">
+				<h6>Empresa</h6>
+				<p>{{ briefing_app.descripcionEmpresa ? briefing_app.descripcionEmpresa : 'no hay descripción' }}</p>
+
+				<h6>Proyecto</h6>
+				<p>{{ briefing_app.descripcionProyecto ? briefing_app.descripcionProyecto : 'no hay descripción' }}</p>
+
+				<h6>Objetivos</h6>
+				<p>{{ briefing_app.objetivos ? briefing_app.objetivos : 'no hay objetivos'}}</p>
+
+				<h6>Competencia</h6>
+				<p>{{ briefing_app.competencia ? briefing_app.competencia : 'no tiene' }}</p>
+
+				<h6>Naming/slogan</h6>
+				<p>{{ briefing_app.namingSlogan ? briefing_app.namingSlogan : 'no hay'}}</p>
+
+				<h6>Imagen para la app</h6>
+				<img src="/uploads/logotipos/{{ briefing_app.imagenLogotipoRuta }}" alt="Logo" class="rounded-circle"
+					style="width: 40px; height: 40px; margin-right: 20px;">
+
+				<h6>Gama cromática</h6>
+				<p>{{ briefing_app.gamaCromatica ? briefing_app.gamaCromatica : 'no hay' }}</p>
+
+				<h6>Estructura de la aplicación</h6>
+				<p>{{ briefing_app.estructuraApp ? briefing_app.estructuraApp : 'no hay' }}</p>
+
+				<p class="text-muted">{{ briefing_app.fechaCreacionBriefingApp ?
+					briefing_app.fechaCreacionBriefingApp|date('Y-m-d
+					H:i:s')}}</p>
+
+				<div class="d-flex justify-content-center gap-2">
+
+					<form method="post" action="{{ path('briefing_app_delete', {'id': briefing_app.id}) }}"
+						onsubmit="return confirm('¿Estás seguro que quieres borrar el briefing app de {{empresa.nombre}}?');"
+						class="d-inline">
 						<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ briefing_app.id) }}">
 						<button class="btn btn-danger">
 							<i class="fa-solid fa-trash"></i>
 						</button>
 					</form>
-					
-					{{botonVolver.propiedades('btn btn-secondary', path('dashboard_briefings'))}}
 
+					{{botonVolver.propiedades('btn btn-secondary', path('dashboard_briefings'))}}
+					
 				</div>
 			</div>
 		</div>
-	</section>
+	</div>
+</section>
 {% endblock %}

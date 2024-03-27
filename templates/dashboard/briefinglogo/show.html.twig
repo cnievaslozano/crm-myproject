@@ -1,74 +1,53 @@
-{% extends 'dashboard/plantilla.html.twig' %}
+{% extends 'plantillas/plantilla-granota.html.twig' %}
 
-{% block title %}Briefing Logo de
-	{{empresa.nombre}}x
+{% block title %}
+Briefing Logo de {{empresa.nombre}}
 {% endblock %}
-{% block stylesheets %}
-	{{ parent() }}
-{% endblock %}
+
 {% block contenido %}
-	<section class="d-flex justify-content-center">
-		<div class="container">
-			<div class="row">
-				<div class="col-12">
-					<h1>Briefing Logo de:
-						<span class="text-primary">{{ empresa.nombre }}
-						</span>
-					</h1>
-				</div>
-			</div>
 
-			<div class="row">
-				<div class="col-12">
-					<table class="table">
-						<tbody>
-							<tr>
-								<th>Id</th>
-								<td>{{ briefing_logo.id }}</td>
-							</tr>
-							<tr>
-								<th>Estado</th>
-								<td>{{ briefing_logo.estado }}</td>
-							</tr>
-							<tr>
-								<th>Activo</th>
-								<td>{{ briefing_logo.isActivo ? 'si' : 'no'}}</td>
-							</tr>
-							<tr>
-								<th>Nombre del logo</th>
-								<td>{{ briefing_logo.nombreLogo }}</td>
-							</tr>
-							<tr>
-								<th>Audiencia</th>
-								<td>{{ briefing_logo.audiencia }}</td>
-							</tr>
-							<tr>
-								<th>Ejemplo</th>
-								<td>{{ briefing_logo.ejemplo }}</td>
-							</tr>
-							<tr>
-								<th>Elementos</th>
-								<td>{{ briefing_logo.elementos }}</td>
-							</tr>
-							<tr>
-								<th>Fecha en la que se ha enviado</th>
-								<td>{{ briefing_logo.fechaCreacionBriefingLogo ? briefing_logo.fechaCreacionBriefingLogo|date('Y-m-d H:i:s') }}</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-12 d-flex gap-2">
-					<a href="{{ path('dashboard_briefings') }}" class="btn btn-primary">Volver</a>
-					<form method="post" action="{{ path('briefing_logo_delete', {'id': briefing_logo.id}) }}" onsubmit="return confirm('¿Estás seguro que quieres borrar el briefing logo de {{empresa.nombre}}?');" class="d-inline">
+{% import 'components/boton_volver.html.twig' as botonVolver %}
+
+<section class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+	<div class="row">
+		<div class="col-12">
+			<div class="card-container mx-auto text-center">
+
+				<img class="round" src="/uploads/logotipos/{{ empresa.imagenLogotipoRuta }}" alt="logo de Empresa" />
+				<h1>Briefing Logo de: <span class="text-primary">{{ empresa.nombre }}</span></h1>
+				<h6> {{ briefing_logo.id }} | {{ briefing_logo.estado }} | {{ briefing_logo.isActivo ? 'Asignado' : 'No
+					asignado' }}</h6>
+
+				<h6>Nombre del logo</h6>
+				<p>{{ briefing_logo.nombreLogo }}</p>
+
+				<h6>Audiencia</h6>
+				<p>{{ briefing_logo.audiencia }}</p>
+
+				<h6>Ejemplo</h6>
+				<p>{{ briefing_logo.ejemplo ? briefing_logo.ejemplo : 'No hay ejemplos'}}</p>
+
+				<h6>Elementos</h6>
+				<p>{{ briefing_logo.elementos ? briefing_logo.elementos : 'No hay elementos'}}</p>
+
+				<p class="text-muted">{{ briefing_logo.fechaCreacionBriefingLogo|date('Y-m-d H:i:s') }}</p>
+
+				<div class="d-flex justify-content-center gap-2">
+					<form method="post" action="{{ path('briefing_logo_delete', {'id': briefing_logo.id}) }}"
+						onsubmit="return confirm('¿Estás seguro que quieres borrar el briefing logo de {{empresa.nombre}}?');"
+						class="d-inline">
 						<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ briefing_logo.id) }}">
 						<button class="btn btn-danger">
 							<i class="fa-solid fa-trash"></i>
 						</button>
 					</form>
+
+                    {{ botonVolver.propiedades('btn btn-primmary btn-lg', path('dashboard_briefings')) }}
+
 				</div>
+
 			</div>
 		</div>
-	</section>
+	</div>
+</section>
 {% endblock %}

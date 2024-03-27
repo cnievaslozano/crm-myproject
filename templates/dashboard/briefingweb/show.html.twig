@@ -1,148 +1,85 @@
-{% extends 'dashboard/plantilla.html.twig' %}
+{% extends 'plantillas/plantilla-granota.html.twig' %}
 
-{% block title %}Briefing Web de
-	{{empresa.nombre}}
+{% block title %}
+Briefing Web de {{empresa.nombre}}
 {% endblock %}
-{% block stylesheets %}
-	{{ parent() }}
-{% endblock %}
+
 {% block contenido %}
-	<section class="d-flex justify-content-center">
-		<div class="container">
-			<div class="row">
-				<div class="col-12">
-					<h1>Briefing Web de:
-						<span class="text-primary">{{ empresa.nombre }}
-						</span>
-					</h1>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-12">
-					<table class="table">
-						<tbody>
-							<tr>
-								<th>Id</th>
-								<td>{{ briefing_web.id }}</td>
-							</tr>
-							<tr>
-								<th>Estado</th>
-								<td>{{ briefing_web.estado }}</td>
-							</tr>
-							<tr>
-								<th>Activo</th>
-								<td>
-									{{ briefing_web.isActivo ? 'si' : 'no' }}
-								</td>
-							</tr>
-							<tr>
-								<th>Descripción de la empresa</th>
-								<td>{{ briefing_web.descripcionEmpresa }}</td>
-							</tr>
-							<tr>
-								<th>Descripción del proyecto</th>
-								<td>{{ briefing_web.descripcionProyecto }}</td>
-							</tr>
-							<tr>
-								<th>Prodyctos y/o servicios</th>
-								<td>{{ briefing_web.productosYOServicios }}</td>
-							</tr>
-							<tr>
-								<th>Objetivos</th>
-								<td>{{ briefing_web.objetivos }}</td>
-							</tr>
-							<tr>
-								<th>Competencia</th>
-								<td>{{ briefing_web.competencia }}</td>
-							</tr>
-							<tr>
-								<th>Webs de ejemplos</th>
-								<td>
-									{{ briefing_web.webEjemplo }}
-								</td>
-							</tr>
-							<tr>
-								<th>Funciones</th>
-								<td>{{ briefing_web.funciones }}</td>
-							</tr>
-							<tr>
-								<th>Dispone de logo</th>
-								<td>
-									{% if briefing_web.disponeLogo %}
-										Sí
-									{% else %}
-										No
-									{% endif %}
-								</td>
-							</tr>
-							<tr>
-								<th>Dispone de Manual de Marca</th>
-								<td>
-									{% if briefing_web.disponeLogo %}
-										Sí
-									{% else %}
-										No
-									{% endif %}
-								</td>
-							</tr>
-							<tr>
-								<th>Dispone de Colores Corporativos</th>
-								<td>
-									{% if briefing_web.disponeColoresCorporativos %}
-										Sí
-									{% else %}
-										No
-									{% endif %}
-								</td>
-							</tr>
-							<tr>
-								<th>Dispone de Recursos de Diseño</th>
-								<td>
-									{% if briefing_web.disponeRecursosDisenyo %}
-										Sí
-									{% else %}
-										No
-									{% endif %}
-								</td>
-							</tr>
-							<tr>
-								<th>¿Necesita mantenimiento?</th>
-								<td>
-									{% if briefing_web.mantenimiento %}
-										Sí
-									{% else %}
-										No
-									{% endif %}
-								</td>
-							</tr>
-							<tr>
-								<th>Dominio</th>
-								<td>{{ briefing_web.dominio }}</td>
-							</tr>
-							<tr>
-								<th>Comentarios</th>
-								<td>{{ briefing_web.comentarios }}</td>
-							</tr>
-							<tr>
-								<th>Fecha en la que se ha enviado</th>
-								<td>{{ briefing_web.fechaCreacionBriefingWeb ? briefing_web.fechaCreacionBriefingWeb|date('Y-m-d
-							H:i:s') }}</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-12 d-flex gap-2">
+
+{% import 'components/boton_volver.html.twig' as botonVolver %}
+
+<section class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+	<div class="row">
+		<div class="col-12">
+			<div class="card-container mx-auto text-center">
+
+				<img class="round" src="/uploads/logotipos/{{ empresa.imagenLogotipoRuta }}" alt="logo de Empresa" />
+				<h1>Briefing Web de: <span class="text-primary">{{ empresa.nombre }}</span></h1>
+				<h6> {{ briefing_web.id }} | {{ briefing_web.estado }} | {{ briefing_web.isActivo ? 'Asignado' : 'No
+					asignado' }}</h6>
+
+				<h6>Empresa</h6>
+				<p>{{ briefing_web.descripcionEmpresa }}</p>
+
+				<h6>Proyecto</h6>
+				<p>{{ briefing_web.descripcionProyecto }}</p>
+
+				<h6>Productor y/o servicios</h6>
+				<p>{{ briefing_web.productosYOServicios }}</p>
+
+				<h6>Objetivos</h6>
+				<p>{{ briefing_web.objetivos }}</p>
+
+				<h6>Competencia</h6>
+				<p>{{ briefing_web.competencia }}</p>
+
+				<h6>Webs de ejemplos</h6>
+				<p>{{ briefing_web.webEjemplo ? briefing_web.webEjemplo : 'no hay'}}</p>
+
+				<h6>Funciones</h6>
+				<p>{{ briefing_web.funciones ? briefing_web.funciones : 'no hay '}}</p>
+
+				<h6>Dispone de logo</h6>
+				<p>{{ briefing_web.disponeLogo ? 'Sí' : 'No'}}</p>
+
+				<h6>Dispone de Manual de Marca</h6>
+				<p>{{ briefing_web.disponeLogo ? 'Sí' : 'No' }}</p>
+
+				<h6>Dispone de Colores Corporativos</h6>
+				<p>{{ briefing_web.disponeColoresCorporativos ? 'Sí' : 'No'}}</p>
+
+				<h6>Dispone de Recursos de Diseño</h6>
+				<p>{{ briefing_web.disponeRecursosDisenyo ? 'Sí' : 'No' }} </p>
+
+				<h6>¿Necesita mantenimiento?</h6>
+				<p> {{ briefing_web.mantenimiento ? 'Sí' : 'No'}}</p>
+
+				<h6>Dominio</h6>
+				<p> {{  briefing_web.dominio ? briefing_web.dominio : 'No tiene dominio' }}</p>
+
+				<h6>Comentarios</h6>
+				<p> {{ briefing_web.comentarios }} </p>
+
+				<p class="text-muted">{{ briefing_web.fechaCreacionBriefingWeb ?
+					briefing_web.fechaCreacionBriefingWeb|date('Y-m-d
+					H:i:s') }}</p>
+
+				<div class="d-flex justify-content-center gap-2">
 					<a href="{{ path('dashboard_briefings') }}" class="btn btn-primary">Volver</a>
-					<form method="post" action="{{ path('briefing_web_delete', {'id': briefing_web.id}) }}" onsubmit="return confirm('¿Estás seguro que quieres borrar el briefing app de {{empresa.nombre}}?');" class="d-inline">
+					<form method="post" action="{{ path('briefing_web_delete', {'id': briefing_web.id}) }}"
+						onsubmit="return confirm('¿Estás seguro que quieres borrar el briefing app de {{empresa.nombre}}?');"
+						class="d-inline">
 						<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ briefing_web.id) }}">
 						<button class="btn btn-danger">
 							<i class="fa-solid fa-trash"></i>
 						</button>
 					</form>
+
+					{{ botonVolver.propiedades('btn btn-primary btn-lg', path('dashboard_briefings') ) }}
+
 				</div>
 			</div>
 		</div>
-	</section>
+	</div>
+</section>
 {% endblock %}

@@ -1,79 +1,45 @@
-{% extends 'dashboard/plantilla.html.twig' %}
+{% extends 'plantillas/plantilla-granota.html.twig' %}
 
 {% block title %}
-	Contenido del Briefing Web de
-	{{empresa.nombre}}
+Contenido del Briefing Web de
+{{empresa.nombre}}
 {% endblock %}
-{% block stylesheets %}
-	{{ parent()}}
-{% endblock %}
+
+{% import 'components/boton_volver.html.twig' as botonVolver %}
+
 {% block contenido %}
-	<section class="d-flex justify-content-center">
-		<div class="container">
-			<div class="row">
-				<div class="col-12">
-					<h1>
-						Contenido de:
-						<span class="text-primary">{{ empresa.nombre }}</span>
-					</h1>
+<section class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+	<div class="row">
+		<div class="col-12">
+			<div class="card-container mx-auto text-center">
+
+				<img class="round" src="/uploads/logotipos/{{ empresa.imagenLogotipoRuta }}" alt="Empresa" />
+				<h1>Contenido de: <span class="text-primary">{{ empresa.nombre }}</span> </h1>
+				<h6>{{ contenido.isActivo ? 'Activo' : 'Desactivado' }} | {{ contenido.puntoMenu }}</h6>
+				<h6> {{ contenido.titulo}} </h6>
+
+				<p>{{ contenido.contenido }}</p>
+				{% if contenido.rutaImagenesContenidos %}
+				<img src="/uploads/contenidos/{{ contenido.rutaImagenesContenidos}}" alt="contenido"
+					style="width: 200px;  margin-right: 20px;">
+				{% else %}
+				No hay imagen disponible.
+				{% endif %}
+
+				<div class="d-flex justify-content-center gap-2">
+					<form method="post" action="{{ path('contenido_delete', {'id': contenido.id}) }}"
+						onsubmit="return confirm('¿Estás seguro que quieres borrar el contenido de {{empresa.nombre}}?');"
+						class="d-inline">
+						<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ contenido.id) }}">
+						<button class="btn btn-danger">
+							<i class="fa-solid fa-trash"></i>
+						</button>
+					</form>
+
+					{{ botonVolver.propiedades('btn btn-secondary btn-lg', path('dashboard_contenidos')) }}
+
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-12">
-					<table class="table">
-						<tbody>
-							<tr>
-								<th>Id</th>
-								<td>{{ contenido.id }}</td>
-							</tr>
-							<tr>
-								<th>Activo</th>
-								<td>
-									{{ contenido.isActivo ? 'si' : 'no' }}
-								</td>
-							</tr>
-							<tr>
-								<th>Briefing web id</th>
-								<td>
-									{{ contenido.briefingWeb.id }}</td>
-							</tr>
-							<tr>
-								<th>Título</th>
-								<td>{{ contenido.titulo }}</td>
-							</tr>
-							<tr>
-								<th>Punto menú</th>
-								<td>{{ contenido.puntoMenu }}</td>
-							</tr>
-							<tr>
-								<th>Contenido</th>
-								<td>{{ contenido.contenido }}</td>
-							</tr>
-							<tr>
-								<th>Imágenes</th>
-								<td>
-									{% if contenido.rutaImagenesContenidos %}
-										<img src="/uploads/contenidos/{{ contenido.rutaImagenesContenidos}}" alt="contenido" style="width: 200px;  margin-right: 20px;">
-									{% else %}
-										No hay imagen disponible.
-									{% endif %}
-								</td>
-							</tr>
-						</tbody>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-	<div class="row">
-		<div class="col-12 d-flex gap-2">
-			<a href="{{ path('dashboard_contenidos') }}" class="btn btn-primary">Volver</a>
-			<form method="post" action="{{ path('contenido_delete', {'id': contenido.id}) }}" onsubmit="return confirm('¿Estás seguro que quieres borrar el contenido de {{empresa.nombre}}?');" class="d-inline">
-				<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ contenido.id) }}">
-				<button class="btn btn-danger">
-					<i class="fa-solid fa-trash"></i>
-				</button>
-			</form>
 		</div>
 	</div>
 </section>

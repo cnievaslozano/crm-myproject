@@ -1,89 +1,55 @@
-{% extends 'dashboard/plantilla.html.twig' %}
+{% extends 'plantillas/plantilla-granota.html.twig' %}
 
 {% block title %}
 Incidencia de
 {{empresa.nombre}}
 {% endblock %}
-{% block stylesheets %}
-{{ parent()}}
-{% endblock %}
+
+{% import 'components/boton_volver.html.twig' as botonVolver %}
+
 {% block contenido %}
-<section class="d-flex justify-content-center">
+<section class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+	<div class="row">
+		<div class="col-12">
+			<div class="card-container mx-auto text-center">
+				<img class="round" src="/uploads/logotipos/{{ empresa.imagenLogotipoRuta }}" alt="Empresa" />
+				<h1> Incidencia de: <span class="text-primary">{{ empresa.nombre }}</span> </h1>
+				<h6> {{ incidencia.id }} | {{ incidencia.solucionado ? 'Solucionado' : 'Activa' }} | {{ incidencia.tipo
+					}}</h6>
 
-	<div class="container">
-		<div class="row">
-			<div class="col-12">
-				<h1>
-					Incidencia de:
-					<span class="text-primary">{{ empresa.nombre }}</span>
-				</h1>
+				<h6> {{  incidencia.titulo }}</h6>
+				<h6> {{ incidencia.url }}</h6>
+
+				<p>
+					{{ incidencia.descripcion }}
+				</p>
+				{% if incidencia.rutaImagenes %}
+				<img src="/uploads/incidencias/{{ incidencia.rutaImagenes}}" alt="contenido"
+					style="width: 400px;  margin-right: 20px;">
+				{% else %}
+				No hay imagen disponible.
+				{% endif %}
+
+				<p class="text-muted"> {{ incidencia.fechaCreacionIncidencia|date('Y-m-d H:i:s') }} </p>
+
+				<div class="d-flex justify-content-center gap-2">
+					<a href="{{ path('dashboard_incidencias') }}" class="btn btn-primary">Volver</a>
+					<form method="post" action="{{ path('incidencia_delete', {'id': incidencia.id}) }}"
+						onsubmit="return confirm('¿Estás seguro que quieres borrar la incidencia de {{empresa.nombre}}?');"
+						class="d-inline">
+						<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ incidencia.id) }}">
+						<button class="btn btn-danger">
+							<i class="fa-solid fa-trash"></i>
+						</button>
+					</form>
+
+					{{ botonVolver.propiedades('btn btn-secondary btn-lg', path('dashboard_incidencias')) }}
+
+				</div>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-12">
-				<table class="table">
-					<tbody>
-						<tr>
-							<th>Id</th>
-							<td>{{ incidencia.id }}</td>
-						</tr>
-						<tr>
-							<th>¿Solucionado?</th>
-							<td>{{ incidencia.solucionado ? 'Sí' : 'No' }}</td>
-						</tr>
-						<tr>
-							<th>Pertenece al briefing
-								{{ incidencia.tipo }}</th>
-							<td>{{ briefing.id }}</td>
-						</tr>
-						<tr>
-							<th>Título</th>
-							<td>{{ incidencia.titulo }}</td>
-						</tr>
-						<tr>
-							<th>Descripción</th>
-							<td>{{ incidencia.descripcion }}</td>
-						</tr>
-						<tr>
-							<th>Url</th>
-							<td>{{ incidencia.url}}</td>
-						</tr>
-						<tr>
-							<th>Imágenes</th>
-							<td>
-								{% if incidencia.rutaImagenes %}
-								<img src="/uploads/incidencias/{{ incidencia.rutaImagenes}}" alt="contenido"
-									style="width: 400px;  margin-right: 20px;">
-								{% else %}
-								No hay imagen disponible.
-								{% endif %}
-							</td>
-						</tr>
-						<tr>
-							<th>Fecha de la incidencia</th>
-							<td>{{ incidencia.fechaCreacionIncidencia|date('Y-m-d H:i:s') }}</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-12 d-flex gap-2">
-				<a href="{{ path('dashboard_incidencias') }}" class="btn btn-primary">Volver</a>
-				<form method="post" action="{{ path('incidencia_delete', {'id': incidencia.id}) }}"
-					onsubmit="return confirm('¿Estás seguro que quieres borrar la incidencia de {{empresa.nombre}}?');"
-					class="d-inline">
-					<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ incidencia.id) }}">
-					<button class="btn btn-danger">
-						<i class="fa-solid fa-trash"></i>
-					</button>
-				</form>
-			</div>
-		</div>
-
-
 	</div>
 </section>
+
 
 {% endblock %}

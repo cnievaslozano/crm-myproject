@@ -1,4 +1,5 @@
-{% extends 'dashboard/plantilla.html.twig' %}
+{% extends 'plantillas/plantilla-granota.html.twig' %}
+
 {% block title %}
 {{empresa.nombre}} - {{usuario.nombreUsuario}}
 {% endblock %}
@@ -7,42 +8,38 @@
 
 {% import 'components/boton_volver.html.twig' as botonVolver %}
 
-<section class="d-flex justify-content-center">
+<section class="d-flex justify-content-center align-items-center" style="height: 100vh;">
     <div class="row">
         <div class="col-12">
-            <div class="card-container mx-auto d-flex flex-column align-items-center ">
+            <div class="card-container mx-auto text-center">
 
-                <img class="round" src="/uploads/logotipos/{{ empresa.imagenLogotipoRuta}}" alt="Empresa" />
-                <h1>{{ usuario.nombreUsuario }} {{ usuario.apellidosUsuario}}</h1>
+                <img class="round" src="/uploads/logotipos/{{ empresa.imagenLogotipoRuta }}" alt="logo de Empresa" />
+                <h1>{{ usuario.nombreUsuario }} {{ usuario.apellidosUsuario }}</h1>
                 <h6>{{ usuario.empresa.nombre }} | {{ usuario.funcion }}</h6>
 
                 <h6>Contactos:</h6>
                 {% if usuario.contacto is not empty %}
-                <ul>
-                    {% for contacto in usuario.contacto %}
-                    <li>{{ contacto.nombreContacto }}: {{ contacto.email }} | {{ contacto.telefono }}</li>
-                    {% endfor %}
-                </ul>
+                    <ul>
+                        {% for contacto in usuario.contacto %}
+                            <li>{{ contacto.nombreContacto }}: {{ contacto.email }} | {{ contacto.telefono }}</li>
+                        {% endfor %}
+                    </ul>
                 {% else %}
-                <p>No hay contactos</p>
+                    <p>No hay contactos</p>
                 {% endif %}
 
-                <p class="text-center text-muted ">
-                    {{ usuario.fechaCreacionUsuario|date('Y-m-d
-                    H:i:s') }}
-                </p>
-                <div class="d-flex gap-2  ">
-                    <a class="btn btn-granota btn-lg" href="{{ path('contacto_new', {'id': usuario.id})}}">Añadir
-                        contacto</a>
-                    <form method="post" action="{{ path('usuario_delete', {'id': usuario.id}) }}"
-                        onsubmit="return confirm('¿Estás seguro que quieres borrar el usuario {{ usuario.username }} de {{ empresa.nombre }}?');">
+                <p class="text-muted">{{ usuario.fechaCreacionUsuario|date('Y-m-d H:i:s') }}</p>
+
+                <div class="d-flex justify-content-center gap-2">
+                    <a class="btn btn-granota btn-lg" href="{{ path('contacto_new', {'id': usuario.id}) }}">Añadir contacto</a>
+                    <form method="post" action="{{ path('usuario_delete', {'id': usuario.id}) }}" onsubmit="return confirm('¿Estás seguro que quieres borrar el usuario {{ usuario.username }} de {{ empresa.nombre }}?');">
                         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ usuario.id) }}">
                         <button class="btn btn-danger btn-lg">
                             <i class="fa-solid fa-trash"></i>
                         </button>
                     </form>
 
-                    {{botonVolver.propiedades('btn btn-secondary btn-lg', path('empresa_show', {'id': empresa.id}))}}
+                    {{ botonVolver.propiedades('btn btn-secondary btn-lg', path('empresa_show', {'id': empresa.id})) }}
                 
                 </div>
 
@@ -50,6 +47,7 @@
         </div>
     </div>
 </section>
+
 
 
 {% endblock %}
