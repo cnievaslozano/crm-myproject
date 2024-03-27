@@ -1,0 +1,43 @@
+{% extends 'plantilla/plantilla-pdf.html.twig' %}
+
+{% block title %}
+Briefing Web de {{empresa.nombre}}
+{% endblock %}
+
+{% block contenido %}
+
+<img class="round" src="/uploads/logotipos/{{ empresa.imagenLogotipoRuta }}" alt="logo de Empresa" />
+<h1>Briefing App de: <span class="text-primary">{{ empresa.nombre }}</span></h1>
+<h6>{{ briefing_app.id }} | {{ briefing_app.estado }} | {{ briefing_app.isActivo ? 'Asignado' : 'No
+	asignado' }}</h6>
+
+<h6>Empresa</h6>
+<p>{{ briefing_app.descripcionEmpresa ? briefing_app.descripcionEmpresa : 'no hay descripción' }}</p>
+
+<h6>Proyecto</h6>
+<p>{{ briefing_app.descripcionProyecto ? briefing_app.descripcionProyecto : 'no hay descripción' }}</p>
+
+<h6>Objetivos</h6>
+<p>{{ briefing_app.objetivos ? briefing_app.objetivos : 'no hay objetivos'}}</p>
+
+<h6>Competencia</h6>
+<p>{{ briefing_app.competencia ? briefing_app.competencia : 'no tiene' }}</p>
+
+<h6>Naming/slogan</h6>
+<p>{{ briefing_app.namingSlogan ? briefing_app.namingSlogan : 'no hay'}}</p>
+
+<h6>Imagen para la app</h6>
+<img src="/uploads/logotipos/{{ briefing_app.imagenLogotipoRuta }}" alt="Logo" class="rounded-circle"
+	style="width: 40px; height: 40px; margin-right: 20px;">
+
+<h6>Gama cromática</h6>
+<p>{{ briefing_app.gamaCromatica ? briefing_app.gamaCromatica : 'no hay' }}</p>
+
+<h6>Estructura de la aplicación</h6>
+<p>{{ briefing_app.estructuraApp ? briefing_app.estructuraApp : 'no hay' }}</p>
+
+<p class="text-muted">{{ briefing_app.fechaCreacionBriefingApp ?
+	briefing_app.fechaCreacionBriefingApp|date('Y-m-d
+	H:i:s')}}</p>
+
+{% endblock %}

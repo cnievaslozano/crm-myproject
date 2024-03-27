@@ -1,0 +1,28 @@
+{% extends 'plantilla/plantilla-pdf.html.twig' %}
+
+{% block title %}Briefing Web de
+{{empresa.nombre}}
+{% endblock %}
+
+{% block contenido %}
+
+<img class="round" src="/uploads/logotipos/{{ empresa.imagenLogotipoRuta }}" alt="Empresa" />
+<h1> Incidencia de: <span class="text-primary">{{ empresa.nombre }}</span> </h1>
+<h6> {{ incidencia.id }} | {{ incidencia.solucionado ? 'Solucionado' : 'Activa' }} | {{ incidencia.tipo
+	}}</h6>
+
+<h6> {{  incidencia.titulo }}</h6>
+<h6> {{ incidencia.url }}</h6>
+
+<p>
+	{{ incidencia.descripcion }}
+</p>
+{% if incidencia.rutaImagenes %}
+<img src="/uploads/incidencias/{{ incidencia.rutaImagenes}}" alt="contenido" style="width: 400px;  margin-right: 20px;">
+{% else %}
+No hay imagen disponible.
+{% endif %}
+
+<p class="text-muted"> {{ incidencia.fechaCreacionIncidencia|date('Y-m-d H:i:s') }} </p>
+
+{% endblock %}

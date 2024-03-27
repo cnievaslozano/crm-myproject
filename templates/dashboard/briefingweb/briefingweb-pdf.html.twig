@@ -1,0 +1,60 @@
+{% extends 'plantillas/plantilla-pdf.html.twig' %}
+
+{% block title %}
+Briefing Web de {{empresa.nombre}}
+{% endblock %}
+
+{% block contenido %}
+
+<img class="round" src="/uploads/logotipos/{{ empresa.imagenLogotipoRuta }}" alt="logo de Empresa" />
+<h1>Briefing Web de: <span class="text-primary">{{ empresa.nombre }}</span></h1>
+<h6> {{ briefing_web.id }} | {{ briefing_web.estado }} | {{ briefing_web.isActivo ? 'Activo' : 'No
+	asignado' }}</h6>
+
+<h6>Empresa</h6>
+<p>{{ briefing_web.descripcionEmpresa }}</p>
+
+<h6>Proyecto</h6>
+<p>{{ briefing_web.descripcionProyecto }}</p>
+
+<h6>Productor y/o servicios</h6>
+<p>{{ briefing_web.productosYOServicios }}</p>
+
+<h6>Objetivos</h6>
+<p>{{ briefing_web.objetivos }}</p>
+
+<h6>Competencia</h6>
+<p>{{ briefing_web.competencia }}</p>
+
+<h6>Webs de ejemplos</h6>
+<p>{{ briefing_web.webEjemplo ? briefing_web.webEjemplo : 'no hay'}}</p>
+
+<h6>Funciones</h6>
+<p>{{ briefing_web.funciones ? briefing_web.funciones : 'no hay '}}</p>
+
+<h6>Dispone de logo</h6>
+<p>{{ briefing_web.disponeLogo ? 'Sí' : 'No'}}</p>
+
+<h6>Dispone de Manual de Marca</h6>
+<p>{{ briefing_web.disponeLogo ? 'Sí' : 'No' }}</p>
+
+<h6>Dispone de Colores Corporativos</h6>
+<p>{{ briefing_web.disponeColoresCorporativos ? 'Sí' : 'No'}}</p>
+
+<h6>Dispone de Recursos de Diseño</h6>
+<p>{{ briefing_web.disponeRecursosDisenyo ? 'Sí' : 'No' }} </p>
+
+<h6>¿Necesita mantenimiento?</h6>
+<p> {{ briefing_web.mantenimiento ? 'Sí' : 'No'}}</p>
+
+<h6>Dominio</h6>
+<p> {{  briefing_web.dominio ? briefing_web.dominio : 'No tiene dominio' }}</p>
+
+<h6>Comentarios</h6>
+<p> {{ briefing_web.comentarios }} </p>
+
+<p class="text-muted">{{ briefing_web.fechaCreacionBriefingWeb ?
+	briefing_web.fechaCreacionBriefingWeb|date('Y-m-d
+	H:i:s') }}</p>
+
+{% endblock %}

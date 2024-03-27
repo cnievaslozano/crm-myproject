@@ -1,0 +1,22 @@
+{% extends 'plantillas/plantilla-pdf.html.twig' %}
+
+{% block title %}
+Contenido del Briefing Web de {{empresa.nombre}}
+{% endblock %}
+
+{% block contenido %}
+
+<img class="round" src="/uploads/logotipos/{{ empresa.imagenLogotipoRuta }}" alt="Empresa" />
+<h1>Contenido de: <span class="text-primary">{{ empresa.nombre }}</span> </h1>
+<h6>{{ contenido.isActivo ? 'Activo' : 'Desactivado' }} | {{ contenido.puntoMenu }}</h6>
+<h6> {{ contenido.titulo}} </h6>
+
+<p>{{ contenido.contenido }}</p>
+{% if contenido.rutaImagenesContenidos %}
+<img src="/uploads/contenidos/{{ contenido.rutaImagenesContenidos}}" alt="contenido"
+	style="width: 200px;  margin-right: 20px;">
+{% else %}
+No hay imagen disponible.
+{% endif %}
+
+{% endblock %}

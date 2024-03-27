@@ -1,0 +1,28 @@
+{% extends 'plantillas/plantilla-pdf.html.twig' %}
+
+{% block title %}
+Briefing Web de {{empresa.nombre}}
+{% endblock %}
+
+{% block contenido %}
+
+<img class="round" src="/uploads/logotipos/{{ empresa.imagenLogotipoRuta }}" alt="logo de Empresa" />
+<h1>Briefing Logo de: <span class="text-primary">{{ empresa.nombre }}</span></h1>
+<h6> {{ briefing_logo.id }} | {{ briefing_logo.estado }} | {{ briefing_logo.isActivo ? 'Asignado' : 'No
+	asignado' }}</h6>
+
+<h6>Nombre del logo</h6>
+<p>{{ briefing_logo.nombreLogo }}</p>
+
+<h6>Audiencia</h6>
+<p>{{ briefing_logo.audiencia }}</p>
+
+<h6>Ejemplo</h6>
+<p>{{ briefing_logo.ejemplo ? briefing_logo.ejemplo : 'No hay ejemplos'}}</p>
+
+<h6>Elementos</h6>
+<p>{{ briefing_logo.elementos ? briefing_logo.elementos : 'No hay elementos'}}</p>
+
+<p class="text-muted">{{ briefing_logo.fechaCreacionBriefingLogo|date('Y-m-d H:i:s') }}</p>
+
+{% endblock %}
