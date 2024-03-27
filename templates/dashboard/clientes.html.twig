@@ -39,18 +39,11 @@
 <div style="height:160px;"></div>
 <div class="container">
 	<div class="row">
-		
+
 		{# MENSAJE FLASH #}
 		{{mensajeFlash.flashComponent()}}
 
 		<div class="col-12 mb-4 d-flex justify-content-between">
-			{% for flashMessage in app.flashes('success') %}
-			<div class="alert alert-success alert-dismissible fade show text-center" role="alert">
-				{{ flashMessage }}
-				<button type="button" class="btn-close text-center" data-dismiss="alert" aria-label="Close"></button>
-			</div>
-			{% endfor %}
-
 			<h5>Listado de clientes</h5>
 			<a class="btn btn-granota" href="{{ path('empresa_new') }}">Nuevo Cliente</a>
 		</div>
