@@ -3,20 +3,29 @@ root:
     path: /
     controller: App\Controller\SecurityController::redirectToLogin 
 
-# LOGIN -> ADMIN & USUARIO NORMAL
-login:
-    path: /login
-    controller: App\Controller\SecurityController::login
-
-# LOGOUT -> ADMIN & USUARIO NORMAL
-logout:
-    path: /logout
-    controller: App\Controller\SecurityController::logout
-
 # 404 ERROR PAGE
 not_found_page:
     path: /404
     controller: App\Controller\ExceptionController::show404
+
+######################################################################
+#   AUTH
+######################################################################
+login:
+    path: /login
+    controller: App\Controller\SecurityController::login
+
+logout:
+    path: /logout
+    controller: App\Controller\SecurityController::logout
+
+forgot_password_request:
+    path: /contraseña-olvidada
+    controller: App\Controller\SecurityController::forgotPasswordRequest
+
+reset_password:
+    path: /reset-contraseña
+    controller: App\Controller\SecurityController::resetPassword
 
 
 ######################################################################
@@ -133,8 +142,8 @@ briefing_app_delete:
     methods: ['POST']
 
 briefing_app_pdf:
-    path: /dashboard/briefing-app/{id}/descargar-pdf
-    controller: App\Controller\BriefingAppController::descargarPDF
+    path: /dashboard/briefings/briefing-app/pdf/{id}
+    controller: App\Service\MisFunciones::descargarPDF
     methods: ['GET']
 
 #-------- WEB -------------#
@@ -154,8 +163,8 @@ briefing_web_delete:
     methods: ['POST']
 
 briefing_web_pdf:
-    path: /dashboard/briefing-web/{id}/descargar-pdf
-    controller: App\Controller\BriefingWebController::descargarPDF
+    path: /dashboard/briefings/briefing-web/pdf/{id}
+    controller: App\Service\MisFunciones::descargarPDF
     methods: ['GET']
 
 #-------- LOGO -------------#
@@ -175,8 +184,8 @@ briefing_logo_delete:
     methods: ['POST']
 
 briefing_logo_pdf:
-    path: /dashbaord/briefing-logo/{id}/descargar-pdf
-    controller: App\Controller\BriefingLogoController::descargarPDF
+    path: /dashbaord/briefings/briefing-logo/pdf/{id}
+    controller: App\Service\MisFunciones::descargarPDF
     methods: ['GET']
 
 
