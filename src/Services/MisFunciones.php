@@ -9,10 +9,13 @@ use App\Entity\Contenido;
 use App\Entity\Empresa;
 use App\Entity\Usuario;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\Response;
+use Dompdf\Dompdf;
 
 
 class MisFunciones extends AbstractController
@@ -80,5 +83,57 @@ class MisFunciones extends AbstractController
         } catch (FileException $e) {
             return false;
         }
+    }
+
+    public function descargarPDF (Request $request, $id): Response {
+        
+        // Obtengo datos necesarios para el pdf
+        $ruta = $request->get('_route');
+        $tipo = explode('_', $ruta)[1];
+        
+        $tiposEntidad = [
+            'web' => BriefingWeb::class,
+            'logo' => BriefingLogo::class,
+            'app' => BriefingApp::class
+        ];
+        
+        $claseEntidad = $tiposEntidad[$tipo];
+        $briefing = $this->getDoctrine()->getRepository($claseEntidad)->find($id);
+        $empresa = $briefing->getEmpresa();
+
+        // Renderizo la plantilla del pdf
+        $html =  $this->renderView('dashboard/briefing'.$tipo.'/briefing'.$tipo.'-pdf.html.twig', [
+            'briefing_'.$tipo => $briefing,
+            'empresa' => $empresa,
+        ]);
+
+        // Crea una instancia de Dompdf
+        $dompdf = new Dompdf();
+
+        // Carga el HTML en Dompdf
+        $dompdf->loadHtml($html);
+
+        // Renderiza el PDF
+        $dompdf->render();
+
+        // Obtén el contenido del PDF
+        $pdfContent = $dompdf->output();
+
+        // Define el nombre del archivo PDF
+        $filename = 'briefing_'.$tipo.'_' . $briefing->getId() . '_' . $empresa->getNombre() . '.pdf';
+
+        // Devuelve el PDF como una respuesta de Symfony para descargarlo
+        $response = new Response($pdfContent);
+        $response->headers->set('Content-Type', 'application/pdf');
+        $response->headers->set('Content-Disposition', 'attachment; filename="' . $filename . '"');
+
+        // Agrega un mensaje flash de éxito
+        $this->addFlash('success', 'Briefing ' . $tipo . ' descargado con éxito.');
+
+         // Redirige a la página 'dashboard_briefings' después de un segundo
+         $response->headers->add(['refresh' => '1;url=' . $this->generateUrl('dashboard_briefings')]);
+
+         return $response;
+
     }
 }
