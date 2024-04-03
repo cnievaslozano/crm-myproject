@@ -17,7 +17,7 @@ class UserController extends AbstractController
 {
     public function index(): Response
     {
-        return $this->render('login/index.html.twig');
+        return $this->render('auth/login.html.twig');
     }
 
     public function new(Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher, $id): Response
