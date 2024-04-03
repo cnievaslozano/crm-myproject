@@ -92,6 +92,42 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $resetToken;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $tokenExpiry;
+
+    // Getters y setters para resetToken y tokenExpiry
+
+    public function getResetToken(): ?string
+    {
+        return $this->resetToken;
+    }
+
+    public function setResetToken(?string $resetToken): self
+    {
+        $this->resetToken = $resetToken;
+
+        return $this;
+    }
+
+    public function getTokenExpiry(): ?\DateTimeInterface
+    {
+        return $this->tokenExpiry;
+    }
+
+    public function setTokenExpiry(?\DateTimeInterface $tokenExpiry): self
+    {
+        $this->tokenExpiry = $tokenExpiry;
+
+        return $this;
+    }
+
 
     public function getNombreUsuario(): ?string
     {
