@@ -114,45 +114,4 @@ class BriefingAppController extends AbstractController
 
         return $this->redirectToRoute($redirectRoute, ['id' => $empresa->getId()]);
     }
-    public function descargarPDF($id): Response
-    {
-        // Obtiene el briefing app por su ID
-        $briefingApp = $this->getDoctrine()->getRepository(BriefingApp::class)->find($id);
-        $usuario = $briefingApp->getUsuario();
-        $empresa = $usuario->getEmpresa();
-
-        $html =  $this->renderView('dashboard/briefingapp/plantilla_pdf.html.twig', [
-            'briefing_app' => $briefingApp,
-            'empresa' => $empresa,
-            'usuario' => $usuario,
-        ]);
-
-        // Crea una instancia de Dompdf
-        $dompdf = new Dompdf();
-
-        // Carga el HTML en Dompdf
-        $dompdf->loadHtml($html);
-
-        // Renderiza el PDF
-        $dompdf->render();
-
-        // Obtén el contenido del PDF
-        $pdfContent = $dompdf->output();
-
-        // Define el nombre del archivo PDF
-        $filename = 'briefing_app_' . $briefingApp->getId() . '_' . $empresa->getNombre() . '.pdf';
-
-        // Devuelve el PDF como una respuesta de Symfony para descargarlo
-        $response = new Response($pdfContent);
-        $response->headers->set('Content-Type', 'application/pdf');
-        $response->headers->set('Content-Disposition', 'attachment; filename="' . $filename . '"');
-
-        // Agrega un mensaje flash de éxito
-        $this->addFlash('success', 'Briefing App descargado con éxito.');
-
-        // Redirige a la página 'dashboard_briefings' después de un segundo
-        $response->headers->add(['refresh' => '1;url=' . $this->generateUrl('dashboard_briefings')]);
-
-        return $response;
-    }
 }
