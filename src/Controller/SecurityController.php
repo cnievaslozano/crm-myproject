@@ -104,9 +104,20 @@ class SecurityController extends AbstractController
         $form = $this->createForm(ResetPasswordType::class);
         $form->handleRequest($request);
 
+
         if ($form->isSubmitted() && $form->isValid()) {
-            // Actualizar la contraseña del usuario
-            $textoplanoPassword = $form->get('plainPassword')->getData();
+
+            $textoplanoPassword = $form->get('password')->getData();
+
+            $confirmPassword = $form->get('confirm_password')->getData();
+
+            // Validar las contraseñas
+            $error = $this->validarPassword($textoplanoPassword, $confirmPassword);
+            if ($error !== null) {
+                $this->addFlash('error', $error);
+                return $this->redirectToRoute('reset_password', ['token' => $token]);
+            }
+
             // encriptamos la pass
             $hashedPassword = $passwordHasher->hashPassword(
                 $user,
@@ -122,11 +133,10 @@ class SecurityController extends AbstractController
             $this->addFlash('success', 'Tu contraseña ha sido restablecida correctamente.');
             return $this->redirectToRoute('login');
         }
-        
+
         return $this->render('auth/reset_contrasenya.html.twig', [
             'form' => $form->createView(),
         ]);
-
     }
 
     /**
@@ -140,20 +150,47 @@ class SecurityController extends AbstractController
      */
     private function sendResetPasswordEmail(Usuario $user, MailerInterface $mailer, string $destino)
     {
-        try {
-            $email = (new TemplatedEmail())
-                ->from('myproject@granota.net')
-                ->to($destino)
-                ->subject('Solicitud de restablecimiento de contraseña')
-                ->htmlTemplate('plantillas/email-reset_password.html.twig')
-                ->context([
-                    'user' => $user,
-                ]);
 
+        $email = (new TemplatedEmail())
+            ->from(new Address('myproject@granota.net', 'Granota'))
+            ->to(new Address($destino))
+            ->subject('Solicitud de restablecimiento de contraseña')
+            ->htmlTemplate('plantillas/email-reset_password.html.twig')
+            ->context([
+                'user' => $user,
+            ]);
+
+        try {
             $mailer->send($email);
             $this->addFlash('success', 'Se ha enviado un correo electrónico a ' . $destino . ' tienes 1 hora para restablecer tu contraseña ');
-        } catch (\Throwable $e) {
+        } catch (TransportExceptionInterface $e) {
             $this->addFlash('error', $e->getMessage());
         }
+    }
+
+    public function validarPassword(string $password, string $confirmPassword): ?string
+    {
+        // Validar que la contraseña y la confirmación de la contraseña no estén vacías
+        if (empty($password) || empty($confirmPassword)) {
+            return 'La contraseña y la confirmación de la contraseña son obligatorias.';
+        }
+
+        // Validar que la contraseña y la confirmación de la contraseña coincidan
+        if ($password !== $confirmPassword) {
+            return 'Las contraseñas no coinciden.';
+        }
+
+        // Validar la longitud mínima de la contraseña
+        if (strlen($password) < 6) {
+            return 'La contraseña debe tener al menos 6 caracteres.';
+        }
+
+        // Validar que la contraseña no contenga caracteres especiales que puedan causar inyección SQL
+        if (!preg_match('/^[a-zA-Z0-9]+$/', $password)) {
+            return 'La contraseña no puede contener caracteres especiales.';
+        }
+
+        // Si todas las validaciones son exitosas, retorna null
+        return null;
     }
 }
