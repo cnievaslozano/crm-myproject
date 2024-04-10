@@ -15,22 +15,30 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Address;
+use Symfony\Component\Security\Http\Authenticator\Passport\Badge\RememberMeBadge;
+use Symfony\Component\Security\Http\RememberMe\RememberMeServicesInterface;
+
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 
 class SecurityController extends AbstractController
 {
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        // if ($this->getUser()) {
-        //     return $this->redirectToRoute('target_path');
-        // }
-
-        // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
-        // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('auth/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+        $rememberMeBadge = null;
+
+        // Verificar si se seleccionó "Recuérdame"
+        if (isset($_POST['_remember_me'])) {
+            $rememberMeBadge = new RememberMeBadge();
+        }
+
+        return $this->render('auth/login.html.twig', [
+            'last_username' => $lastUsername,
+            'error' => $error,
+            'remember_me' => $rememberMeBadge,
+        ]);
     }
 
     public function redirectToLogin(): RedirectResponse
@@ -82,7 +90,6 @@ class SecurityController extends AbstractController
             } else {
                 $this->addFlash('error', 'El usuario ' . $userForm . ' NO existe :(');
             }
-
 
             return $this->redirectToRoute('forgot_password_request');
         }
@@ -168,7 +175,7 @@ class SecurityController extends AbstractController
         }
     }
 
-    public function validarPassword(string $password, string $confirmPassword): ?string
+    private function validarPassword(string $password, string $confirmPassword): ?string
     {
         // Validar que la contraseña y la confirmación de la contraseña no estén vacías
         if (empty($password) || empty($confirmPassword)) {

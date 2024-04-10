@@ -24,8 +24,10 @@ security:
                 # target: app_any_route
 
             remember_me:
-                secret: '%kernel.secret%'
+                secret: '%env(APP_SECRET)%'
                 lifetime: 604800 # 1 week in seconds
+                path: /
+                name: remember_me_cookie
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
