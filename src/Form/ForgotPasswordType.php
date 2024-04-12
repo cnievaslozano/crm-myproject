@@ -29,7 +29,7 @@ class ForgotPasswordType extends AbstractType
 
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Enviar soicitud',
+                'label' => 'Enviar solicitud',
                 'attr' => ['class' => 'btn btn-granota btn-lg btn-block'],
             ]);
         

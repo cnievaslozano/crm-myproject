@@ -79,6 +79,15 @@ ul {
     width: 700px;
 }
 
+.form__auth {
+    width: 23rem;
+}
+
+.form__auth h3{
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+}
+
 /********************************************************************
     SIDEBAR MENU
 ********************************************************************/
@@ -231,8 +240,8 @@ ul {
     padding-top: 60px;
     padding-bottom: 60px;
     position: relative;
-    width: 600px;
-    min-height: 750px;
+    width: 500px;
+    min-height: 660px;
     max-width: 100%;
     text-align: center;
 }

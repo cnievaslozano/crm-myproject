@@ -17,44 +17,18 @@ class ResetPasswordType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('password', RepeatedType::class, [
-                'type' => PasswordType::class,
-                'invalid_message' => 'Las contraseñas deben coincidir.',
-                
-                'required' => true,
-                'first_options'  => [
-                    'attr' => ['class' => 'form-control form-control-lg mb-4', 'id' => 'password'],
-                    'label' => 'Contraseña Nueva',
-                    'label_attr' => ['class' => 'form-label'],
-                    'constraints' => [
-                        new NotBlank([
-                            'message' => 'Por favor, introduce una contraseña.',
-                        ]),
-                        new Length([
-                            'min' => 6,
-                            'minMessage' => 'La contraseña debe tener al menos {{ limit }} caracteres.',
-                        ]),
-                    ],
-                ],
-                'second_options' => [
-                    'attr' => ['class' => 'form-control form-control-lg', 'id' => 'confirm_password'],
-                    'label' => 'Confirmar Contraseña',
-                    'label_attr' => ['class' => 'form-label'],
-                    'constraints' => [
-                        new NotBlank([
-                            'message' => 'Por favor, repite la contraseña.',
-                        ]),
-                        new Length([
-                            'min' => 6,
-                            'minMessage' => 'La contraseña debe tener al menos {{ limit }} caracteres.',
-                        ]),
-                        new EqualTo([
-                            'propertyPath' => 'password',
-                            'message' => 'Las contraseñas deben coincidir.',
-                        ]),
-                    ],
-                ],
+            ->add('password', PasswordType::class, [
+                'attr' => ['class' => 'form-control form-control-lg mb-4'],
+                'label' => 'Contraseña Nueva',
+                'label_attr' => ['class' => 'form-label'],
             ])
+
+            ->add('confirm_password', PasswordType::class, [
+                'attr' => ['class' => 'form-control form-control-lg', 'id' => 'confirm_password'],
+                'label' => 'Confirmar Contraseña',
+                'label_attr' => ['class' => 'form-label'],
+            ])
+
             ->add('submit', SubmitType::class, [
                 'label' => 'Restablecer contraseña',
                 'attr' => ['class' => 'btn btn-granota btn-lg btn-block'],

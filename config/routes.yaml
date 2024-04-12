@@ -24,7 +24,7 @@ forgot_password_request:
     controller: App\Controller\SecurityController::forgotPasswordRequest
 
 reset_password:
-    path: /reset-contraseña
+    path: /reset-contraseña/{token}
     controller: App\Controller\SecurityController::resetPassword
 
 

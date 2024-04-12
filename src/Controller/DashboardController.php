@@ -16,6 +16,8 @@ use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\UX\PagerComponent\Attribute\Sortable;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Empresa;
 
 class DashboardController extends AbstractController
 {
@@ -50,9 +52,22 @@ class DashboardController extends AbstractController
         ]);
     }
 
-    public function clientes(Request $request, EmpresaRepository $empresaRepository, PaginatorInterface $paginator): Response
+    public function clientes(Request $request, EmpresaRepository $empresaRepository, PaginatorInterface $paginator ): Response
     {
-        $empresas = $empresaRepository->findAll();
+        $query = $request->get('busqueda');
+
+        if (!isset($query)) {
+            $empresas = $empresaRepository->findAll();
+        } else {
+
+            if(strlen($query) == 1 && is_numeric((int)$query)) {
+                $empresas = $empresaRepository->buscarPorId($query);
+            }
+
+            $empresas = $empresaRepository->buscarPorNombre($query);
+
+        }
+
 
         // Paginar los resultados
         $pagination = $paginator->paginate(

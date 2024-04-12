@@ -29,10 +29,13 @@ Es un proyecto de gestión de clientes, permite administrar briefings, incidenci
     npm install
     ```
 
-4. Configura las variables de entorno necesarias según las instrucciones en `.env`. En este caso solo hace falta configurar la conexión con la BD.
+4. Configura las variables de entorno necesarias según las instrucciones en `.env`. En este caso solo hace falta configurar la conexión con la BD y mail
     
     ```env
     DATABASE_URL="mysql://(usuario):(contraseña)@(ip):(puerto)/(nombreBD)?serverVersion=8&charset=utf8mb4"
+
+    MAILER_DSN=gmail+smtp://USERNAME:APP-PASSWORD@default
+    
     ```
 5. Crea la base de datos y ejecuta las migraciones:
 

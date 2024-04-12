@@ -46,7 +46,7 @@ class WebType extends AbstractType
             ->add('submit', SubmitType::class, [
                 'label' => 'Añadir web',
                 'attr' => ['class' => 'btn btn-granota btn-lg btn-block'],
-            ]);;;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

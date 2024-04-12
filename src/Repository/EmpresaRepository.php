@@ -39,6 +39,51 @@ class EmpresaRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * Busca empresas por su nombre.
+     *
+     * @param string $nombre El nombre a buscar
+     * @return Empresa[] Las empresas encontradas
+     */
+    public function buscarPorNombre(string $nombre): array
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.nombre LIKE :nombre')
+            ->setParameter('nombre', '%' . $nombre . '%')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * Busca empresas por su código.
+     *
+     * @param string $code
+     * @return Empresa[] Returns an array of Empresa objects
+     */
+    public function buscarPorCodigo(string $code): array
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.code LIKE :code')
+            ->setParameter('code', $code)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * Encuentra una entidad por su ID.
+     *
+     * @param int $id El ID de la entidad que deseas buscar.
+     * @return TuEntidad|null La entidad encontrada o null si no se encontró ninguna.
+     */
+    public function buscarPorId(int $id): ?Empresa
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     // Método para encontrar los últimos N registros
     public function findLastN($limit): array
     {

@@ -175,6 +175,13 @@ class SecurityController extends AbstractController
         }
     }
 
+    /**
+     * Valida la contraseña y la confirmación de la contraseña.
+     *
+     * @param string $password Contraseña a validar.
+     * @param string $confirmPassword Confirmación de la contraseña.
+     * @return string|null Devuelve un mensaje de error si hay algún problema con las contraseñas, de lo contrario devuelve null.
+     */
     private function validarPassword(string $password, string $confirmPassword): ?string
     {
         // Validar que la contraseña y la confirmación de la contraseña no estén vacías
