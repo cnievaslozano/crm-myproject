@@ -15,6 +15,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Response;
+use Knp\Component\Pager\PaginatorInterface;
 use Dompdf\Dompdf;
 
 
@@ -85,25 +86,26 @@ class MisFunciones extends AbstractController
         }
     }
 
-    public function descargarPDF (Request $request, $id): Response {
-        
+    public function descargarPDF(Request $request, $id): Response
+    {
+
         // Obtengo datos necesarios para el pdf
         $ruta = $request->get('_route');
         $tipo = explode('_', $ruta)[1];
-        
+
         $tiposEntidad = [
             'web' => BriefingWeb::class,
             'logo' => BriefingLogo::class,
             'app' => BriefingApp::class
         ];
-        
+
         $claseEntidad = $tiposEntidad[$tipo];
         $briefing = $this->getDoctrine()->getRepository($claseEntidad)->find($id);
         $empresa = $briefing->getEmpresa();
 
         // Renderizo la plantilla del pdf
-        $html =  $this->renderView('dashboard/briefing'.$tipo.'/briefing'.$tipo.'-pdf.html.twig', [
-            'briefing_'.$tipo => $briefing,
+        $html =  $this->renderView('dashboard/briefing' . $tipo . '/briefing' . $tipo . '-pdf.html.twig', [
+            'briefing_' . $tipo => $briefing,
             'empresa' => $empresa,
         ]);
 
@@ -120,7 +122,7 @@ class MisFunciones extends AbstractController
         $pdfContent = $dompdf->output();
 
         // Define el nombre del archivo PDF
-        $filename = 'briefing_'.$tipo.'_' . $briefing->getId() . '_' . $empresa->getNombre() . '.pdf';
+        $filename = 'briefing_' . $tipo . '_' . $briefing->getId() . '_' . $empresa->getNombre() . '.pdf';
 
         // Devuelve el PDF como una respuesta de Symfony para descargarlo
         $response = new Response($pdfContent);
@@ -130,10 +132,60 @@ class MisFunciones extends AbstractController
         // Agrega un mensaje flash de éxito
         $this->addFlash('success', 'Briefing ' . $tipo . ' descargado con éxito.');
 
-         // Redirige a la página 'dashboard_briefings' después de un segundo
-         $response->headers->add(['refresh' => '1;url=' . $this->generateUrl('dashboard_briefings')]);
+        // Redirige a la página 'dashboard_briefings' después de un segundo
+        $response->headers->add(['refresh' => '1;url=' . $this->generateUrl('dashboard_briefings')]);
 
-         return $response;
+        return $response;
+    }
 
+
+
+    public function searchItems(Request $request, $repository, PaginatorInterface $paginator, $template): Response
+    {
+        // Obtengo los filtros
+        $query = $request->get('busqueda');
+        $order = $request->get('order');
+
+        if (is_array($repository)) {
+            foreach ($repository as $value) {
+                $items = array_merge($repository, $value->findAll());
+            }
+        } else {
+            $items = $repository->findAll();
+        }
+
+        $itemsQuery = [];
+
+        if ($query !== null) {
+            foreach ($items as $item) {
+                $empresa = $item->getBriefingWeb()->getEmpresa();
+                ($empresa) ? $empresa : $empresa = $item->getEmpresa();
+
+                if ($empresa !== null && (strlen($query) >= 5 && is_numeric(substr($query, -4)) && $empresa->getCode() == $query) || stripos($empresa->getNombre(), $query) !== false) {
+                    $itemsQuery[] = $item;
+                }
+            }
+        }
+
+        if ($order === 'asc') {
+            usort($items, function ($a, $b) {
+                return $a->getId() - $b->getId();
+            });
+        } elseif ($order === 'desc') {
+            usort($items, function ($a, $b) {
+                return $b->getId() - $a->getId();
+            });
+        }
+
+        // paginar los resultados
+        $pagination = $paginator->paginate(
+            ($itemsQuery) ? $itemsQuery : $items,
+            $request->query->getInt('page', 1),
+            7
+        );
+
+        return $this->render($template, [
+            'pagination' => $pagination,
+        ]);
     }
 }

@@ -18,6 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\UX\PagerComponent\Attribute\Sortable;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Empresa;
+use App\Service\MisFunciones;
 
 class DashboardController extends AbstractController
 {
@@ -52,49 +53,60 @@ class DashboardController extends AbstractController
         ]);
     }
 
-    public function clientes(Request $request, EmpresaRepository $empresaRepository, PaginatorInterface $paginator ): Response
+    public function clientes(Request $request, MisFunciones $misFunciones, EmpresaRepository $empresaRepository, PaginatorInterface $paginator, EntityManagerInterface $em): Response
     {
-        $query = $request->get('busqueda');
-
-        if (!isset($query)) {
-            $empresas = $empresaRepository->findAll();
-        } else {
-
-            if(strlen($query) == 1 && is_numeric((int)$query)) {
-                $empresas = $empresaRepository->buscarPorId($query);
-            }
-
-            $empresas = $empresaRepository->buscarPorNombre($query);
-
-        }
-
-
-        // Paginar los resultados
-        $pagination = $paginator->paginate(
-            $empresas,
-            $request->query->getInt('page', 1),
-            7
-        );
-
-        return $this->render('dashboard/clientes.html.twig', [
-            'pagination' => $pagination,
-        ]);
+        return $misFunciones->searchItems($request, $empresaRepository, $paginator, 'dashboard/clientes.html.twig');
     }
 
-
-    public function briefings(Request $request, BriefingAppRepository $briefingAppRepository, BriefingWebRepository $briefingWebRepository, BriefingLogoRepository $briefingLogoRepository, PaginatorInterface $paginator): Response
+    public function briefings(Request $request, MisFunciones $misFunciones, BriefingAppRepository $briefingAppRepository, BriefingWebRepository $briefingWebRepository, BriefingLogoRepository $briefingLogoRepository, PaginatorInterface $paginator): Response
     {
+
+        // Obtengo los filtros
+        $query = $request->get('busqueda');
+        $order = $request->get('order');
+
         $briefingApps = $briefingAppRepository->findAll();
         $briefingWebs = $briefingWebRepository->findAll();
         $briefingLogos = $briefingLogoRepository->findAll();
 
         $briefings = array_merge($briefingApps, $briefingWebs, $briefingLogos);
+        $briefingsQuery = null;
+
+        if ($query !== null) {
+
+            // busqueda por código o nombre
+            if (strlen($query) >= 5 && is_numeric(substr($query, -4))) {
+                foreach ($briefings as $briefing) {
+                    $empresa = $briefing->getEmpresa();
+                    if ($empresa->getCode() == $query) {
+                        $briefingsQuery[] = $briefing;
+                    }
+                }
+            } else {
+                foreach ($briefings as $briefing) {
+                    $empresa = $briefing->getEmpresa();
+                    if ($empresa !== null && stripos($empresa->getNombre(), $query) !== false) {
+                        $briefingsQuery[] = $briefing;
+                    }
+                }
+            }
+        }
+
+        if ($order === 'asc') {
+            usort($briefings, function ($a, $b) {
+                return $a->getId() - $b->getId();
+            });
+        } elseif ($order === 'desc') {
+            usort($briefings, function ($a, $b) {
+                return $b->getId() - $a->getId();
+            });
+        }
 
         // Paginar los resultados
         $pagination = $paginator->paginate(
-            $briefings, // Array de resultados a paginar
-            $request->query->getInt('page', 1), // Número de página, por defecto 1
-            7 // Número de elementos por página
+            ($briefingsQuery) ? $briefingsQuery : $briefings,
+            $request->query->getInt('page', 1),
+            7
         );
 
         return $this->render('dashboard/briefings.html.twig', [
@@ -102,38 +114,14 @@ class DashboardController extends AbstractController
         ]);
     }
 
-    public function contenidos(Request $request, ContenidoRepository $contenidoRepository, PaginatorInterface $paginator): Response
+    public function contenidos(Request $request, MisFunciones $misFunciones, ContenidoRepository $contenidoRepository, PaginatorInterface $paginator): Response
     {
-        $contenidos = $contenidoRepository->findAll();
-
-        // paginar los resultados
-        $pagination = $paginator->paginate(
-            $contenidos, // Array de resultados a paginar
-            $request->query->getInt('page', 1), // Número de página, por defecto 1
-            7 // Número de elementos por página
-        );
-
-        return $this->render('dashboard/contenidos.html.twig', [
-            'pagination' => $pagination,
-        ]);
+        return $misFunciones->searchItems($request, $contenidoRepository, $paginator, 'dashboard/contenidos.html.twig');
     }
 
 
-    public function incidencias(Request $request, IncidenciaRepository $incidenciaRepository, PaginatorInterface $paginator): Response
+    public function incidencias(Request $request, MisFunciones $misFunciones, IncidenciaRepository $incidenciaRepository, PaginatorInterface $paginator): Response
     {
-
-        $incidencias = $incidenciaRepository->findAll();
-
-        // paginar los resultados
-        $pagination = $paginator->paginate(
-            $incidencias, // Array de resultados a paginar
-            $request->query->getInt('page', 1), // Número de página, por defecto 1
-            7 // Número de elementos por página
-        );
-
-
-        return $this->render('dashboard/incidencias.html.twig', [
-            'pagination' => $pagination,
-        ]);
+        return $misFunciones->searchItems($request, $incidenciaRepository, $paginator, 'dashboard/incidencias.html.twig');
     }
 }
