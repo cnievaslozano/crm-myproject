@@ -1,5 +1,9 @@
 {% extends 'plantillas/plantilla-granota.html.twig' %}
-{% block title %}Dashboard Clientes{% endblock %}
+
+{% block title %}
+Dashboard Clientes
+{% endblock %}
+
 {% block stylesheets %}
 <style>
 	li .empresa {
@@ -34,6 +38,7 @@
 {% block contenido %}
 
 {% import 'components/flash.html.twig' as mensajeFlash %}
+{% import 'components/filtros.html.twig' as filtrosComponent %}
 
 <div style="height:160px;"></div>
 <div class="container">
@@ -45,67 +50,58 @@
 		<div class="col-12 mb-4 d-flex justify-content-between">
 			<h5 class="p-0 m-0 ">Listado de clientes</h5>
 			<div class="d-flex">
-				<form action="{{ path('dashboard_clientes') }}" method="post">
-					<div class="input-group mb-3">
-						<input type="text" class="form-control" placeholder="Buscar" aria-label="Buscar" id="buscador"
-							name="busqueda" aria-describedby="boton-filtro">
-						<div class="input-group-append me-3 ">
-							<button class="btn btn-outline-secondary" type="button" id="boton-filtro"><i
-									class="fa-solid fa-magnifying-glass"></i></button>
-						</div>
-				</form>
-				<a href="{{ path('dashboard_clientes') }}" class="btn btn-primary rounded me-3 "><i class="fa-regular fa-filter-circle-xmark"></i></a>
+				{{ filtrosComponent.propiedades(path('dashboard_clientes') ) }}
 				<a class="btn btn-granota rounded " href="{{ path('empresa_new') }}">Nuevo Cliente</a>
 			</div>
-
 		</div>
 	</div>
 
-	<div class="col-12">
-		<ul class="custom-table">
-			{% for empresa in pagination %}
-			<li class="table-row">
-				<div class="colo colo-1">{{ empresa.id }}</div>
-				<div class="colo empresa"><img src="/uploads/logotipos/{{ empresa.imagenLogotipoRuta }}" alt="Logo"
-						class="rounded-circle">
-					<span class="nombre-empresa-span">{{ empresa.nombre }}</span>
-				</div>
-				<div class="colo code text-muted">{{ empresa.code }}</div>
-				<div class="colo activo">{{ empresa.activo ? '<i class="fa-solid fa-thumbs-up text-granota"></i>' :
-					'<i class="fa-solid fa-thumbs-down text-danger"></i>'
-					}}
-				</div>
-				<div class="colo ver"><a href="{{ path('empresa_show', {'id': empresa.id}) }}">
-						<i class="fa-solid fa-eye text-primary"></i>
-					</a>
-				</div>
-				<div class="colo editar"><a href="{{ path('empresa_edit', {'id': empresa.id}) }}">
-						<i class="fa-solid fa-pen-to-square text-primary"></i>
-					</a>
-				</div>
-				<div class="colo borrar">
-					<form method="post" action="{{ path('empresa_delete', {'id': empresa.id}) }}"
-						onsubmit="return confirm('¿Estás seguro que quieres borrar la empresa {{empresa.nombre}}?');">
-						<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ empresa.id) }}">
-						<button class="btn">
-							<i class="fa-solid fa-trash text-danger"></i>
-						</button>
-					</form>
-				</div>
-			</li>
-			{% else %}
-			<li class="table-row">
-				<div class="colo nohay">No hay registros :)</div>
-			</li>
-			{% endfor %}
+	<div class="row">
+		<div class="col-12">
+			<ul class="custom-table">
+				{% for empresa in pagination %}
+				<li class="table-row">
+					<div class="colo colo-1">{{ empresa.id }}</div>
+					<div class="colo empresa"><img src="/uploads/logotipos/{{ empresa.imagenLogotipoRuta }}" alt="Logo"
+							class="rounded-circle">
+						<span class="nombre-empresa-span">{{ empresa.nombre }}</span>
+					</div>
+					<div class="colo code text-muted">{{ empresa.code }}</div>
+					<div class="colo activo">{{ empresa.activo ? '<i class="fa-solid fa-thumbs-up text-granota"></i>' :
+						'<i class="fa-solid fa-thumbs-down text-danger"></i>'
+						}}
+					</div>
+					<div class="colo ver"><a href="{{ path('empresa_show', {'id': empresa.id}) }}">
+							<i class="fa-solid fa-eye text-primary"></i>
+						</a>
+					</div>
+					<div class="colo editar"><a href="{{ path('empresa_edit', {'id': empresa.id}) }}">
+							<i class="fa-solid fa-pen-to-square text-primary"></i>
+						</a>
+					</div>
+					<div class="colo borrar">
+						<form method="post" action="{{ path('empresa_delete', {'id': empresa.id}) }}"
+							onsubmit="return confirm('¿Estás seguro que quieres borrar la empresa {{empresa.nombre}}?');">
+							<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ empresa.id) }}">
+							<button class="btn">
+								<i class="fa-solid fa-trash text-danger"></i>
+							</button>
+						</form>
+					</div>
+				</li>
+				{% else %}
+				<li class="table-row">
+					<div class="colo nohay">No hay registros :)</div>
+				</li>
+				{% endfor %}
 
-		</ul>
-	</div>
+			</ul>
+		</div>
 
-	<div class="col-12">
-		{{ knp_pagination_render(pagination)}}
+		<div class="col-12">
+			{{ knp_pagination_render(pagination)}}
+		</div>
 	</div>
-</div>
 </div>
 
 {% endblock %}

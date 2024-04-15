@@ -1,5 +1,6 @@
 {% extends 'plantillas/plantilla-granota.html.twig' %}
-{% block title %}Dashboard Gestor de contenido
+{% block title %}
+Dashboard Gestor de contenido
 {% endblock %}
 {% block stylesheets %}
 <style>
@@ -40,67 +41,70 @@
 {% block contenido %}
 
 {% import 'components/flash.html.twig' as mensajeFlash %}
+{% import 'components/filtros.html.twig' as filtrosComponent %}
 
 <div style="height:160px;"></div>
 <div class="container">
 	<div class="row">
-		<div class="col-12 mb-4">
-			{# MENSAJE FLASH #}
-			{{mensajeFlash.flashComponent()}}
-			<h5>
-				Gestor de contenidos
-			</h5>
-		</div>
-
-		<div class="col-12">
-			<ul class="custom-table">
-				{% for contenido in pagination %}
-				<li class="table-row">
-					<div class="colo colo-1">{{ contenido.id }}</div>
-					<div class="colo empresa">
-						<img src="/uploads/logotipos/{{ contenido.briefingWeb.empresa.imagenLogotipoRuta}}" alt="Logo"
-							class="rounded-circle">
-						<span>{{ contenido.briefingWeb.empresa.nombre }}</span>
-					</div>
-					<div class="colo code text-muted ">
-						{{contenido.briefingWeb.empresa.code}}</div>
-					<div class="colo titulo">{{ contenido.titulo }}</div>
-					<div class="colo activo">
-						{{ contenido.isActivo ?'<i class="fa-solid fa-thumbs-up text-granota"></i>' : '<i
-							class="fa-solid fa-thumbs-down text-danger"></i>'
-						}}
-					</div>
-					<div class="colo ver">
-						<a href="{{ path('contenido_show', {'id': contenido.id}) }}">
-							<i class="fa-solid fa-eye text-primary"></i>
-						</a>
-					</div>
-					<div class="colo pdf">
-						<a href="{{ path('contenido_pdf', {'id': contenido.id}) }}">
-							<i class="fa-solid fa-download text-primary"></i>
-						</a>
-					</div>
-					<div class="colo borrar">
-						<form method="post" action="{{ path('contenido_delete', {'id': contenido.id}) }}"
-							onsubmit="return confirm('¿Estás seguro que quieres borrar el contenido {{contenido.titulo}}?');">
-							<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ contenido.id) }}">
-							<button class="btn">
-								<i class="fa-solid fa-trash text-danger"></i>
-							</button>
-						</form>
-					</div>
-				</li>
-				{% else %}
-				<li class="table-row">
-					<div class="colo nohay">No hay registros :)</div>
-				</li>
-				{% endfor %}
-			</ul>
-		</div>
-		<div class="col-12">
-			{{ knp_pagination_render(pagination)}}
+		{{mensajeFlash.flashComponent()}}
+		<div class="col-12 mb-4 d-flex justify-content-between">
+			<h5> Gestor de contenidos </h5>
+			<div class="d-flex">
+				{{ filtrosComponent.propiedades(path('dashboard_contenidos') ) }}
+			</div>
 		</div>
 	</div>
+</div>
+<div class="row">
+	<div class="col-12">
+		<ul class="custom-table">
+			{% for contenido in pagination %}
+			<li class="table-row">
+				<div class="colo colo-1">{{ contenido.id }}</div>
+				<div class="colo empresa">
+					<img src="/uploads/logotipos/{{ contenido.briefingWeb.empresa.imagenLogotipoRuta}}" alt="Logo"
+						class="rounded-circle">
+					<span>{{ contenido.briefingWeb.empresa.nombre }}</span>
+				</div>
+				<div class="colo code text-muted ">
+					{{contenido.briefingWeb.empresa.code}}</div>
+				<div class="colo titulo">{{ contenido.titulo }}</div>
+				<div class="colo activo">
+					{{ contenido.isActivo ?'<i class="fa-solid fa-thumbs-up text-granota"></i>' : '<i
+						class="fa-solid fa-thumbs-down text-danger"></i>'
+					}}
+				</div>
+				<div class="colo ver">
+					<a href="{{ path('contenido_show', {'id': contenido.id}) }}">
+						<i class="fa-solid fa-eye text-primary"></i>
+					</a>
+				</div>
+				<div class="colo pdf">
+					<a href="{{ path('contenido_pdf', {'id': contenido.id}) }}">
+						<i class="fa-solid fa-download text-primary"></i>
+					</a>
+				</div>
+				<div class="colo borrar">
+					<form method="post" action="{{ path('contenido_delete', {'id': contenido.id}) }}"
+						onsubmit="return confirm('¿Estás seguro que quieres borrar el contenido {{contenido.titulo}}?');">
+						<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ contenido.id) }}">
+						<button class="btn">
+							<i class="fa-solid fa-trash text-danger"></i>
+						</button>
+					</form>
+				</div>
+			</li>
+			{% else %}
+			<li class="table-row">
+				<div class="colo nohay">No hay registros :)</div>
+			</li>
+			{% endfor %}
+		</ul>
+	</div>
+	<div class="col-12">
+		{{ knp_pagination_render(pagination)}}
+	</div>
+</div>
 </div>
 
 

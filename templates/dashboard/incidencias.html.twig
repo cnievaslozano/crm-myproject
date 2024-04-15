@@ -1,5 +1,6 @@
 {% extends 'plantillas/plantilla-granota.html.twig' %}
-{% block title %}Dashboard Incidencias
+{% block title %}
+Dashboard Incidencias
 {% endblock %}
 {% block stylesheets %}
 <style>
@@ -43,6 +44,7 @@
 {% block contenido %}
 
 {% import 'components/flash.html.twig' as mensajeFlash %}
+{% import 'components/filtros.html.twig' as filtrosComponent %}
 
 <div style="height:160px;"></div>
 <div class="container">
@@ -53,9 +55,17 @@
 			{# MENSAJE FLASH #}
 			{{mensajeFlash.flashComponent()}}
 
-			<h5>Listado de Incidencias</h5>
+			<div class="col-12 mb-4 d-flex justify-content-between">
+				<h5>Listado de Incidencias</h5>
+				<div class="d-flex">
+					{{ filtrosComponent.propiedades(path('dashboard_incidencias') ) }}
+				</div>
+			</div>
 		</div>
+		
+	</div>
 
+	<div class="row">
 		<div class="col-12">
 			<ul class="custom-table">
 				{% for incidencia in pagination %}
@@ -122,6 +132,7 @@
 		<div class="col-12">
 			{{ knp_pagination_render(pagination)}}
 		</div>
+
 	</div>
 </div>
 

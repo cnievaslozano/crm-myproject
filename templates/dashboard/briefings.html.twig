@@ -1,13 +1,13 @@
 {% extends 'plantillas/plantilla-granota.html.twig' %}
 
-{% block title %}Dashboard Briefings
+{% block title %}
+Dashboard Briefings
 {% endblock %}
-{% block stylesheets %}
-{{ parent() }}
 
+{% block stylesheets %}
 <style>
 	li .empresa {
-		flex-basis: 40%;
+		flex-basis: 45%;
 	}
 
 	li .code {
@@ -38,11 +38,12 @@
 		flex-basis: 5%;
 	}
 </style>
-
 {% endblock %}
+
 {% block contenido %}
 
 {% import 'components/flash.html.twig' as mensajeFlash %}
+{% import 'components/filtros.html.twig' as filtrosComponent %}
 
 <div style="height:100px;"></div>
 <div class="container">
@@ -52,9 +53,13 @@
 		{{mensajeFlash.flashComponent()}}
 
 		<div class="col-12 mb-4 d-flex justify-content-between">
-			<h5>Listado de briefings</h5>
+			<h5 class="p-0 m-0">Listado de briefings</h5>
+			<div class="d-flex">
+				{{ filtrosComponent.propiedades(path('dashboard_briefings') ) }}
+			</div>
 		</div>
-
+	</div>
+	<div class="row">
 		<div class="col-12">
 			<ul class="custom-table">
 				{% for briefing in pagination %}
@@ -71,7 +76,8 @@
 					<div class="colo tipo">
 						{{ briefing.tipo|capitalize }}
 					</div>
-					<div class="colo activo">{{ briefing.isActivo ? '<i class="fa-solid fa-thumbs-up text-granota"></i>' : '<i class="fa-solid fa-thumbs-down text-danger"></i>'
+					<div class="colo activo">{{ briefing.isActivo ? '<i class="fa-solid fa-thumbs-up text-granota"></i>'
+						: '<i class="fa-solid fa-thumbs-down text-danger"></i>'
 						}}</div>
 					<div class="colo ver">
 						<a href="{{ path('briefing_' ~ briefing.tipo|lower ~ '_show', {'id': briefing.id}) }}">
@@ -96,13 +102,11 @@
 				</li>
 				{% endif %}
 				{% endfor %}
-				</tbody>
 			</ul>
 		</div>
 		<div class="col-12">
 			{{ knp_pagination_render(pagination)}}
 		</div>
-
 	</div>
 </div>
 
