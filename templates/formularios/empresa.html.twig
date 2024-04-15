@@ -10,17 +10,17 @@ Registro Empresa
 {% import 'components/boton_volver.html.twig' as botonVolver %}
 
 {# Título #}
-<h3>
+<h3 class="mb-3">
 	<span class="custom-label text-granota">¡Hola administrador!</span>
 	<br>
-	Estás creando una empresa
+	Estás creando una <span class="text-primary">empresa</span>
 </h3>
 
 {# Mensaje Flash #}
 {{mensajeFlash.flashComponent()}}
 
 {# Campo Nombre #}
-<div class="form-outline form-floating mb-4">
+<div class="form-outline form-floating mt-4 mb-4">
 	{{ form_widget(form.nombre) }}
 	<label class="form-label" for="{{ form.nombre.vars.id }}">Nombre</label>
 </div>

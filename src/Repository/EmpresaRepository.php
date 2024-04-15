@@ -73,7 +73,7 @@ class EmpresaRepository extends ServiceEntityRepository
      * Encuentra una entidad por su ID.
      *
      * @param int $id El ID de la entidad que deseas buscar.
-     * @return TuEntidad|null La entidad encontrada o null si no se encontró ninguna.
+     * @return Empresa|null La Empresa encontrada o null si no se encontró ninguna.
      */
     public function buscarPorId(int $id): ?Empresa
     {
