@@ -39,7 +39,7 @@ class WebController extends AbstractController
                 $this->addFlash('success', 'La web se ha registrado con éxito');
 
                 // que vuelva al formulario o página de éxito
-                return $this->redirectToRoute('web_new', ['id' => $empresa->getId()]);
+                return $this->redirectToRoute('empresa_show', ['id' => $empresa->getId()]);
             }
         } catch (\Exception $e) {
             $this->addFlash('error', 'Se ha producido un error: ' . $e->getMessage());

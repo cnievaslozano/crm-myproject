@@ -40,10 +40,8 @@ class ContactoController extends AbstractController
                 $this->addFlash('success', 'El contacto se ha registrado con éxito.');
 
                 // Redirigir a una página de éxito o realizar otras acciones necesarias
-                return $this->render('formularios/contacto.html.twig', [
-                    'usuario' => $usuario,
-                    'form' => $form->createView(),
-                ]);
+                return $this->redirectToRoute('usuario_show', ['id' => $usuario->getId()]);
+
             }
 
             // Si el formulario no se ha enviado o no es válido, se renderiza la página del formulario

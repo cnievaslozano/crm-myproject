@@ -61,7 +61,7 @@ class ContenidoController extends AbstractController
 
                 // Mostrar un mensaje de éxito y redirigir
                 $this->addFlash('success', 'El Contenido se ha enviado con éxito.');
-                return $this->redirectToRoute('contenido_new');
+                return $this->redirectToRoute('dashboard_empresa');
             }
 
             // Renderizar el formulario
