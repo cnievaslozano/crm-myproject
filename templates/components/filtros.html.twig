@@ -1,18 +1,19 @@
 {% macro propiedades(ruta) %}
 <form action="{{ ruta }}" method="post">
-    <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Buscar" aria-label="Buscar" id="buscador" name="busqueda"
-            aria-describedby="boton-filtro">
-        <div class="input-group-append me-3 ">
-            <button type="submit" class="btn btn-outline-secondary" type="button" id="boton-filtro"><i
-                    class="fa-solid fa-magnifying-glass"></i></button>
-        </div>
+        <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Buscar" aria-label="Buscar" id="buscador"
+                        name="busqueda" aria-describedby="boton-filtro">
+                <div class="input-group-append me-3 ">
+                        <button type="submit" class="btn btn-outline-secondary" type="button" id="boton-filtro"><i
+                                        class="fa-solid fa-magnifying-glass"></i></button>
+                </div>
 
-        <button class="btn btn-secondary rounded me-1" name="order" value="asc"> <i
-                class="fa-solid fa-arrow-up-1-9"></i></button>
-        <button class="btn btn-secondary rounded me-3" name="order" value="desc"> <i
-                class="fa-solid fa-arrow-down-9-1"></i></button>
-        <a href="{{ ruta }}" class="btn btn-primary rounded me-3 "><i
-                class="fa-regular fa-filter-circle-xmark"></i></a>
+                <button class="btn btn-secondary rounded me-1" name="order" value="asc"> <i
+                                class="fa-solid fa-arrow-up-1-9"></i></button>
+                <button class="btn btn-secondary rounded me-3" name="order" value="desc"> <i
+                                class="fa-solid fa-arrow-down-9-1"></i></button>
+                <a href="{{ ruta }}" class="btn btn-primary rounded me-3 "><i
+                                class="fa-regular fa-filter-circle-xmark"></i></a>
+        </div>
 </form>
 {% endmacro %}
