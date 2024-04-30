@@ -52,7 +52,7 @@ class BriefingWebController extends AbstractController
                 $this->addFlash('success', 'El Briefing Web se ha enviado con éxito.');
 
                 // Redirigir a una página de éxito o realizar otras acciones necesarias
-                return $this->redirectToRoute('briefing_web_new');
+                return $this->redirectToRoute('dashboard_empresa');
             } catch (\Exception $e) {
                 // Manejar otras excepciones
                 $this->addFlash('error', $e->getMessage());

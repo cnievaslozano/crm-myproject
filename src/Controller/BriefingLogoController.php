@@ -52,7 +52,7 @@ class BriefingLogoController extends AbstractController
                 $this->addFlash('success', 'El Briefing del Logo se ha enviado con éxito.');
 
                 // Redirigir a una página de éxito o realizar otras acciones necesarias
-                return $this->redirectToRoute('briefing_logo_new');
+                return $this->redirectToRoute('dashboard_empresa');
             } catch (\Exception $e) {
                 // Capturar la excepción y mostrar un mensaje de error al usuario
                 $this->addFlash('error', $e->getMessage());

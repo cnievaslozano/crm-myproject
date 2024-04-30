@@ -66,7 +66,7 @@ class BriefingAppController extends AbstractController
                 $this->addFlash('success', 'El Briefing de la App se ha enviado con éxito.');
 
                 // Redirigir a la misma página
-                return $this->redirectToRoute('briefing_app_new');
+                return $this->redirectToRoute('dashboard_empresa');
             } catch (\Exception $e) {
                 $this->addFlash('error', $e->getMessage());
             }
