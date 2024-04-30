@@ -3,11 +3,6 @@ root:
     path: /
     controller: App\Controller\SecurityController::redirectToLogin 
 
-# 404 ERROR PAGE
-not_found_page:
-    path: /404
-    controller: App\Controller\ExceptionController::show404
-
 ######################################################################
 #   AUTH
 ######################################################################
