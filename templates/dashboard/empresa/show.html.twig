@@ -148,12 +148,12 @@
 						<td>
 							<a
 								href="{{ path('briefing_' ~ briefingweb.tipo|lower ~ '_show', {'id': briefingweb.id}) }}">
-								<i class="fa-solid fa-eye" style="color: #0d6efd"></i>
+								<i class="fa-solid fa-eye text-primary" ></i>
 							</a>
 						</td>
 						<td>
 							<a href="{{ path('briefing_' ~ briefingweb.tipo|lower ~ '_pdf', {'id': briefingweb.id}) }}">
-								<i class="fa-solid fa-download" style="color: #0d6efd"></i>
+								<i class="fa-solid fa-download text-primary"></i>
 							</a>
 						</td>
 						<td>
@@ -162,7 +162,7 @@
 								onsubmit="return confirm('¿Estás seguro que quieres borrar el briefing de {{ briefingweb.tipo|capitalize }} de {{ empresa.nombre }}?');">
 								<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ briefingweb.id) }}">
 								<button class="btn p-0 ">
-									<i class="fa-solid fa-trash" style="color:red;"></i>
+									<i class="fa-solid fa-trash text-danger" ></i>
 								</button>
 							</form>
 						</td>
@@ -178,12 +178,12 @@
 						<td>
 							<a
 								href="{{ path('briefing_' ~ briefingapp.tipo|lower ~ '_show', {'id': briefingapp.id}) }}">
-								<i class="fa-solid fa-eye" style="color: #0d6efd"></i>
+								<i class="fa-solid fa-eye text-primary" ></i>
 							</a>
 						</td>
 						<td>
 							<a href="{{ path('briefing_' ~ briefingapp.tipo|lower ~ '_pdf', {'id': briefingapp.id}) }}">
-								<i class="fa-solid fa-download" style="color: #0d6efd"></i>
+								<i class="fa-solid fa-download text-primary" ></i>
 							</a>
 						</td>
 						<td>
@@ -192,7 +192,7 @@
 								onsubmit="return confirm('¿Estás seguro que quieres borrar el briefing de {{ briefingapp.tipo|capitalize }} de {{ empresa.nombre }}?');">
 								<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ briefingapp.id) }}">
 								<button class="btn p-0 ">
-									<i class="fa-solid fa-trash" style="color:red;"></i>
+									<i class="fa-solid fa-trash text-granota"></i>
 								</button>
 							</form>
 						</td>
@@ -223,7 +223,7 @@
 								onsubmit="return confirm('¿Estás seguro que quieres borrar el briefing de {{ briefinglogo.tipo|capitalize }} de {{ empresa.nombre }}?');">
 								<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ briefinglogo.id) }}">
 								<button class="btn p-0 ">
-									<i class="fa-solid fa-trash" style="color:red;"></i>
+									<i class="fa-solid fa-trash text-danger"></i>
 								</button>
 							</form>
 						</td>
@@ -248,7 +248,7 @@
 					<td>{{ usuario.username }}</td>
 					<td>
 						<a href="{{ path('usuario_show', {'id': usuario.id}) }}">
-							<i class="fa-solid fa-eye" style="color: #0d6efd"></i>
+							<i class="fa-solid fa-eye text-primary"></i>
 						</a>
 					</td>
 					<td>
@@ -256,7 +256,7 @@
 							onsubmit="return confirm('¿Estás seguro que quieres borrar el usuario {{ usuario.username }} de {{ empresa.nombre }}?');">
 							<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ usuario.id) }}">
 							<button class="btn p-0 ">
-								<i class="fa-solid fa-trash" style="color:red;"></i>
+								<i class="fa-solid fa-trash text-danger"></i>
 							</button>
 						</form>
 					</td>
@@ -282,12 +282,12 @@
 								class="fa-solid fa-thumbs-down text-danger"></i>' }}</td>
 						<td>
 							<a href="{{ path('incidencia_show', {'id': incidencia.id}) }}">
-								<i class="fa-solid fa-eye" style="color: #0d6efd"></i>
+								<i class="fa-solid fa-eye text-primary"></i>
 							</a>
 						</td>
 						<td>
 							<a href="{{ path('incidencia_pdf', {'id': incidencia.id}) }}">
-								<i class="fa-solid fa-download" style="color: #0d6efd"></i>
+								<i class="fa-solid fa-download text-primary"></i>
 							</a>
 						</td>
 					</tr>

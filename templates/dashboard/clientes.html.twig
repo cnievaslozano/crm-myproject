@@ -40,20 +40,22 @@ Dashboard Clientes
 {% import 'components/flash.html.twig' as mensajeFlash %}
 {% import 'components/filtros.html.twig' as filtrosComponent %}
 
-<div style="height:160px;"></div>
-<div class="container">
+<div class="container" style="margin-top: 5%">
 	<div class="row">
 
 		{# MENSAJE FLASH #}
 		{{mensajeFlash.flashComponent()}}
 
-		<div class="col-12 mb-4 d-flex justify-content-between">
-			<h5 class="p-0 m-0 ">Listado de clientes</h5>
-			<div class="d-flex">
+		<div class="col-md-12 col-lg-6 mb-4 mb-md-0">
+			<h5>Listado de clientes</h5>
+		</div>
+		<div class="col-md-12 col-lg-6 mt-md-2">
+			<div class="d-flex justify-content-lg-end">
 				{{ filtrosComponent.propiedades(path('dashboard_clientes') ) }}
-				<a class="btn btn-granota rounded " href="{{ path('empresa_new') }}">Nuevo Cliente</a>
+				<a class="btn btn-granota rounded " href="{{ path('empresa_new') }}">+ Cliente</a>
 			</div>
 		</div>
+
 	</div>
 
 	<div class="row">
@@ -83,7 +85,7 @@ Dashboard Clientes
 						<form method="post" action="{{ path('empresa_delete', {'id': empresa.id}) }}"
 							onsubmit="return confirm('¿Estás seguro que quieres borrar la empresa {{empresa.nombre}}?');">
 							<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ empresa.id) }}">
-							<button class="btn">
+							<button class="btn p-0">
 								<i class="fa-solid fa-trash text-danger"></i>
 							</button>
 						</form>

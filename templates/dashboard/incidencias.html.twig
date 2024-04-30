@@ -46,23 +46,21 @@ Dashboard Incidencias
 {% import 'components/flash.html.twig' as mensajeFlash %}
 {% import 'components/filtros.html.twig' as filtrosComponent %}
 
-<div style="height:160px;"></div>
-<div class="container">
-
+<div class="container" style="margin-top: 5%">
 	<div class="row">
-		<div class="col-12 mb-4">
 
-			{# MENSAJE FLASH #}
-			{{mensajeFlash.flashComponent()}}
+		{# MENSAJE FLASH #}
+		{{mensajeFlash.flashComponent()}}
 
-			<div class="col-12 mb-4 d-flex justify-content-between">
-				<h5>Listado de Incidencias</h5>
-				<div class="d-flex">
-					{{ filtrosComponent.propiedades(path('dashboard_incidencias') ) }}
-				</div>
+		<div class="col-md-12 col-lg-6 mb-4 mb-md-0">
+			<h5>Listado de Incidencias</h5>
+		</div>
+		<div class="col-md-12 col-lg-6 mt-md-2">
+			<div class="d-flex justify-content-lg-end">
+				{{ filtrosComponent.propiedades(path('dashboard_incidencias') ) }}
 			</div>
 		</div>
-		
+
 	</div>
 
 	<div class="row">
@@ -114,7 +112,7 @@ Dashboard Incidencias
 						<form method="post" action="{{ path('incidencia_delete', {'id': incidencia.id}) }}"
 							onsubmit="return confirm('¿Estás seguro que quieres borrar la incidencia {{incidencia.titulo}}?');">
 							<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ incidencia.id) }}">
-							<button class="btn">
+							<button class="btn p-0">
 								<i class="fa-solid fa-trash text-danger"></i>
 							</button>
 						</form>

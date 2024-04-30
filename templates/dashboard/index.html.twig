@@ -109,7 +109,7 @@
 					<div class="colo text-muted" style="flex-basis:10%;">
 						{{contenido.briefingWeb.empresa.code}}
 					</div>
-					<div class="colo" style="flex-basis:30%;">{{ contenido.titulo }}</div>
+					<div class="colo" style="flex-basis:30%;">    {{ contenido.titulo|slice(0, 17) }} </div>
 				</li>
 			</a>
 			{% endfor %}

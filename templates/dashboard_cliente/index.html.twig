@@ -1,7 +1,7 @@
 {% extends 'plantillas/plantilla-cliente.html.twig' %}
 
 {% block title %}
-	Dashboard {{empresa.nombre}}
+Dashboard {{empresa.nombre}}
 {% endblock %}
 
 {% block contenido %}
@@ -46,7 +46,7 @@
 </div>
 <!-- END MODAL -->
 
-<div class="container parent__cliente">
+<div class="parent__cliente mt-5">
 	<div class="empresa">
 		<h1 class="fw-bold">Hola,
 			<span class="text-primary">{{usuario.nombreusuario}}
@@ -57,7 +57,7 @@
 		<p>Bienvenido a tu espacio de proyecto✨✨
 			<br> Estamos encantados de tenerte aquí y agradecemos profundamente tu
 			confianza en nosotros. Siempre estamos aquí para ayudarte a gestionar tus proyectos de manera efectiva y
-			satisfactoria. 
+			satisfactoria.
 			<br>¡Gracias por confiar en nosotros!
 		</p>
 	</div>
@@ -72,15 +72,15 @@
 			¿Empezamos?
 		</p>
 		{% if briefingweb.activo %}
-		<a href="{{ path('briefing_web_new') }}" class="btn btn-granota">Rellenar Web</a>
+		<a href="{{ path('briefing_web_new') }}" class="btn btn-granota mt-2 ">Rellenar Web</a>
 		{% endif %}
 
 		{% if briefingapp.activo %}
-		<a href="{{ path('briefing_app_new') }}" class="btn btn-granota">Rellenar App</a>
+		<a href="{{ path('briefing_app_new') }}" class="btn btn-granota mt-2">Rellenar App</a>
 		{% endif %}
 
 		{% if briefinglogo.activo %}
-		<a href="{{ path('briefing_logo_new') }}" class="btn btn-granota">Rellenar Logo</a>
+		<a href="{{ path('briefing_logo_new') }}" class="btn btn-granota mt-2">Rellenar Logo</a>
 		{% endif %}
 
 	</div>
@@ -94,7 +94,8 @@
 	</div>
 	<div class="contenido">
 		<h2 class="fw-bold">Solicitar Contenido</h2>
-		<p>Para enviar contenido que quieras que aparezce en tu página web, háznoslo saber completando el formulario, y nos pondremos a trabajar en ello.</p>
+		<p>Para enviar contenido que quieras que aparezce en tu página web, háznoslo saber completando el formulario, y
+			nos pondremos a trabajar en ello.</p>
 		<a href="{{ path('contenido_new') }}" class="btn btn-granota">Rellenar Contenido</a>
 
 	</div>

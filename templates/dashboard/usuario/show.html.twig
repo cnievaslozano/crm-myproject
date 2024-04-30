@@ -7,9 +7,11 @@
 {% block contenido %}
 
 {% import 'components/boton_volver.html.twig' as botonVolver %}
+{% import 'components/filtros.html.twig' as filtrosComponent %}
 
-<section class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+<section class="d-flex justify-content-center align-items-center vh-100">
     <div class="row">
+        {{mensajeFlash.flashComponent()}}
         <div class="col-12">
             <div class="card-container mx-auto text-center">
 
