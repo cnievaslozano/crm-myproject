@@ -6,9 +6,7 @@ CRM a medida para GRANOTA.NET, permite administrar briefings, incidencias y cont
 ## Requisitos
 
 - PHP >= 7.2.5
-- Composer
-- MySql
-- 
+
 ## Instalación
 
 1. Clona el repositorio desde GitHub:
