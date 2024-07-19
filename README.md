@@ -1,6 +1,6 @@
-# my-proyect
+# my-project
 
-Es un proyecto de gestión de clientes, permite administrar briefings, incidencias y contenido compartido por los clientes. Con myproject, las empresas pueden mejorar la comunicación y la eficiencia en la gestión de sus proyectos con granota.
+CRM a medida para GRANOTA.NET, permite administrar briefings, incidencias y contenido compartido por los clientes. Con myproject, se mejora la comunicación y la eficiencia en la gestión de los proyectos. 
 
 
 ## Requisitos
@@ -8,12 +8,13 @@ Es un proyecto de gestión de clientes, permite administrar briefings, incidenci
 - PHP >= 7.2.5
 - Composer
 - MySql
+- 
 ## Instalación
 
 1. Clona el repositorio desde GitHub:
 
     ```bash
-    git clone https://github.com/cristianbaixcamp/my-proyect.git
+    git clone https://github.com/cristianbaixcamp/crm-myproject.git
     ```
 
 2. Accede al directorio del proyecto:
