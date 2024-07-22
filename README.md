@@ -67,5 +67,7 @@ CRM a medida para GRANOTA.NET, permite administrar briefings, incidencias y cont
 
 Luego de forma web, cuando se crea una empresa, en el área de la empresa puedes crear un usuario normal, que pertenece a esa empresa.
 
-![image](https://github.com/user-attachments/assets/9c39054a-d51c-44a4-a0fb-7c664946ac72)
+![index](https://github.com/user-attachments/assets/d8b6fc60-05fa-48d0-b479-73cac8605e7a)
+![image](https://github.com/user-attachments/assets/26cabffa-64e1-47f1-8785-eb5bc9919d93)
+
 
