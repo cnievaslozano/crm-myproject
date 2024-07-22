@@ -40,6 +40,7 @@ CRM a medida para GRANOTA.NET, permite administrar briefings, incidencias y cont
 
     ```bash
     php bin/console doctrine:database:create
+    php bin/console make:migration
     php bin/console doctrine:migrations:migrate
     ```
     De esta manera ya tenemos la estructura de la base de datos
